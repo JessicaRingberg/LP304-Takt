@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LP304-Takt", "LP304-Takt\LP304-Takt.csproj", "{75ECC346-D359-4F49-9328-AD1E42FC7382}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75ECC346-D359-4F49-9328-AD1E42FC7382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75ECC346-D359-4F49-9328-AD1E42FC7382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75ECC346-D359-4F49-9328-AD1E42FC7382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75ECC346-D359-4F49-9328-AD1E42FC7382}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6CC4E17D-0690-4988-8439-2AA3B744A8C2}
+	EndGlobalSection
+EndGlobal
