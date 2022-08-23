@@ -1,14 +1,17 @@
-﻿using LP304_Takt.Models;
+﻿using System.Collections;
+using LP304_Takt.Models;
 
 namespace LP304_Takt.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        private readonly LP304Context _lp304Context;
-
-        public UserRepository(LP304Context lp304Context)
+        public UserRepository(LP304Context context) : base(context)
         {
-            _lp304Context = lp304Context;
+        }
+
+        public IEnumerable<User> GetUsers(int count)
+        {
+            return _context.User.OrderByDescending(u => u.Id).Take(count).ToList();
         }
     }
 }

@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool Andon { get; set; }
+        public bool Finished { get; set; }
         public virtual Area Area { get; set; }
     }
 }
