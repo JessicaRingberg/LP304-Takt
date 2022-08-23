@@ -18,9 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="DTO\" />
+    <Folder Include="Data\" />
     <Folder Include="Service\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
