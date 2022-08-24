@@ -14,18 +14,25 @@ builder.Services.AddDbContext<LP304Context>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DbString");
     options.UseSqlServer(connectionString);
 });
+
+//Repositories
+builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
+
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-   // app.UseSwagger();
-   // app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

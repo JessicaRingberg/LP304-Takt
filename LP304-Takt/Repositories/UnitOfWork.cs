@@ -10,9 +10,10 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
             Users = new UserRepository(_context);
+            Companies = new CompanyRepository(_context);
         }
         public IUserRepository Users { get; private set; }
-
+        public ICompanyRepository Companies { get; private set; }
         public int Complete()
         {
             return _context.SaveChanges();
