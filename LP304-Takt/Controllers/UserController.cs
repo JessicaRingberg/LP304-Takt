@@ -17,9 +17,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers([FromQuery] int count)
+        public IActionResult GetUsers()
         {
-            var users = _unitOfWork.Users.GetUsers(count);
+            var users = _unitOfWork.Users.GetAll();
             return Ok(users);
         }
 
