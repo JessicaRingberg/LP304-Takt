@@ -14,10 +14,12 @@ namespace LP304_Takt.UnitOfWork
             Users = new UserRepository(_context);
             Companies = new CompanyRepository(_context);
             Roles = new RoleRepository(_context);
+            Orders = new OrderRepository(_context);
         }
         public IUserRepository Users { get; }
         public ICompanyRepository Companies { get; }
         public IRoleRepository Roles { get; }
+        public IOrderRepository Orders { get; }
 
 
         public int Complete()
