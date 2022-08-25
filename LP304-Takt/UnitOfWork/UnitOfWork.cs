@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.Models;
 using LP304_Takt.Repositories;
+using LP304_Takt.Service;
 
 namespace LP304_Takt.UnitOfWork
 {
@@ -12,9 +13,11 @@ namespace LP304_Takt.UnitOfWork
             _context = context;
             Users = new UserRepository(_context);
             Companies = new CompanyRepository(_context);
+            Roles = new RoleRepository(_context);
         }
         public IUserRepository Users { get; }
         public ICompanyRepository Companies { get; }
+        public IRoleRepository Roles { get; }
 
 
         public int Complete()

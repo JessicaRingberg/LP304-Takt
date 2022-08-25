@@ -5,37 +5,37 @@ namespace LP304_Takt.Service
 {
     public class CompanyService : ICompanyService
     {
-        private readonly IUnitOfWork _companyUoW;
+        private readonly IUnitOfWork _companyUnitOfWork;
 
-        public CompanyService(IUnitOfWork companyUoW)
+        public CompanyService(IUnitOfWork companyUnitOfWork)
         {
-            _companyUoW = companyUoW;
+            _companyUnitOfWork = companyUnitOfWork;
         }
 
         public async Task<Company>  GetOneCompany(int id)
         {
-            var company = _companyUoW.Companies.GetById(id);
+            var company = _companyUnitOfWork.Companies.GetById(id);
             return await company;
         }
 
         public async Task<IEnumerable<Company>> GetAllCompanies()
         {
-            var company = _companyUoW.Companies.GetAll();
+            var company = _companyUnitOfWork.Companies.GetAll();
 
             return await company;
         }
 
         public async Task AddCompany(Company company)
         {
-            await _companyUoW.Companies.Add(company);
-            _companyUoW.Complete();
+            await _companyUnitOfWork.Companies.Add(company);
+            _companyUnitOfWork.Complete();
 
         }
 
         public async Task RemoveCompany(Company company)
         { 
-            await _companyUoW.Companies.Remove(company);
-            _companyUoW.Complete();
+            await _companyUnitOfWork.Companies.Remove(company);
+            _companyUnitOfWork.Complete();
         }
     }
 }

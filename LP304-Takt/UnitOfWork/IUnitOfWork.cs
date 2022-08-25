@@ -6,6 +6,7 @@ namespace LP304_Takt.UnitOfWork
     {
         IUserRepository Users { get; }
         ICompanyRepository Companies { get; }
+        IRoleRepository Roles { get; }
         
         int Complete();
     }

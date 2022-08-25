@@ -7,42 +7,42 @@ namespace LP304_Takt.Service
 {
     public class UserService : IUserService
     {
-        private readonly IUnitOfWork _userUoW;
+        private readonly IUnitOfWork _userUnitOfWork;
 
-        public UserService(IUnitOfWork userUoW)
+        public UserService(IUnitOfWork userUnitOfWork)
         {
-            _userUoW = userUoW;
+            _userUnitOfWork = userUnitOfWork;
         }
 
         public async Task AddUser(User user)
         {
-            await _userUoW.Users.Add(user);
-            _userUoW.Complete();
+            await _userUnitOfWork.Users.Add(user);
+            _userUnitOfWork.Complete();
         }
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-          var users = _userUoW.Users.GetAll();
+          var users = _userUnitOfWork.Users.GetAll();
           return await users;
 
         }
 
         public async Task<User> GetOneUser(int id)
         {
-            var user = _userUoW.Users.GetById(id);
+            var user = _userUnitOfWork.Users.GetById(id);
             return await user;
         }
 
         public async Task RemoveUser(User user)
         {
-            await _userUoW.Users.Remove(user);
-            _userUoW.Complete();
+            await _userUnitOfWork.Users.Remove(user);
+            _userUnitOfWork.Complete();
         }
 
         public async Task<User> UpdateUser(User user)
         {
-            await _userUoW.Users.Update(user);
-            _userUoW.Complete();
+            await _userUnitOfWork.Users.Update(user);
+            _userUnitOfWork.Complete();
             return user;
         }
     }
