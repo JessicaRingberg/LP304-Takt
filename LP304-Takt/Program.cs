@@ -1,13 +1,21 @@
 using System.Data.Common;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
+using LP304_Takt.Service;
+using LP304_Takt.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>()
+    
+    ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<LP304Context>(options =>
 {
@@ -15,12 +23,6 @@ builder.Services.AddDbContext<LP304Context>(options =>
     options.UseSqlServer(connectionString);
 });
 
-//Repositories
-builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
-
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 
 builder.Services.AddEndpointsApiExplorer();

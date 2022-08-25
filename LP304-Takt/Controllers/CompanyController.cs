@@ -1,4 +1,6 @@
-﻿using LP304_Takt.Repositories;
+﻿using System.Collections;
+using LP304_Takt.Models;
+using LP304_Takt.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,18 +10,23 @@ namespace LP304_Takt.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public CompanyController(IUnitOfWork unitOfWork)
+        //private readonly CompanyService _companyService;
+        private readonly ICompanyService _companyService;
+        public CompanyController(ICompanyService companyService)
         {
-            _unitOfWork = unitOfWork;
+            _companyService = companyService;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Company> GetOneCompanyS(int id)
+        {
+            return await _companyService.GetOneCompanyService(id);
         }
 
         [HttpGet]
-        public IActionResult GetCompanies()
+        public async Task <IEnumerable> GetAll()
         {
-            var companies = _unitOfWork.Companies.GetAll();
-            return Ok(companies);
+            return await _companyService.GetAllCompaniesService();
         }
     }
 }

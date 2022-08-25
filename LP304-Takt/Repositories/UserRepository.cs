@@ -8,10 +8,6 @@ namespace LP304_Takt.Repositories
         public UserRepository(LP304Context context) : base(context)
         {
         }
-
-        public IEnumerable<User> GetUsers(int count)
-        {
-            return _context.User.OrderByDescending(u => u.Id).Take(count).ToList();
-        }
+       
     }
 }

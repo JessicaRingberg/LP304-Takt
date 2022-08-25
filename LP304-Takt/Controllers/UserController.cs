@@ -1,5 +1,7 @@
 ﻿using LP304_Takt.Models;
 using LP304_Takt.Repositories;
+using LP304_Takt.Service;
+using LP304_Takt.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,26 +11,19 @@ namespace LP304_Takt.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
+        
+        private readonly IUserService _userService;
 
-        public UserController(IUnitOfWork unitOfWork)
+        public UserController(IUserService userService)
         {
-            _unitOfWork = unitOfWork;
+            _userService = userService;
         }
 
-        [HttpGet]
-        public IActionResult GetUsers()
-        {
-            var users = _unitOfWork.Users.GetAll();
-            return Ok(users);
-        }
+        //[HttpGet("{id}")]
+        //public User GetOneUser(int id)
+        //{
+        //    return _userService.GetOneUserService(id);
+        //}
 
-        [HttpPost]
-        public IActionResult AddUser()
-        {
-            _unitOfWork.Users.Add(new User());
-            _unitOfWork.Complete();
-            return Ok();
-        }
     }
 }

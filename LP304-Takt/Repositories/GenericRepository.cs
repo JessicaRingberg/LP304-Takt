@@ -1,12 +1,12 @@
 ﻿using System.Linq.Expressions;
 using LP304_Takt.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly LP304Context _context;
-
+        private readonly LP304Context _context;
         public GenericRepository(LP304Context context)
         {
             _context = context;
@@ -26,14 +26,17 @@ namespace LP304_Takt.Repositories
             return _context.Set<T>().Where(expression);
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+#pragma warning disable CS8603 // Possible null reference return.
+            return await _context.Set<T>().FindAsync(id);
+#pragma warning restore CS8603 // Possible null reference return.
+
         }
 
         public void Remove(T entity)
