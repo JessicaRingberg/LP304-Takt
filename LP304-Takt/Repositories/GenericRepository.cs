@@ -11,21 +11,6 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-        public void Add(T entity)
-        {
-            _context.Set<T>().Add(entity);
-        }
-
-        public void AddRange(IEnumerable<T> entities)
-        {
-            _context.Set<T>().AddRange(entities);
-        }
-
-        public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
-        {
-            return _context.Set<T>().Where(expression);
-        }
-
         public async Task<IEnumerable<T>> GetAll()
         {
             return await _context.Set<T>().ToListAsync();
@@ -38,15 +23,31 @@ namespace LP304_Takt.Repositories
 #pragma warning restore CS8603 // Possible null reference return.
 
         }
-
-        public void Remove(T entity)
+        public async Task Add(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+           // await _context.SaveChangesAsync();
+        }
+        public Task Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
+            return _context.SaveChangesAsync();
         }
 
-        public void RemoveRange(IEnumerable<T> entities)
-        {
-            _context.Set<T>().RemoveRange(entities);
-        }
+        //public void AddRange(IEnumerable<T> entities)
+        //{
+        //    _context.Set<T>().AddRange(entities);
+        //}
+
+        //public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression)
+        //{
+        //    return _context.Set<T>().Where(expression);
+        //}
+
+
+        //public async Task RemoveRange(IEnumerable<T> entities)
+        //{
+        //   return await _context.Set<T>().RemoveRange(entities);
+        //}
     }
 }

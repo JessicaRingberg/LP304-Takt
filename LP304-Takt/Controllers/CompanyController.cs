@@ -18,15 +18,27 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Company> GetOneCompanyS(int id)
+        public async Task<Company> GetOneCompany(int id)
         {
-            return await _companyService.GetOneCompanyService(id);
+            return await _companyService.GetOneCompany(id);
         }
 
         [HttpGet]
         public async Task <IEnumerable> GetAll()
         {
-            return await _companyService.GetAllCompaniesService();
+            return await _companyService.GetAllCompanies();
+        }
+
+        [HttpPost]
+        public async Task AddCompany(Company company)
+        {
+            await _companyService.AddCompany(company);
+        }
+
+        [HttpDelete]
+        public async Task RemoveCompany(Company company)
+        { 
+            await _companyService.RemoveCompany(company);
         }
     }
 }

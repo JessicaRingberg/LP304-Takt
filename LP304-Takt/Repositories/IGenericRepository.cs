@@ -7,10 +7,11 @@ namespace LP304_Takt.Repositories
     {
         Task <T>GetById(int id);
         Task<IEnumerable<T>> GetAll();
-        IEnumerable<T> Find(Expression<Func<T, bool>> expression);
-        void Add(T entity);
-        void AddRange(IEnumerable<T> entities);
-        void Remove(T entity);
-        void RemoveRange(IEnumerable<T> entities);
+        Task Add(T entity);
+        Task Remove(T entity);
+        // Task <IEnumerable<T>> Find(Expression<Func<T, bool>> expression);
+        //Task AddRange(IEnumerable<T> entities);
+
+        // Task RemoveRange(IEnumerable<T> entities);
     }
 }
