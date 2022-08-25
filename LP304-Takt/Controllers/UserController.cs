@@ -1,4 +1,5 @@
-﻿using LP304_Takt.Models;
+﻿using System.Collections;
+using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Service;
 using LP304_Takt.UnitOfWork;
@@ -19,11 +20,35 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        //[HttpGet("{id}")]
-        //public User GetOneUser(int id)
-        //{
-        //    return _userService.GetOneUserService(id);
-        //}
+        [HttpGet("{id}")]
+        public async Task<User> GetOneUser(int id)
+        {
+            return await _userService.GetOneUser(id);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable> GetAll()
+        {
+            return await _userService.GetAllUsers();
+        }
+
+        [HttpPost]
+        public async Task AddUser(User user)
+        {
+            await _userService.AddUser(user);
+        }
+
+        [HttpDelete]
+        public async Task RemoveUser(User user)
+        {
+            await _userService.RemoveUser(user);
+        }
+
+        [HttpPut]
+        public async Task UpdateUser(User user)
+        {
+            await _userService.UpdateUser(user);
+        }
 
     }
 }

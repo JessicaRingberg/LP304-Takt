@@ -28,12 +28,18 @@ namespace LP304_Takt.Repositories
             await _context.Set<T>().AddAsync(entity);
            // await _context.SaveChangesAsync();
         }
-        public Task Remove(T entity)
+        public async Task Remove(T entity)
         {
-            _context.Set<T>().Remove(entity);
-            return _context.SaveChangesAsync();
+             _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
+        public async Task<T> Update(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return entity;
+        }
         //public void AddRange(IEnumerable<T> entities)
         //{
         //    _context.Set<T>().AddRange(entities);

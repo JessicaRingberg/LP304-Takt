@@ -12,17 +12,17 @@ namespace LP304_Takt.Service
             _companyUoW = companyUoW;
         }
 
-        public Task<Company>  GetOneCompany(int id)
+        public async Task<Company>  GetOneCompany(int id)
         {
             var company = _companyUoW.Companies.GetById(id);
-            return company;
+            return await company;
         }
 
-        public Task<IEnumerable<Company>> GetAllCompanies()
+        public async Task<IEnumerable<Company>> GetAllCompanies()
         {
             var company = _companyUoW.Companies.GetAll();
 
-            return company;
+            return await company;
         }
 
         public async Task AddCompany(Company company)

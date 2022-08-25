@@ -4,7 +4,10 @@ namespace LP304_Takt.Service
 {
     public interface IUserService
     {
-        //public User GetOneUserService(int id);
-       // Task<IEnumerable<User>> GetAll();
+        Task<User> GetOneUser(int id);
+        Task<IEnumerable<User>> GetAllUsers();
+        Task AddUser(User user);
+        Task RemoveUser(User user);
+        Task<User> UpdateUser(User user);
     }
 }
