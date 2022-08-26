@@ -46,5 +46,11 @@ namespace LP304_Takt.Service
             _userUnitOfWork.Complete();
             return user;
         }
+
+        public async Task DeleteById(int id)
+        {
+            await _userUnitOfWork.Users.DeleteAsync(id);
+            _userUnitOfWork.Complete();
+        }
     }
 }

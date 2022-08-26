@@ -24,8 +24,11 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Alarm", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AlarmTypeId")
                         .HasColumnType("int");
@@ -103,7 +106,6 @@ namespace LP304_Takt.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -339,8 +341,14 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Andon")
+                        .HasColumnType("bit");
+
                     b.Property<int>("AreaId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

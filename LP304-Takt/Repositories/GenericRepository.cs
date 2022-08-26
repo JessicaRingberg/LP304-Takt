@@ -28,9 +28,16 @@ namespace LP304_Takt.Repositories
             await _context.Set<T>().AddAsync(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var toDelete = GetById(id);
+            _context.Remove(toDelete);
+            await _context.SaveChangesAsync();
+        }
         public async Task Remove(T entity)
         {
-             _context.Set<T>().Remove(entity);
+            _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
         }
 

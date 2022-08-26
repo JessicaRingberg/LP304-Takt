@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task AddUser(User user);
         Task RemoveUser(User user);
         Task<User> UpdateUser(User user);
+        Task DeleteById(int id);
     }
 }
