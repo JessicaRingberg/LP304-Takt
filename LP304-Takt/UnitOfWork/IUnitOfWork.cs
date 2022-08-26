@@ -4,6 +4,7 @@ namespace LP304_Takt.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
+        IAlarmRepository Alarms { get; }
         IAreaRepository Areas { get; }
         ICompanyRepository Companies { get; }
         IConfigRepository Configs { get; }

@@ -11,7 +11,7 @@ namespace LP304_Takt.UnitOfWork
         public UnitOfWork(LP304Context context)
         {
             _context = context;
-
+            Alarms = new AlarmRepository(_context);
             Areas = new AreaRepository(_context);
             Companies = new CompanyRepository(_context);
             Configs = new ConfigRepository(_context);
@@ -23,6 +23,7 @@ namespace LP304_Takt.UnitOfWork
             Stations = new StationRepository(_context);
             Users = new UserRepository(_context);
         }
+        public IAlarmRepository Alarms { get; }
         public IAreaRepository Areas { get; }
         public ICompanyRepository Companies { get; }
         public IConfigRepository Configs { get; }
