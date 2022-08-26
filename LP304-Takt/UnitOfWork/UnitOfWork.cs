@@ -17,6 +17,7 @@ namespace LP304_Takt.UnitOfWork
             Configs = new ConfigRepository(_context);
             Macs = new MacRepository(_context);
             Orders = new OrderRepository(_context);
+            Queues = new QueueRepository(_context);
             Roles = new RoleRepository(_context);
             Stations = new StationRepository(_context);
             Users = new UserRepository(_context);
@@ -26,6 +27,7 @@ namespace LP304_Takt.UnitOfWork
         public IConfigRepository Configs { get; }
         public IMacRepository Macs { get; }
         public IOrderRepository Orders { get; }
+        public IQueueRepository Queues { get; }
         public IRoleRepository Roles { get; }
         public IStationRepository Stations { get; }
         public IUserRepository Users { get; }

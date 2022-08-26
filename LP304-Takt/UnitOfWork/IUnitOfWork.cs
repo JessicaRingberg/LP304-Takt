@@ -9,6 +9,7 @@ namespace LP304_Takt.UnitOfWork
         IConfigRepository Configs { get; }
         IMacRepository Macs { get; }
         IOrderRepository Orders { get; }
+        IQueueRepository Queues { get; }
         IRoleRepository Roles { get; }
         IStationRepository Stations { get; }
         IUserRepository Users { get; }
