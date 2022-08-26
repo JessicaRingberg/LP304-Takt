@@ -15,6 +15,7 @@ namespace LP304_Takt.UnitOfWork
             Areas = new AreaRepository(_context);
             Companies = new CompanyRepository(_context);
             Configs = new ConfigRepository(_context);
+            Events = new EventRepository(_context);
             Macs = new MacRepository(_context);
             Orders = new OrderRepository(_context);
             Queues = new QueueRepository(_context);
@@ -25,6 +26,7 @@ namespace LP304_Takt.UnitOfWork
         public IAreaRepository Areas { get; }
         public ICompanyRepository Companies { get; }
         public IConfigRepository Configs { get; }
+        public IEventRepository Events { get; }
         public IMacRepository Macs { get; }
         public IOrderRepository Orders { get; }
         public IQueueRepository Queues { get; }
