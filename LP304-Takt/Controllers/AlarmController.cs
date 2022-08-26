@@ -16,6 +16,7 @@ namespace LP304_Takt.Controllers
         {
             _alarmService = alarmService;
         }
+
         [HttpGet("{id}")]
         public async Task<Alarm> GetOneAlarm(int id)
         {

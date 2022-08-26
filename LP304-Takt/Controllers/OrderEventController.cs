@@ -16,6 +16,8 @@ namespace LP304_Takt.Controllers
         {
             _orderEventService = orderEventService;
         }
+
+        [HttpGet("{id}")]
         public async Task<OrderEvent> GetOrderEvent(int id)
         {
             return await _orderEventService.GetOrderEvent(id);
