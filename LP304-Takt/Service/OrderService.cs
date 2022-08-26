@@ -11,11 +11,6 @@ namespace LP304_Takt.Service
         {
             _orderUnitOfWork = orderUnitOfWork;
         }
-        public async Task AddOrder(Order order)
-        {
-            await _orderUnitOfWork.Orders.Add(order);
-            _orderUnitOfWork.Complete();
-        }
 
         public async Task<IEnumerable<Order>> GetAllOrders()
         {
@@ -25,6 +20,11 @@ namespace LP304_Takt.Service
         public async Task<Order> GetOrder(int id)
         {
             return await _orderUnitOfWork.Orders.GetById(id);
+        }
+        public async Task AddOrder(Order order)
+        {
+            await _orderUnitOfWork.Orders.Add(order);
+            _orderUnitOfWork.Complete();
         }
 
         public async Task RemoveOrder(Order order)

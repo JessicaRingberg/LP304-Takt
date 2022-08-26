@@ -14,11 +14,6 @@ namespace LP304_Takt.Service
             _userUnitOfWork = userUnitOfWork;
         }
 
-        public async Task AddUser(User user)
-        {
-            await _userUnitOfWork.Users.Add(user);
-            _userUnitOfWork.Complete();
-        }
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
@@ -31,6 +26,12 @@ namespace LP304_Takt.Service
         {
             var user = _userUnitOfWork.Users.GetById(id);
             return await user;
+        }
+
+        public async Task AddUser(User user)
+        {
+            await _userUnitOfWork.Users.Add(user);
+            _userUnitOfWork.Complete();
         }
 
         public async Task RemoveUser(User user)

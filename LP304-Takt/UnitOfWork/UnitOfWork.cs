@@ -11,15 +11,20 @@ namespace LP304_Takt.UnitOfWork
         public UnitOfWork(LP304Context context)
         {
             _context = context;
-            Users = new UserRepository(_context);
+
+            Areas = new AreaRepository(_context);
             Companies = new CompanyRepository(_context);
-            Roles = new RoleRepository(_context);
             Orders = new OrderRepository(_context);
+            Roles = new RoleRepository(_context);
+            Users = new UserRepository(_context);
         }
-        public IUserRepository Users { get; }
+        public IAreaRepository Areas { get; }
         public ICompanyRepository Companies { get; }
-        public IRoleRepository Roles { get; }
         public IOrderRepository Orders { get; }
+        public IRoleRepository Roles { get; }
+        public IUserRepository Users { get; }
+        
+       
 
 
         public int Complete()

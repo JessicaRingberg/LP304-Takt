@@ -4,10 +4,13 @@ namespace LP304_Takt.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository Users { get; }
+        IAreaRepository Areas { get; }
         ICompanyRepository Companies { get; }
-        IRoleRepository Roles { get; }
         IOrderRepository Orders { get; }
+        IRoleRepository Roles { get; }
+        IUserRepository Users { get; }
+        
+        
         
         int Complete();
     }

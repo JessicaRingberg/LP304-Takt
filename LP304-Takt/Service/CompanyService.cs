@@ -11,6 +11,12 @@ namespace LP304_Takt.Service
         {
             _companyUnitOfWork = companyUnitOfWork;
         }
+        public async Task<IEnumerable<Company>> GetAllCompanies()
+        {
+            var company = _companyUnitOfWork.Companies.GetAll();
+
+            return await company;
+        }
 
         public async Task<Company>  GetOneCompany(int id)
         {
@@ -18,12 +24,6 @@ namespace LP304_Takt.Service
             return await company;
         }
 
-        public async Task<IEnumerable<Company>> GetAllCompanies()
-        {
-            var company = _companyUnitOfWork.Companies.GetAll();
-
-            return await company;
-        }
 
         public async Task AddCompany(Company company)
         {
