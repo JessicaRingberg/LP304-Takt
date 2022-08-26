@@ -28,6 +28,8 @@ builder.Services.AddScoped<IMacRepository, MacRepository>();
 builder.Services.AddScoped<IMacService, MacService>();
 builder.Services.AddScoped<IOrderAlarmRepository, OrderAlarmRepository>();
 builder.Services.AddScoped<IOrderAlarmService, OrderAlarmService>();
+builder.Services.AddScoped<IOrderEventRepository, OrderEventRepository>();
+builder.Services.AddScoped<IOrderEventService, OrderEventService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IQueueRepository, QueueRepository>();
