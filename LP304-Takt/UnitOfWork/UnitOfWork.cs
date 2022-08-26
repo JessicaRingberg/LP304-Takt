@@ -18,6 +18,7 @@ namespace LP304_Takt.UnitOfWork
             Macs = new MacRepository(_context);
             Orders = new OrderRepository(_context);
             Roles = new RoleRepository(_context);
+            Stations = new StationRepository(_context);
             Users = new UserRepository(_context);
         }
         public IAreaRepository Areas { get; }
@@ -26,6 +27,7 @@ namespace LP304_Takt.UnitOfWork
         public IMacRepository Macs { get; }
         public IOrderRepository Orders { get; }
         public IRoleRepository Roles { get; }
+        public IStationRepository Stations { get; }
         public IUserRepository Users { get; }
         
        
