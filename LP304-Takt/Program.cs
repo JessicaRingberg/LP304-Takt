@@ -26,6 +26,8 @@ builder.Services.AddScoped<IEventStatusRepository, EventStatusRepository>();
 builder.Services.AddScoped<IEventStatusService, EventStatusService>();
 builder.Services.AddScoped<IMacRepository, MacRepository>();
 builder.Services.AddScoped<IMacService, MacService>();
+builder.Services.AddScoped<IOrderAlarmRepository, OrderAlarmRepository>();
+builder.Services.AddScoped<IOrderAlarmService, OrderAlarmService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IQueueRepository, QueueRepository>();

@@ -19,6 +19,7 @@ namespace LP304_Takt.UnitOfWork
             Events = new EventRepository(_context);
             EventStatus = new EventStatusRepository(_context);
             Macs = new MacRepository(_context);
+            OrderAlarms = new OrderAlarmRepository(_context);
             Orders = new OrderRepository(_context);
             Queues = new QueueRepository(_context);
             Roles = new RoleRepository(_context);
@@ -33,6 +34,7 @@ namespace LP304_Takt.UnitOfWork
         public IEventRepository Events { get; }
         public IEventStatusRepository EventStatus { get; }
         public IMacRepository Macs { get; }
+        public IOrderAlarmRepository OrderAlarms { get; }
         public IOrderRepository Orders { get; }
         public IQueueRepository Queues { get; }
         public IRoleRepository Roles { get; }

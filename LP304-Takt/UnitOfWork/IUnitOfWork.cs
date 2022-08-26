@@ -12,6 +12,7 @@ namespace LP304_Takt.UnitOfWork
         IEventRepository Events { get; }
         IEventStatusRepository EventStatus { get; }
         IMacRepository Macs { get; }
+        IOrderAlarmRepository OrderAlarms { get; }
         IOrderRepository Orders { get; }
         IQueueRepository Queues { get; }
         IRoleRepository Roles { get; }
