@@ -1,4 +1,5 @@
-﻿using LP304_Takt.Models;
+﻿using LP304_Takt.DTO;
+using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.UnitOfWork;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -13,7 +14,6 @@ namespace LP304_Takt.Service
         {
             _userUnitOfWork = userUnitOfWork;
         }
-
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
