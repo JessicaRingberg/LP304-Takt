@@ -7,6 +7,7 @@ namespace LP304_Takt.UnitOfWork
         IAreaRepository Areas { get; }
         ICompanyRepository Companies { get; }
         IConfigRepository Configs { get; }
+        IMacRepository Macs { get; }
         IOrderRepository Orders { get; }
         IRoleRepository Roles { get; }
         IUserRepository Users { get; }
