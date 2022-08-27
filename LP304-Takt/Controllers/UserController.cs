@@ -55,6 +55,8 @@ namespace LP304_Takt.Controllers
         public async Task DeleteUserById(int id)
         {
             await _userService.DeleteById(id);
+            
+            
         }
 
     }
