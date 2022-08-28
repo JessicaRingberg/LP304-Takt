@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task AddStation(Station station);
         Task RemoveStation(Station station);
         Task<Station> UpdateStation(Station station);
+        Task DeleteById(int id);
     }
 }

@@ -8,5 +8,6 @@ namespace LP304_Takt.Service
         Task<Role> GetRole(int id);
         Task AddRole(Role role);
         Task RemoveRole(Role role);
+        Task DeleteById(int id);
     }
 }

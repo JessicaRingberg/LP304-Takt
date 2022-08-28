@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task AddOrderAlarm(OrderAlarm orderAlarm);
         Task RemoveOrderAlarm(OrderAlarm orderAlarm);
         Task<OrderAlarm> UpdateOrderAlarm(OrderAlarm orderAlarm);
+        Task DeleteById(int id);
     }
 }

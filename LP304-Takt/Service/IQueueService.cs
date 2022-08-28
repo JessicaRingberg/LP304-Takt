@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task AddQueue(Queue queue);
         Task RemoveQueue(Queue queue);
         Task<Queue> UpdateQueue(Queue queue);
+        Task DeleteById(int id);
     }
 }

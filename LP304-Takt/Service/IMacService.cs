@@ -8,5 +8,6 @@ namespace LP304_Takt.Service
         Task<Mac> GetOneMac(int id);
         Task AddMac(Mac mac);
         Task RemoveMac(Mac mac);
+        Task DeleteById(int id);
     }
 }

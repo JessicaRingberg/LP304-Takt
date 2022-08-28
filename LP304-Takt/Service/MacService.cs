@@ -30,5 +30,12 @@ namespace LP304_Takt.Service
         {
             await _macUnitOfWork.Macs.Remove(mac);
         }
+        public async Task DeleteById(int id)
+        {
+            var mac = await _macUnitOfWork.Macs.GetById(id);
+            await _macUnitOfWork.Macs.Remove(mac);
+            _macUnitOfWork.Complete();
+
+        }
     }
 }

@@ -16,6 +16,14 @@ namespace LP304_Takt.Service
             await _stationUnitOfWork.Stations.Add(station);
         }
 
+        public async Task DeleteById(int id)
+        {
+            var station = await _stationUnitOfWork.Stations.GetById(id);
+            await _stationUnitOfWork.Stations.Remove(station);
+            _stationUnitOfWork.Complete();
+
+        }
+
         public async Task<IEnumerable<Station>> GetAllStations()
         {
             return await _stationUnitOfWork.Stations.GetAll();

@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task<Company> GetOneCompany(int id);
         Task AddCompany(Company company);
         Task RemoveCompany(Company company);
+        Task DeleteById(int id);
     }
 }

@@ -37,5 +37,12 @@ namespace LP304_Takt.Service
             await _companyUnitOfWork.Companies.Remove(company);
             _companyUnitOfWork.Complete();
         }
+        public async Task DeleteById(int id)
+        {
+            var company = await _companyUnitOfWork.Companies.GetById(id);
+            await _companyUnitOfWork.Companies.Remove(company);
+            _companyUnitOfWork.Complete();
+
+        }
     }
 }

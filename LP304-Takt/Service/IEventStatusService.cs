@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task AddEventStatus(EventStatus eventStatus);
         Task RemoveEventStatus(EventStatus eventStatus);
         Task<EventStatus> UpdateEventStatus(EventStatus eventStatus);
+        Task DeleteById(int id);
     }
 }

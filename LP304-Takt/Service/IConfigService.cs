@@ -8,5 +8,6 @@ namespace LP304_Takt.Service
         Task<Config> GetOneConfig(int id);
         Task AddConfig(Config config);
         Task RemoveConfig(Config config);
+        Task DeleteById(int id);
     }
 }

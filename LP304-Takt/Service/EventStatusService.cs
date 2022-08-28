@@ -35,5 +35,12 @@ namespace LP304_Takt.Service
         {
             return await _eventStatusUnitOfWork.EventStatus.Update(eventStatus);
         }
+        public async Task DeleteById(int id)
+        {
+            var eventStatus = await _eventStatusUnitOfWork.EventStatus.GetById(id);
+            await _eventStatusUnitOfWork.EventStatus.Remove(eventStatus);
+            _eventStatusUnitOfWork.Complete();
+
+        }
     }
 }

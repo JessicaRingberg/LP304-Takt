@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task AddAlarmType(AlarmType alarmType);
         Task RemoveAlarmType(AlarmType alarmType);
         Task<AlarmType> UpdateAlarmType(AlarmType alarmType);
+        Task DeleteById(int id);
     }
 }

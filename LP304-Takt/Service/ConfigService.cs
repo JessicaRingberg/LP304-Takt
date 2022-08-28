@@ -31,5 +31,12 @@ namespace LP304_Takt.Service
         {
             await _configUnitOfWork.Configs.Remove(config);
         }
+        public async Task DeleteById(int id)
+        {
+            var config = await _configUnitOfWork.Configs.GetById(id);
+            await _configUnitOfWork.Configs.Remove(config);
+            _configUnitOfWork.Complete();
+
+        }
     }
 }

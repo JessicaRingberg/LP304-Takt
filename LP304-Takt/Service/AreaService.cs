@@ -29,5 +29,12 @@ namespace LP304_Takt.Service
         {
             await _areaUnitOfWork.Areas.Remove(area);
         }
+        public async Task DeleteById(int id)
+        {
+            var area = await _areaUnitOfWork.Areas.GetById(id);
+            await _areaUnitOfWork.Areas.Remove(area);
+            _areaUnitOfWork.Complete();
+
+        }
     }
 }

@@ -33,5 +33,12 @@ namespace LP304_Takt.Service
             await _roleUnitOfWork.Roles.Remove(role);
             _roleUnitOfWork.Complete();
         }
+        public async Task DeleteById(int id)
+        {
+            var role = await _roleUnitOfWork.Roles.GetById(id);
+            await _roleUnitOfWork.Roles.Remove(role);
+            _roleUnitOfWork.Complete();
+
+        }
     }
 }

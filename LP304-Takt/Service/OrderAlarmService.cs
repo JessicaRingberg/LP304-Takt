@@ -35,5 +35,12 @@ namespace LP304_Takt.Service
         {
             return await _orderAlarmUnitOfWork.OrderAlarms.Update(orderAlarm);
         }
+        public async Task DeleteById(int id)
+        {
+            var orderAlarm = await _orderAlarmUnitOfWork.OrderAlarms.GetById(id);
+            await _orderAlarmUnitOfWork.OrderAlarms.Remove(orderAlarm);
+            _orderAlarmUnitOfWork.Complete();
+
+        }
     }
 }

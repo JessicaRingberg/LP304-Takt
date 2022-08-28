@@ -9,5 +9,6 @@ namespace LP304_Takt.Service
         Task AddOrder(Order order);
         Task RemoveOrder(Order order);
         Task<Order> UpdateOrder(Order order);
+        Task DeleteById(int id);
     }
 }
