@@ -41,6 +41,13 @@ namespace LP304_Takt.Controllers
             await _stationService.RemoveStation(station);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteStationById(int id)
+        {
+            await _stationService.DeleteById(id);
+
+        }
+
         [HttpPut]
         public async Task UpdateStation(Station station)
         {

@@ -39,5 +39,13 @@ namespace LP304_Takt.Controllers
         {
             await _roleService.RemoveRole(role);
         }
+
+        [HttpDelete("{id}")]
+        public async Task DeleteRoleById(int id)
+        {
+            await _roleService.DeleteById(id);
+
+
+        }
     }
 }

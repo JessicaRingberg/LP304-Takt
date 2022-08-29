@@ -40,6 +40,14 @@ namespace LP304_Takt.Controllers
             await _orderService.RemoveOrder(order);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteOrderById(int id)
+        {
+            await _orderService.DeleteById(id);
+
+
+        }
+
         [HttpPut]
         public async Task UpdateOrder(Order order)
         {

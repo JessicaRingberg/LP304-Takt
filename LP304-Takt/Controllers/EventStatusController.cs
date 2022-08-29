@@ -41,6 +41,14 @@ namespace LP304_Takt.Controllers
             await _eventStatusService.RemoveEventStatus(eventStatus);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteEventStatusById(int id)
+        {
+            await _eventStatusService.DeleteById(id);
+
+
+        }
+
         [HttpPut]
         public async Task UpdateEventStatus(EventStatus eventStatus)
         {

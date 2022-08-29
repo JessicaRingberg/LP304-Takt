@@ -40,5 +40,13 @@ namespace LP304_Takt.Controllers
         { 
             await _companyService.RemoveCompany(company);
         }
+
+        [HttpDelete("{id}")]
+        public async Task DeleteCompanyById(int id)
+        {
+            await _companyService.DeleteById(id);
+
+
+        }
     }
 }

@@ -40,6 +40,13 @@ namespace LP304_Takt.Controllers
             await _alarmTypeService.RemoveAlarmType(alarmType);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteAlarmTypeById(int id)
+        {
+            await _alarmTypeService.DeleteById(id);
+
+        }
+
         [HttpPut]
         public async Task UpdateAlarm(AlarmType alarmType)
         {

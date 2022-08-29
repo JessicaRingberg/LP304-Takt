@@ -41,6 +41,14 @@ namespace LP304_Takt.Controllers
             await _orderEventService.RemoveOrderEvent(orderEvent);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteOrderEventById(int id)
+        {
+            await _orderEventService.DeleteById(id);
+
+
+        }
+
         [HttpPut]
         public async Task UpdateOrderEvent(OrderEvent orderEvent)
         {

@@ -39,5 +39,13 @@ namespace LP304_Takt.Controllers
         {
             await _macService.RemoveMac(mac);
         }
+
+        [HttpDelete("{id}")]
+        public async Task DeleteMacById(int id)
+        {
+            await _macService.DeleteById(id);
+
+
+        }
     }
 }

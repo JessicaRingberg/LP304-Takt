@@ -40,6 +40,14 @@ namespace LP304_Takt.Controllers
             await _orderAlarmService.RemoveOrderAlarm(orderAlarm);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteOrderAlarmById(int id)
+        {
+            await _orderAlarmService.DeleteById(id);
+
+
+        }
+
         [HttpPut]
         public async Task UpdateOrderAlarm(OrderAlarm orderAlarm)
         {

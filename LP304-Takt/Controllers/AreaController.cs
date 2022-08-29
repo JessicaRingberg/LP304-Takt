@@ -39,5 +39,13 @@ namespace LP304_Takt.Controllers
         {
             await _areaService.RemoveArea(area);
         }
+
+        [HttpDelete("{id}")]
+        public async Task DeleteAreaById(int id)
+        {
+            await _areaService.DeleteById(id);
+
+
+        }
     }
 }

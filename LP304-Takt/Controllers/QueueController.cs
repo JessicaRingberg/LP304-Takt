@@ -42,6 +42,14 @@ namespace LP304_Takt.Controllers
             await _queueService.RemoveQueue(queue);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteQueueById(int id)
+        {
+            await _queueService.DeleteById(id);
+
+
+        }
+
         [HttpPut]
         public async Task UpdateQueue(Queue queue)
         {

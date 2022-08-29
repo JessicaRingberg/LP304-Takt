@@ -39,5 +39,13 @@ namespace LP304_Takt.Controllers
         {
             await _configService.RemoveConfig(config);
         }
+
+        [HttpDelete("{id}")]
+        public async Task DeleteConfigById(int id)
+        {
+            await _configService.DeleteById(id);
+
+
+        }
     }
 }

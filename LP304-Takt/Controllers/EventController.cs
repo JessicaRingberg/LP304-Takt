@@ -41,6 +41,14 @@ namespace LP304_Takt.Controllers
             await _eventService.RemoveEvent(eEvent);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteEventById(int id)
+        {
+            await _eventService.DeleteById(id);
+
+
+        }
+
         [HttpPut]
         public async Task UpdateEvent(Event eEvent)
         {
