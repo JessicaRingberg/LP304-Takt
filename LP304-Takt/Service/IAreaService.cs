@@ -7,6 +7,7 @@ namespace LP304_Takt.Service
         Task<IEnumerable<Area>> GetAllAreas();
         Task<Area> GetOneArea(int id);
         Task AddArea(Area area);
+        Task<Area> UpdateArea(Area area);
         Task RemoveArea(Area area);
         Task DeleteById(int id);
     }

@@ -38,5 +38,10 @@ namespace LP304_Takt.Service
             _configUnitOfWork.Complete();
 
         }
+
+        public async Task<Config> UpdateConfig(Config config)
+        {
+            return await _configUnitOfWork.Configs.Update(config);
+        }
     }
 }

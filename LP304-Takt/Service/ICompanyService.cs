@@ -8,6 +8,7 @@ namespace LP304_Takt.Service
         Task<IEnumerable<Company>> GetAllCompanies();
         Task<Company> GetOneCompany(int id);
         Task AddCompany(Company company);
+        Task<Company> UpdateCompany(Company company);
         Task RemoveCompany(Company company);
         Task DeleteById(int id);
     }

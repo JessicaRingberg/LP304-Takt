@@ -44,5 +44,10 @@ namespace LP304_Takt.Service
             _companyUnitOfWork.Complete();
 
         }
+
+        public async Task<Company> UpdateCompany(Company company)
+        {
+            return await _companyUnitOfWork.Companies.Update(company);
+        }
     }
 }

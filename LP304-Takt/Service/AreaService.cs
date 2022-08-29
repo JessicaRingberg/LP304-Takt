@@ -24,7 +24,6 @@ namespace LP304_Takt.Service
         {
             await _areaUnitOfWork.Areas.Add(area);
         }
-
         public async Task RemoveArea(Area area)
         {
             await _areaUnitOfWork.Areas.Remove(area);
@@ -35,6 +34,11 @@ namespace LP304_Takt.Service
             await _areaUnitOfWork.Areas.Remove(area);
             _areaUnitOfWork.Complete();
 
+        }
+
+        public async Task<Area> UpdateArea(Area area)
+        {
+            return await _areaUnitOfWork.Areas.Update(area);
         }
     }
 }

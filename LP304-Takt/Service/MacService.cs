@@ -37,5 +37,10 @@ namespace LP304_Takt.Service
             _macUnitOfWork.Complete();
 
         }
+
+        public async Task<Mac> UpdateMac(Mac mac)
+        {
+            return await _macUnitOfWork.Macs.Update(mac);
+        }
     }
 }

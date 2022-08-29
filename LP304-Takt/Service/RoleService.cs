@@ -40,5 +40,10 @@ namespace LP304_Takt.Service
             _roleUnitOfWork.Complete();
 
         }
+
+        public async Task<Role> UpdateRole(Role role)
+        {
+            return await _roleUnitOfWork.Roles.Update(role);
+        }
     }
 }
