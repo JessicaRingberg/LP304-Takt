@@ -7,7 +7,7 @@ namespace LP304_Takt.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly LP304Context _context;
-
+        
         public UnitOfWork(LP304Context context)
         {
             _context = context;

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Models
 {
@@ -9,6 +10,12 @@ namespace LP304_Takt.Models
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<Alarm> Alarm { get; set; }
         public DbSet<AlarmType> AlarmType { get; set; }
         public DbSet<Area> Area { get; set; }

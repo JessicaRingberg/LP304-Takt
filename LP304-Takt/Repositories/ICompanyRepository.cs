@@ -4,5 +4,6 @@ namespace LP304_Takt.Repositories
 {
     public interface ICompanyRepository : IGenericRepository<Company>
     {
+      //  Task<IEnumerable<Company>> GetAllCompanies();
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(LP304Context))]
-    [Migration("20220826120653_InitialCreate")]
+    [Migration("20220901105452_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,11 +85,10 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CompanyId")
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -420,10 +419,8 @@ namespace LP304_Takt.Migrations
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
                 {
                     b.HasOne("LP304_Takt.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Areas")
+                        .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });
@@ -512,6 +509,11 @@ namespace LP304_Takt.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("LP304_Takt.Models.Company", b =>
+                {
+                    b.Navigation("Areas");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.OrderAlarm", b =>

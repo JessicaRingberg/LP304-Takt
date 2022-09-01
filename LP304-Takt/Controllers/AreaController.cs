@@ -15,6 +15,13 @@ namespace LP304_Takt.Controllers
         {
             _areaService = areaService;
         }
+        [HttpGet]
+        public async Task<IEnumerable<Area>> GetAll()
+        {
+            return await _areaService.GetAllAreas();
+
+        }
+
 
         [HttpGet("{id}")]
         public async Task<Area> GetOneArea(int id)
@@ -22,16 +29,10 @@ namespace LP304_Takt.Controllers
             return await _areaService.GetOneArea(id);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable> GetAll()
-        {
-            return await _areaService.GetAllAreas();
-        }
-
         [HttpPost]
-        public async Task AddArea(Area area)
+        public async Task AddArea(Area area, int id)
         {
-            await _areaService.AddArea(area);
+            await _areaService.AddArea(area, id);
         }
 
         [HttpDelete]
@@ -44,8 +45,8 @@ namespace LP304_Takt.Controllers
         public async Task DeleteAreaById(int id)
         {
             await _areaService.DeleteById(id);
-
-
         }
+
+      
     }
 }

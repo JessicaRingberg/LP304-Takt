@@ -6,7 +6,7 @@ namespace LP304_Takt.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly LP304Context _context;
+        protected readonly LP304Context _context;
         public GenericRepository(LP304Context context)
         {
             _context = context;
