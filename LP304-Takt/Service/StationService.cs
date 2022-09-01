@@ -11,9 +11,9 @@ namespace LP304_Takt.Service
         {
             _stationUnitOfWork = stationUnitOfWork;
         }
-        public async Task AddStation(Station station)
+        public async Task AddStation(Station station, int id)
         {
-            await _stationUnitOfWork.Stations.Add(station);
+            await _stationUnitOfWork.Stations.AddStation(station, id);
         }
 
         public async Task DeleteById(int id)

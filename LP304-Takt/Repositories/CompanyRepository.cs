@@ -9,9 +9,6 @@ namespace LP304_Takt.Repositories
         {
         }
 
-        //public async Task<IEnumerable<Company>> GetAllCompanies()
-        //{
-        //  return await _context.Company.Include(c => c.Areas).ToListAsync();
-        //}
+        
     }
 }

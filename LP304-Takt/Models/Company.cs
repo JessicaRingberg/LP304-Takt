@@ -8,6 +8,6 @@ namespace LP304_Takt.Models
         public int Id { get; set; }
 
         public string? Name { get; set; }
-        public ICollection<Area> Areas { get; set; } = new List<Area>();
+        //public ICollection<Area> Areas { get; set; } = new List<Area>();
     }
 }

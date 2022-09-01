@@ -313,7 +313,7 @@ namespace LP304_Takt.Migrations
                     b.Property<bool>("Andon")
                         .HasColumnType("bit");
 
-                    b.Property<int>("AreasId")
+                    b.Property<int>("AreaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Finished")
@@ -325,7 +325,7 @@ namespace LP304_Takt.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AreasId");
+                    b.HasIndex("AreaId");
 
                     b.ToTable("Station");
                 });
@@ -391,7 +391,7 @@ namespace LP304_Takt.Migrations
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
                 {
                     b.HasOne("LP304_Takt.Models.Company", "Company")
-                        .WithMany("Areas")
+                        .WithMany()
                         .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
@@ -459,13 +459,13 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>
                 {
-                    b.HasOne("LP304_Takt.Models.Area", "Areas")
+                    b.HasOne("LP304_Takt.Models.Area", "Area")
                         .WithMany()
-                        .HasForeignKey("AreasId")
+                        .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Areas");
+                    b.Navigation("Area");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.User", b =>
@@ -485,11 +485,6 @@ namespace LP304_Takt.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("LP304_Takt.Models.Company", b =>
-                {
-                    b.Navigation("Areas");
                 });
 #pragma warning restore 612, 618
         }

@@ -29,10 +29,10 @@ namespace LP304_Takt.Controllers
             return await _stationService.GetAllStations();
         }
 
-        [HttpPost]
-        public async Task AddStation(Station station)
+        [HttpPost("{id}")]
+        public async Task AddStation(Station station, int id)
         {
-            await _stationService.AddStation(station);
+            await _stationService.AddStation(station, id);
         }
 
         [HttpDelete]

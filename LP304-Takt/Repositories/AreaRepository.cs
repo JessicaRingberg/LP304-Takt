@@ -26,11 +26,5 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
 
         }
-
-        //public async Task<Area> GetOneArea(int id)
-        //{
-        //   var area = _context.Area.Include(area => area.Company).FirstOrDefaultAsync(area => area.Id == id);
-        //   return await area.;
-        //}
     }
 }

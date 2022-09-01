@@ -162,14 +162,14 @@ namespace LP304_Takt.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Andon = table.Column<bool>(type: "bit", nullable: false),
                     Finished = table.Column<bool>(type: "bit", nullable: false),
-                    AreasId = table.Column<int>(type: "int", nullable: false)
+                    AreaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Station", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Station_Area_AreasId",
-                        column: x => x.AreasId,
+                        name: "FK_Station_Area_AreaId",
+                        column: x => x.AreaId,
                         principalTable: "Area",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -330,9 +330,9 @@ namespace LP304_Takt.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Station_AreasId",
+                name: "IX_Station_AreaId",
                 table: "Station",
-                column: "AreasId");
+                column: "AreaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_CompanyId",
