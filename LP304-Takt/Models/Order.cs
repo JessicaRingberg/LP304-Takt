@@ -15,5 +15,6 @@
         public int LastPartProd { get; set; }
         public int Takt { get; set; }
         public virtual Station Station { get; set; }
+
     }
 }

@@ -15,7 +15,7 @@ namespace LP304_Takt.Service
         }
         public async Task<IEnumerable<Area>> GetAllAreas()
         {
-            return await _areaUnitOfWork.Areas.GetAll();
+            return await _areaUnitOfWork.Areas.GetAllAreas();
         }
         public async Task<Area> GetOneArea(int id)
         {

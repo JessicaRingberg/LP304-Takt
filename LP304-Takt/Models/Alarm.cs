@@ -9,6 +9,7 @@
         public string Reason { get; set; }
 
         public virtual AlarmType AlarmType { get; set; }
-        
+        public virtual Order Order { get; set; }
+
     }
 }

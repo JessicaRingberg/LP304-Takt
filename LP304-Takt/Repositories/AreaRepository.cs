@@ -13,7 +13,8 @@ namespace LP304_Takt.Repositories
 
         public async Task<IEnumerable<Area>> GetAllAreas()
         {
-             return await _context.Area.ToListAsync();
+
+             return await _context.Area.Include(area => area.Company).ToListAsync();
         }
 
         public async Task AddArea(Area area, int id)
