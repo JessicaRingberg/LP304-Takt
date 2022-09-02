@@ -23,7 +23,8 @@ namespace LP304_Takt.Repositories
 
         public async Task<IEnumerable<Station>> GetAllStations()
         {
-            return await _context.Station.Include(s => s.Area).ToListAsync();
+            return await _context.Station.Include(s => s.Area)
+                .ThenInclude(s => s.Company).ToListAsync();
         }
     }
 }

@@ -18,9 +18,7 @@ namespace LP304_Takt.Repositories
 
         public async Task<T> GetById(int id)
         {
-#pragma warning disable CS8603 // Possible null reference return.
             return await _context.Set<T>().FindAsync(id);
-#pragma warning restore CS8603 // Possible null reference return.
 
         }
         public async Task Add(T entity)
@@ -29,21 +27,6 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        //public async Task RemoveId(int id)
-        //{
-        //    var obj = GetById(id);
-
-            
-        //    await _context.SaveChangesAsync();
-
-        //}
-        //public async Task DeleteAsync(int id)
-        //{
-        //    object toDelete = GetById(id);
-            
-
-        //    await _context.SaveChangesAsync();
-        //}
         public async Task Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
@@ -56,20 +39,6 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
             return entity;
         }
-        //public void AddRange(IEnumerable<T> entities)
-        //{
-        //    _context.Set<T>().AddRange(entities);
-        //}
 
-        //public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression)
-        //{
-        //    return _context.Set<T>().Where(expression);
-        //}
-
-
-        //public async Task RemoveRange(IEnumerable<T> entities)
-        //{
-        //   return await _context.Set<T>().RemoveRange(entities);
-        //}
     }
 }

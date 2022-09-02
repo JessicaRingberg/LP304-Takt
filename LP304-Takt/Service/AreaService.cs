@@ -13,22 +13,27 @@ namespace LP304_Takt.Service
         {
             _areaUnitOfWork = areaUnitOfWork;
         }
+
         public async Task<IEnumerable<Area>> GetAllAreas()
         {
             return await _areaUnitOfWork.Areas.GetAllAreas();
         }
+
         public async Task<Area> GetOneArea(int id)
         {
-            return await _areaUnitOfWork.Areas.GetById(id);
+            return await _areaUnitOfWork.Areas.GetOneArea(id);
         }
+
         public async Task AddArea(Area area, int id)
         {
             await _areaUnitOfWork.Areas.AddArea(area, id);
         }
+
         public async Task RemoveArea(Area area)
         {
-            await _areaUnitOfWork.Areas.Remove(area);
+            await _areaUnitOfWork.Areas.RemoveArea(area);
         }
+
         public async Task DeleteById(int id)
         {
             var area = await _areaUnitOfWork.Areas.GetById(id);
@@ -42,9 +47,5 @@ namespace LP304_Takt.Service
             return await _areaUnitOfWork.Areas.Update(area);
         }
 
-        public async Task<IEnumerable<Area>> GetAreas()
-        {
-            return await _areaUnitOfWork.Areas.GetAllAreas();
-        }
     }
 }

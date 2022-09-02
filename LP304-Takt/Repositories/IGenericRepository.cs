@@ -12,11 +12,5 @@ namespace LP304_Takt.Repositories
         Task Remove(T entity);
         Task<T> Update(T entity);
 
-        //Task RemoveId(int id);
-        // Task DeleteAsync(T entity, int id);
-        // Task <IEnumerable<T>> Find(Expression<Func<T, bool>> expression);
-        //Task AddRange(IEnumerable<T> entities);
-
-        // Task RemoveRange(IEnumerable<T> entities);
     }
 }

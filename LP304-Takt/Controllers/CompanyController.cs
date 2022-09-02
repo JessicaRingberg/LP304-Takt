@@ -10,7 +10,7 @@ namespace LP304_Takt.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-        //private readonly CompanyService _companyService;
+
         private readonly ICompanyService _companyService;
         public CompanyController(ICompanyService companyService)
         {
