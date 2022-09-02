@@ -7,14 +7,10 @@ namespace LP304_Takt.Models
 {
     public class Area
     {
-        //public Area()
-        //{
-        //    Company = new List<Company>();
-        //}
         public int Id { get; set; }
         public string? Name { get; set; }
         [JsonIgnore]
-        public virtual Company? Company { get; set; }
+        public virtual Company Company { get; set; }
 
 
     }

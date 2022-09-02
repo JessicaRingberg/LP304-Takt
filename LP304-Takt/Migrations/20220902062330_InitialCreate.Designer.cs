@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(LP304Context))]
-    [Migration("20220901142529_InitialCreate")]
+    [Migration("20220902062330_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,7 +85,7 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -131,8 +131,9 @@ namespace LP304_Takt.Migrations
                     b.Property<bool>("LightsOn")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MacId")
-                        .HasColumnType("int");
+                    b.Property<string>("MacBdisp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("SoundOn")
                         .HasColumnType("bit");
@@ -140,8 +141,6 @@ namespace LP304_Takt.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AreaId");
-
-                    b.HasIndex("MacId");
 
                     b.ToTable("Config");
                 });
@@ -197,25 +196,6 @@ namespace LP304_Takt.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EventStatus");
-                });
-
-            modelBuilder.Entity("LP304_Takt.Models.Mac", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Mac_bidisp3")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Mac_lp31x")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Mac");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Order", b =>
@@ -394,7 +374,9 @@ namespace LP304_Takt.Migrations
                 {
                     b.HasOne("LP304_Takt.Models.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Company");
                 });
@@ -407,15 +389,7 @@ namespace LP304_Takt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LP304_Takt.Models.Mac", "Mac")
-                        .WithMany()
-                        .HasForeignKey("MacId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Area");
-
-                    b.Navigation("Mac");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Event", b =>

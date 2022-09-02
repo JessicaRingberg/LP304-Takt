@@ -49,20 +49,6 @@ namespace LP304_Takt.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Mac",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Mac_lp31x = table.Column<int>(type: "int", nullable: false),
-                    Mac_bidisp3 = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Mac", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
                 {
@@ -82,7 +68,7 @@ namespace LP304_Takt.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CompanyId = table.Column<int>(type: "int", nullable: true)
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,7 +77,8 @@ namespace LP304_Takt.Migrations
                         name: "FK_Area_Company_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Company",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,8 +120,8 @@ namespace LP304_Takt.Migrations
                     LightsOn = table.Column<bool>(type: "bit", nullable: false),
                     SoundOn = table.Column<bool>(type: "bit", nullable: false),
                     FilterTime = table.Column<int>(type: "int", nullable: false),
-                    AreaId = table.Column<int>(type: "int", nullable: false),
-                    MacId = table.Column<int>(type: "int", nullable: false)
+                    MacBdisp = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AreaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,12 +130,6 @@ namespace LP304_Takt.Migrations
                         name: "FK_Config_Area_AreaId",
                         column: x => x.AreaId,
                         principalTable: "Area",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Config_Mac_MacId",
-                        column: x => x.MacId,
-                        principalTable: "Mac",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -305,11 +286,6 @@ namespace LP304_Takt.Migrations
                 column: "AreaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Config_MacId",
-                table: "Config",
-                column: "MacId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Event_OrderId",
                 table: "Event",
                 column: "OrderId");
@@ -364,9 +340,6 @@ namespace LP304_Takt.Migrations
 
             migrationBuilder.DropTable(
                 name: "AlarmType");
-
-            migrationBuilder.DropTable(
-                name: "Mac");
 
             migrationBuilder.DropTable(
                 name: "EventStatus");

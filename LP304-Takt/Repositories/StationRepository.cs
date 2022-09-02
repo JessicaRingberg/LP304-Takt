@@ -12,8 +12,10 @@ namespace LP304_Takt.Repositories
 
         public async Task AddStation(Station station, int id)
         {
-            var area = await _context.Area.FirstOrDefaultAsync(c => c.Id == id);
+            var area = await _context.Area.FirstOrDefaultAsync(a => a.Id == id);
             station.Area = area;
+            if (area is null)
+                return;
 
             await _context.Station.AddAsync(station);
             await _context.SaveChangesAsync();
@@ -21,7 +23,7 @@ namespace LP304_Takt.Repositories
 
         public async Task<IEnumerable<Station>> GetAllStations()
         {
-            return await _context.Station.Include(a => a.Area).ToListAsync();
+            return await _context.Station.Include(s => s.Area).ToListAsync();
         }
     }
 }

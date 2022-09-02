@@ -1,4 +1,6 @@
-﻿namespace LP304_Takt.Models
+﻿using Newtonsoft.Json;
+
+namespace LP304_Takt.Models
 {
     public class Order
     {
@@ -14,6 +16,7 @@
         public int TaktSet { get; set; }
         public int LastPartProd { get; set; }
         public int Takt { get; set; }
+        [JsonIgnore]
         public virtual Station Station { get; set; }
 
     }
