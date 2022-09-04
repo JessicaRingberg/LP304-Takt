@@ -32,10 +32,10 @@ namespace LP304_Takt.Controllers
             return await _userService.GetAllUsers();
         }
 
-        [HttpPost]
-        public async Task AddUser(User user)
+        [HttpPost("{companyId}")]
+        public async Task AddUser(User user, int companyId)
         {
-            await _userService.AddUser(user);
+            await _userService.AddUser(user, companyId);
         }
 
         [HttpDelete]

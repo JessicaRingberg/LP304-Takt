@@ -17,7 +17,7 @@ namespace LP304_Takt.Service
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-          var users = _userUnitOfWork.Users.GetAll();
+          var users = _userUnitOfWork.Users.GetAllUsers();
           return await users;
 
         }
@@ -28,9 +28,9 @@ namespace LP304_Takt.Service
             return await user;
         }
 
-        public async Task AddUser(User user)
+        public async Task AddUser(User user, int companyId)
         {
-            await _userUnitOfWork.Users.Add(user);
+            await _userUnitOfWork.Users.AddUser(user, companyId);
             _userUnitOfWork.Complete();
         }
 

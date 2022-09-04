@@ -83,7 +83,7 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CompanyId")
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -265,23 +265,6 @@ namespace LP304_Takt.Migrations
                     b.ToTable("Queue");
                 });
 
-            modelBuilder.Entity("LP304_Takt.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Role");
-                });
-
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>
                 {
                     b.Property<int>("Id")
@@ -337,14 +320,13 @@ namespace LP304_Takt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("User");
                 });
@@ -370,13 +352,9 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
                 {
-                    b.HasOne("LP304_Takt.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
+                    b.HasOne("LP304_Takt.Models.Company", null)
+                        .WithMany("Areas")
+                        .HasForeignKey("CompanyId");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Config", b =>
@@ -450,15 +428,12 @@ namespace LP304_Takt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LP304_Takt.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Company");
+                });
 
-                    b.Navigation("Role");
+            modelBuilder.Entity("LP304_Takt.Models.Company", b =>
+                {
+                    b.Navigation("Areas");
                 });
 #pragma warning restore 612, 618
         }

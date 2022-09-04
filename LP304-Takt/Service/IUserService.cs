@@ -6,7 +6,7 @@ namespace LP304_Takt.Service
     {
         Task<IEnumerable<User>> GetAllUsers();
         Task<User> GetOneUser(int id);
-        Task AddUser(User user);
+        Task AddUser(User user, int id);
         Task RemoveUser(User user);
         Task<User> UpdateUser(User user);
         Task DeleteById(int id);
