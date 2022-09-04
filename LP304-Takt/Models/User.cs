@@ -10,10 +10,8 @@ namespace LP304_Takt.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        [JsonIgnore]
-        public virtual Company Company { get; set; }
-        [JsonIgnore]
-        public virtual Role Role { get; set; }
+        public Company Company { get; set; }
+        public Role Role { get; set; }
 
     }
 }

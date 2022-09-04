@@ -9,6 +9,27 @@ namespace LP304_Takt.Repositories
         {
         }
 
-        
+        public async Task<Company?> GetCompanyWithAreas(int id)
+        {
+            return await _context.Company.Include(c => c.Areas)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Company>> GetCompaniesWithAreas()
+        {
+            return await _context.Company.Include(c => c.Areas).ToListAsync();
+        }
+
+
+        //Does not remove related entities yet
+        public async Task RemoveCompanyById(int id)
+        {
+            var company = await _context.Company.FirstOrDefaultAsync(c => c.Id == id);
+            if (company is null)
+            {
+                return;
+            }
+            _context.Company.Remove(company);
+        }
     }
 }

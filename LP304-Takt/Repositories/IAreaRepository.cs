@@ -6,7 +6,7 @@ namespace LP304_Takt.Repositories
     {
        Task AddArea(Area area, int id);
        Task <IEnumerable<Area>> GetAllAreas();
-       Task<Area> GetOneArea(int id);
+       Task<Area?> GetOneArea(int id);
        Task RemoveArea(Area area);
 
     }

@@ -13,14 +13,14 @@ namespace LP304_Takt.Service
         }
         public async Task<IEnumerable<Company>> GetAllCompanies()
         {
-            var company = _companyUnitOfWork.Companies.GetAll();
+            var company = _companyUnitOfWork.Companies.GetCompaniesWithAreas();
 
             return await company;
         }
 
         public async Task<Company>  GetOneCompany(int id)
         {
-            var company = _companyUnitOfWork.Companies.GetById(id);
+            var company = _companyUnitOfWork.Companies.GetCompanyWithAreas(id);
             return await company;
         }
 

@@ -9,8 +9,8 @@ namespace LP304_Takt.Models
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        [JsonIgnore]
-        public virtual Company Company { get; set; }
+        //[JsonIgnore]
+        //public virtual Company Company { get; set; }
 
 
     }

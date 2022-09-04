@@ -14,22 +14,28 @@ namespace LP304_Takt.Repositories
         public async Task<IEnumerable<Area>> GetAllAreas()
         {
 
-             return await _context.Area.Include(a => a.Company).ToListAsync();
+             return await _context.Area.ToListAsync();
         }
 
-        public async Task<Area>  GetOneArea(int id)
+        public async Task<Area?>  GetOneArea(int id)
         {
-#pragma warning disable CS8603 // Possible null reference return.
-            return await _context.Area.Include(a => a.Company)
+            return await _context.Area
                 .FirstOrDefaultAsync(a => a.Id == id);
-#pragma warning restore CS8603 // Possible null reference return.
         }
+
         public async Task AddArea(Area area, int id)
         {
-            var company = await _context.Company.FirstOrDefaultAsync(c => c.Id == id);
-            area.Company = company;
-           
             await _context.Area.AddAsync(area);
+            var company = await _context.Company.FindAsync(id);
+            if (company is null)
+            {
+                return;
+            }
+            if (company.Areas.Contains(area))
+            {
+                return;
+            }
+            company.Areas.Add(area);
             await _context.SaveChangesAsync();
 
         }

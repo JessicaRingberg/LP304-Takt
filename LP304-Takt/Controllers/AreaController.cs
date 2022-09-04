@@ -29,10 +29,10 @@ namespace LP304_Takt.Controllers
             return await _areaService.GetOneArea(id);
         }
 
-        [HttpPost]
-        public async Task AddArea(Area area, int id)
+        [HttpPost("{companyId}")]
+        public async Task AddArea(Area area, int companyId)
         {
-            await _areaService.AddArea(area, id);
+            await _areaService.AddArea(area, companyId);
         }
 
         [HttpDelete]
