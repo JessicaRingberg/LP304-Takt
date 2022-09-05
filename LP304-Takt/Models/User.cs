@@ -11,6 +11,7 @@ namespace LP304_Takt.Models
         public string Password { get; set; } = string.Empty;
         public int? CompanyId { get; set; }
         public Company Company { get; set; }
+        public int RoleId { get; set; }
         public Role Role { get; set; }
 
     }

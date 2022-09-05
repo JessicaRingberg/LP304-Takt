@@ -5,6 +5,7 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Service;
+using LP304_Takt.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddScoped<IAreaRepository, AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddScoped<IStationRepository, StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddTransient<IRoleService, RoleService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<DataContext>(options =>

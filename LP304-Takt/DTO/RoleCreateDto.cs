@@ -1,6 +1,6 @@
 ﻿namespace LP304_Takt.DTO
 {
-    public record CompanyCreateDto
+    public record RoleCreateDto
     {
         public string Name { get; init; }
     }

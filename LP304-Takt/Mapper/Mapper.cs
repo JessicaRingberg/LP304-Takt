@@ -15,7 +15,15 @@ namespace LP304_Takt.Mapper
                 Password = user.Password
             };
         }
-
+        public static RoleDto AsDto(this Role role)
+        {
+            return new RoleDto
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Users = role.Users.Select(u => u.AsDto()).ToList()
+            };
+        }
         public static CompanyDto AsDto(this Company company)
         {
             return new CompanyDto
@@ -45,7 +53,13 @@ namespace LP304_Takt.Mapper
                 Name = station.Name
             };
         }
-
+        public static Role AsEntity(this RoleCreateDto role)
+        {
+            return new Role
+            {
+                Name = role.Name
+            };
+        }
         public static User AsEntity(this UserCreateDto user)
         {
             return new User
