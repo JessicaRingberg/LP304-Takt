@@ -41,7 +41,7 @@ namespace LP304_Takt.Controllers
 
             if (area is null)
             {
-                return NotFound($"Area with {id} not found");
+                return NotFound($"Area with id: {id} not found");
             }
 
             return Ok(area.AsDto());
@@ -51,7 +51,7 @@ namespace LP304_Takt.Controllers
         public async Task<IActionResult> DeleteArea(int id)
         {
             await _areaService.DeleteEntity(id);
-            return NoContent();
+            return Ok();
         }
 
         //[HttpPut("{areaId}")]

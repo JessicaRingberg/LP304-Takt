@@ -8,6 +8,6 @@ namespace LP304_Takt.Models
         public string Name { get; set; }
 
         public int AreaId { get; set; }
-        public Area area { get; set; }
+        public Area Area { get; set; }
     }
 }

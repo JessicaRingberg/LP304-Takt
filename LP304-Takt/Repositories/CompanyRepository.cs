@@ -20,9 +20,16 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            var company = await _context.Companies
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (company is null)
+            {
+                return;
+            }
+            _context.Companies.Remove(company);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ICollection<Company>> GetEntities()
@@ -34,7 +41,7 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Company> GetEntity(int id)
+        public async Task<Company?> GetEntity(int id)
         {
             return await _context.Companies.FindAsync(id);
         }

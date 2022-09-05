@@ -29,7 +29,6 @@ namespace LP304_Takt.Repositories
         public async Task DeleteEntity(int id)
         {
             var area = await _context.Areas
-                .Include(a => a.Stations)
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (area is null)
             {

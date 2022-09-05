@@ -26,7 +26,7 @@ namespace LP304_Takt.Repositories
             }
         }
 
-        public async Task<User> GetEntity(int id)
+        public async Task<User?> GetEntity(int id)
         {
             return await _context.Users.FindAsync(id);
         }
@@ -42,9 +42,15 @@ namespace LP304_Takt.Repositories
             return user.Company;
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user is null)
+            {
+                return;
+            }
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }
 
         public Task UpdateEntity(User entity)

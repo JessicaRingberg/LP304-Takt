@@ -26,7 +26,7 @@ namespace LP304_Takt.Service
             return await _userRepository.GetEntities();
         }
 
-        public async Task<User> GetEntity(int id)
+        public async Task<User?> GetEntity(int id)
         {
             return await _userRepository.GetEntity(id);
         }
@@ -36,9 +36,9 @@ namespace LP304_Takt.Service
             return await _userRepository.GetCompanyByUser(userId);
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            await _userRepository.DeleteEntity(id);
         }
 
         public Task UpdateEntity(User entity)

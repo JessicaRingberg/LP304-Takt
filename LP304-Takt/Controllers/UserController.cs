@@ -21,6 +21,14 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
+        {
+            await _userService.Add(user.AsEntity(), companyId);
+
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
@@ -46,14 +54,12 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            await _userService.Add(user.AsEntity(), companyId);
-
+            await _userService.DeleteEntity(id);
             return Ok();
         }
-
 
     }
 }

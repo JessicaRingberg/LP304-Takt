@@ -20,6 +20,14 @@ namespace LP304_Takt.Controllers
             _companyService = companyService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddCompany(CompanyCreateDto company)
+        {
+            await _companyService.Add(company.AsEntity());
+
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
@@ -46,11 +54,10 @@ namespace LP304_Takt.Controllers
             return Ok(users);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddCompany(CompanyCreateDto company)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCompany(int id)
         {
-            await _companyService.Add(company.AsEntity());
-
+            await _companyService.DeleteEntity(id);
             return Ok();
         }
 
