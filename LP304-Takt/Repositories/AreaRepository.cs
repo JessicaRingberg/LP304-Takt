@@ -31,14 +31,14 @@ namespace LP304_Takt.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Area>> GetEntities()
+        public async Task<ICollection<Area>> GetEntities()
         {
-            throw new NotImplementedException();
+            return await _context.Areas.ToListAsync();
         }
 
-        public Task<Area> GetEntity(int id)
+        public async Task<Area?> GetEntity(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Areas.FindAsync();
         }
     }
 }
