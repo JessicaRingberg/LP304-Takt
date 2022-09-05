@@ -40,5 +40,10 @@ namespace LP304_Takt.Service
         {
             throw new NotImplementedException();
         }
+
+        public Task UpdateEntity(User entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

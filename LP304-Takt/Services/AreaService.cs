@@ -21,9 +21,9 @@ namespace LP304_Takt.Service
             await _areaRepository.Add(area, companyId);
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            await _areaRepository.DeleteEntity(id);
         }
 
         public async Task<ICollection<Area>> GetEntities()
@@ -36,5 +36,14 @@ namespace LP304_Takt.Service
             return await _areaRepository.GetEntity(id);
         }
 
+        //public async Task UpdateArea(Area area)
+        //{
+        //    await _areaRepository.UpdateEntity(area);
+        //}
+
+        public async Task UpdateEntity(Area area)
+        {
+            await _areaRepository.UpdateEntity(area);
+        }
     }
 }

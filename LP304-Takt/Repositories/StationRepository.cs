@@ -38,5 +38,10 @@ namespace LP304_Takt.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Task UpdateEntity(Station entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

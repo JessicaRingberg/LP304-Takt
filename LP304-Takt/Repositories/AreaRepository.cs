@@ -26,19 +26,49 @@ namespace LP304_Takt.Repositories
             }
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            var area = await _context.Areas
+                .Include(a => a.Stations)
+                .FirstOrDefaultAsync(a => a.Id == id);
+            if (area is null)
+            {
+                return;
+            }
+            _context.Areas.Remove(area);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ICollection<Area>> GetEntities()
         {
-            return await _context.Areas.ToListAsync();
+            return await _context.Areas
+                .Include(a => a.Stations)
+                .ToListAsync();
         }
 
         public async Task<Area?> GetEntity(int id)
         {
-            return await _context.Areas.FindAsync();
+            return await _context.Areas
+                .Include(a => a.Stations)
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task UpdateEntity(Area area)
+        {
+            var updatedArea = await _context.Areas
+                .Include(a => a.Stations)
+                .FirstOrDefaultAsync(a => a.Id == area.Id);
+            if (updatedArea is null)
+            {
+                return;
+            }
+
+            updatedArea.Name = area.Name;
+            updatedArea.CompanyId = area.CompanyId;
+            updatedArea.Company = area.Company;
+            updatedArea.Stations = area.Stations;
+            await _context.SaveChangesAsync();
+
         }
     }
 }

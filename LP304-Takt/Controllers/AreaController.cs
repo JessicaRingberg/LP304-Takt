@@ -46,5 +46,20 @@ namespace LP304_Takt.Controllers
 
             return Ok(area.AsDto());
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteArea(int id)
+        {
+            await _areaService.DeleteEntity(id);
+            return NoContent();
+        }
+
+        //[HttpPut("{areaId}")]
+        //public async Task<IActionResult> UpdateArea(Area area, int areaId)
+        //{
+        //    area.Id = areaId;
+        //    await _areaService.UpdateEntity(area);
+        //    return NoContent();
+        //}
     }
 }
