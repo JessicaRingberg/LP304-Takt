@@ -1,49 +1,44 @@
-﻿using LP304_Takt.Models;
+﻿using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
 {
-    public class AreaRepository : GenericRepository<Area>, IAreaRepository
+    public class AreaRepository : IAreaRepository
     {
-        public AreaRepository(LP304Context context) : base(context)
-        {
+        private readonly DataContext _context;
 
+        public AreaRepository(DataContext context)
+        {
+            _context = context;
         }
 
-        public async Task<IEnumerable<Area>> GetAllAreas()
+        public async Task Add(Area area, int companyId)
         {
+            var company = await _context.Companies.FindAsync(companyId);
 
-             return await _context.Area.ToListAsync();
-        }
-
-        public async Task<Area?>  GetOneArea(int id)
-        {
-            return await _context.Area
-                .FirstOrDefaultAsync(a => a.Id == id);
-        }
-
-        public async Task AddArea(Area area, int id)
-        {
-            await _context.Area.AddAsync(area);
-            var company = await _context.Company.FindAsync(id);
-            if (company is null)
+            if (company != null)
             {
-                return;
+                area.CompanyId = companyId;
+                await _context.Areas.AddAsync(area);
+                await _context.SaveChangesAsync();
             }
-            if (company.Areas.Contains(area))
-            {
-                return;
-            }
-            company.Areas.Add(area);
-            await _context.SaveChangesAsync();
-
         }
 
-        public async Task RemoveArea(Area area)
+        public Task DeleteEntity(int id)
         {
-            _context.Area.Remove(area);
-            await _context.SaveChangesAsync();
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<Area>> GetEntities()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Area> GetEntity(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

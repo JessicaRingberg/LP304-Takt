@@ -1,35 +1,47 @@
-﻿using LP304_Takt.Models;
+﻿using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
 {
-    public class CompanyRepository : GenericRepository<Company>, ICompanyRepository
+    public class CompanyRepository : ICompanyRepository
     {
-        public CompanyRepository(LP304Context context) : base(context)
+        private readonly DataContext _context;
+
+        public CompanyRepository(DataContext context)
         {
+            _context = context;
         }
 
-        public async Task<Company?> GetCompanyWithAreas(int id)
+        public async Task Add(Company company)
         {
-            return await _context.Company.Include(c => c.Areas)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            await _context.Companies.AddAsync(company);
+
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Company>> GetCompaniesWithAreas()
+        public Task DeleteEntity(int id)
         {
-            return await _context.Company.Include(c => c.Areas).ToListAsync();
+            throw new NotImplementedException();
         }
 
-
-        //Does not remove related entities yet
-        public async Task RemoveCompanyById(int id)
+        public async Task<ICollection<Company>> GetEntities()
         {
-            var company = await _context.Company.FirstOrDefaultAsync(c => c.Id == id);
-            if (company is null)
-            {
-                return;
-            }
-            _context.Company.Remove(company);
+            return await _context.Companies
+                .Include(c => c.Users)
+                .Include(c => c.Areas)
+                .ThenInclude(a => a.Stations)
+                .ToListAsync();
+        }
+
+        public async Task<Company> GetEntity(int id)
+        {
+            return await _context.Companies.FindAsync(id);
+        }
+
+        public async Task<ICollection<User>> GetUserByCompany(int companyId)
+        {
+            return await _context.Users.Where(u => u.CompanyId == companyId).ToListAsync();
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using LP304_Takt.DTO;
+using LP304_Takt.Interfaces.Services;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Service;
 using Microsoft.AspNetCore.Http;
@@ -17,41 +20,12 @@ namespace LP304_Takt.Controllers
             _stationService = stationService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<Station> GetOneStation(int id)
+        [HttpPost]
+        public async Task<IActionResult> AddStation([FromBody] StationCreateDto station, [FromQuery] int areaId)
         {
-            return await _stationService.GetOneStation(id);
-        }
+            await _stationService.Add(station.AsEntity(), areaId);
 
-        [HttpGet]
-        public async Task<IEnumerable> GetAll()
-        {
-            return await _stationService.GetAllStations();
-        }
-
-        [HttpPost("{id}")]
-        public async Task AddStation(Station station, int id)
-        {
-            await _stationService.AddStation(station, id);
-        }
-
-        [HttpDelete]
-        public async Task RemoveStation(Station station)
-        {
-            await _stationService.RemoveStation(station);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task DeleteStationById(int id)
-        {
-            await _stationService.DeleteById(id);
-
-        }
-
-        [HttpPut]
-        public async Task UpdateStation(Station station)
-        {
-            await _stationService.UpdateStation(station);
+            return Ok();
         }
     }
 }

@@ -1,42 +1,29 @@
 using System.Data.Common;
+using System.Text.Json.Serialization;
+using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Service;
-using LP304_Takt.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IAlarmRepository, AlarmRepository>();
-builder.Services.AddScoped<IAlarmService, AlarmService>();
-builder.Services.AddScoped<IAlarmTypeRepository, AlarmTypeRepository>();
-builder.Services.AddScoped<IAlarmTypeService, AlarmTypeService>();
-builder.Services.AddScoped<IAreaRepository, AreaRepository>();
-builder.Services.AddScoped<IAreaService, AreaService>();
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IConfigRepository, ConfigRepository>();
-builder.Services.AddScoped<IConfigService, ConfigService>();
-builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<IEventStatusRepository, EventStatusRepository>();
-builder.Services.AddScoped<IEventStatusService, EventStatusService>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IQueueRepository, QueueRepository>();
-builder.Services.AddScoped<IQueueService, QueueService>();
-builder.Services.AddScoped<IStationRepository, StationRepository>();
-builder.Services.AddScoped<IStationService, StationService>();
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddTransient<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IAreaRepository, AreaRepository>();
+builder.Services.AddTransient<IAreaService, AreaService>();
+builder.Services.AddScoped<IStationRepository, StationRepository>();
+builder.Services.AddTransient<IStationService, StationService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDbContext<LP304Context>(options =>
+builder.Services.AddDbContext<DataContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DbString");
     options.UseSqlServer(connectionString);

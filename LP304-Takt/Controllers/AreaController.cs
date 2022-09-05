@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using LP304_Takt.DTO;
+using LP304_Takt.Interfaces.Services;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Service;
 using Microsoft.AspNetCore.Http;
@@ -11,42 +14,20 @@ namespace LP304_Takt.Controllers
     public class AreaController : ControllerBase
     {
         private readonly IAreaService _areaService;
+
         public AreaController(IAreaService areaService)
         {
             _areaService = areaService;
         }
-        [HttpGet]
-        public async Task<IEnumerable<Area>> GetAll()
-        {
-            return await _areaService.GetAllAreas();
 
+        [HttpPost]
+        public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
+        {
+            await _areaService.Add(area.AsEntity(), companyId);
+
+            return Ok();
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<Area> GetOneArea(int id)
-        {
-            return await _areaService.GetOneArea(id);
-        }
-
-        [HttpPost("{companyId}")]
-        public async Task AddArea(Area area, int companyId)
-        {
-            await _areaService.AddArea(area, companyId);
-        }
-
-        [HttpDelete]
-        public async Task RemoveArea(Area area)
-        {
-            await _areaService.RemoveArea(area);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task DeleteAreaById(int id)
-        {
-            await _areaService.DeleteById(id);
-        }
-
-      
     }
 }

@@ -1,27 +1,21 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
-using Microsoft.EntityFrameworkCore;
 
-namespace LP304_Takt.Repositories
+namespace LP304_Takt.Service
 {
-    public class StationRepository : IStationRepository
+    public class StationService : IStationService
     {
-        private readonly DataContext _context;
-        public StationRepository(DataContext dataContext)
+        readonly IStationRepository _stationRepository;
+
+        public StationService(IStationRepository stationRepository)
         {
-            _context = dataContext;
+            _stationRepository = stationRepository;
         }
 
         public async Task Add(Station station, int areaId)
         {
-            var area = await _context.Areas.FindAsync(areaId);
-
-            if (area != null)
-            {
-                station.AreaId = areaId;
-                await _context.Stations.AddAsync(station);
-                await _context.SaveChangesAsync();
-            }
+            await _stationRepository.Add(station, areaId);
         }
 
         public Task DeleteEntity(int id)

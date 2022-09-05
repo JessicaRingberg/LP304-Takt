@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using LP304_Takt.DTO;
+using LP304_Takt.Interfaces.Services;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Service;
 using Microsoft.AspNetCore.Http;
@@ -10,43 +13,46 @@ namespace LP304_Takt.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-
         private readonly ICompanyService _companyService;
+
         public CompanyController(ICompanyService companyService)
         {
             _companyService = companyService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<Company> GetOneCompany(int id)
+        [HttpGet]
+        public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
-            return await _companyService.GetOneCompany(id);
+            return Ok((await _companyService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [HttpGet]
-        public async Task <IEnumerable> GetAll()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
-            return await _companyService.GetAllCompanies();
+            var company = await _companyService.GetEntity(id);
+
+            if (company == null)
+            {
+                return NotFound("User with id " + id + " was not found.");
+            }
+
+            return Ok(company.AsDto());
+        }
+
+        [HttpGet("{companyId}/users")]
+        public async Task<ActionResult<List<UserDto>>> GetUserByCompany(int companyId)
+        {
+            var users = (await _companyService.GetUserByCompany(companyId)).Select(u => u.AsDto());
+            return Ok(users);
         }
 
         [HttpPost]
-        public async Task AddCompany(Company company)
+        public async Task<IActionResult> AddCompany(CompanyCreateDto company)
         {
-            await _companyService.AddCompany(company);
+            await _companyService.Add(company.AsEntity());
+
+            return Ok();
         }
 
-        [HttpDelete]
-        public async Task RemoveCompany(Company company)
-        { 
-            await _companyService.RemoveCompany(company);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task DeleteCompanyById(int id)
-        {
-            await _companyService.DeleteById(id);
-
-
-        }
     }
 }

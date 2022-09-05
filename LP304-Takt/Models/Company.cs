@@ -5,15 +5,10 @@ namespace LP304_Takt.Models
 {
     public class Company
     {
-        public Company()
-        {
-            Areas = new List<Area>();
-        }
         public int Id { get; set; }
+        public string Name { get; set; }
 
-        public string? Name { get; set; }
-
-        //[JsonIgnore]
+        public ICollection<User> Users { get; set; }
         public ICollection<Area> Areas { get; set; }
     }
 }

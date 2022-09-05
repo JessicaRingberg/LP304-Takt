@@ -6,9 +6,8 @@ namespace LP304_Takt.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Andon { get; set; }
-        public bool Finished { get; set; }
-        [JsonIgnore]
-        public virtual Area Area { get; set; }
+
+        public int AreaId { get; set; }
+        public Area area { get; set; }
     }
 }

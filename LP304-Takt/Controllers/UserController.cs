@@ -1,8 +1,10 @@
 ﻿using System.Collections;
+using LP304_Takt.DTO;
+using LP304_Takt.Interfaces.Services;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Service;
-using LP304_Takt.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +14,6 @@ namespace LP304_Takt.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        
         private readonly IUserService _userService;
 
         public UserController(IUserService userService)
@@ -20,43 +21,39 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<User> GetOneUser(int id)
-        {
-            return await _userService.GetOneUser(id);
-        }
-
         [HttpGet]
-        public async Task<IEnumerable> GetAll()
+        public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
-            return await _userService.GetAllUsers();
+            return Ok((await _userService.GetEntities()).Select(user => user.AsDto()));
         }
 
-        [HttpPost("{companyId}")]
-        public async Task AddUser(User user, int companyId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            await _userService.AddUser(user, companyId);
+            var user = await _userService.GetEntity(id);
+
+            if (user == null)
+            {
+                return NotFound("User with id " + id + " was not found.");
+            }
+
+            return Ok(user.AsDto());
         }
 
-        [HttpDelete]
-        public async Task RemoveUser(User user)
+        [HttpGet("{userId}/companies")]
+        public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
         {
-            await _userService.RemoveUser(user);
+            return Ok();
         }
 
-        [HttpPut]
-        public async Task UpdateUser(User user)
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
         {
-            await _userService.UpdateUser(user);
+            await _userService.Add(user.AsEntity(), companyId);
+
+            return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task DeleteUserById(int id)
-        {
-            await _userService.DeleteById(id);
-            
-            
-        }
 
     }
 }
