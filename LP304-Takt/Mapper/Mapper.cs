@@ -12,7 +12,8 @@ namespace LP304_Takt.Mapper
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Password = user.Password
+                Password = user.Password,
+                Role = user.Role.Name
             };
         }
         public static RoleDto AsDto(this Role role)
@@ -20,8 +21,7 @@ namespace LP304_Takt.Mapper
             return new RoleDto
             {
                 Id = role.Id,
-                Name = role.Name,
-                Users = role.Users.Select(u => u.AsDto()).ToList()
+                Name = role.Name
             };
         }
         public static CompanyDto AsDto(this Company company)
