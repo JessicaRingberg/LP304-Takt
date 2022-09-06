@@ -86,6 +86,17 @@ namespace LP304_Takt.Mapper
                 Reason = eEvent.Reason
             };
         }
+        public static AlarmDto AsDto(this Alarm alarm)
+        {
+            return new AlarmDto
+            {
+                Id = alarm.Id,
+                StartTime = alarm.StartTime,
+                EndTime = alarm.EndTime,
+                Duration = alarm.Duration,
+                Reason = alarm.Reason
+            };
+        }
 
         public static StationDto AsDto(this Station station)
         {
@@ -111,6 +122,16 @@ namespace LP304_Takt.Mapper
                 EndTime = eEvent.EndTime,
                 Duration = eEvent.Duration,
                 Reason = eEvent.Reason
+            };
+        }
+        public static Alarm AsEntity(this AlarmCreateDto alarm)
+        {
+            return new Alarm
+            {
+                StartTime = alarm.StartTime,
+                EndTime = alarm.EndTime,
+                Duration = alarm.Duration,
+                Reason = alarm.Reason
             };
         }
 

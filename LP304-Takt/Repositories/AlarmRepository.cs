@@ -4,16 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
 {
-    public class EventRepository : IEventRepository
+    public class AlarmRepository : IAlarmRepository
     {
         private readonly DataContext _context;
 
-        public EventRepository(DataContext context)
+        public AlarmRepository(DataContext context)
         {
             _context = context;
         }
-
-        public async Task Add(Event eEvent, int orderId)
+        public async Task Add(Alarm alarm, int orderId)
         {
             var order = await _context.Orders.FindAsync(orderId);
 
@@ -22,35 +21,36 @@ namespace LP304_Takt.Repositories
                 return;
             }
 
-            eEvent.OrderId = orderId;
-            await _context.Events.AddAsync(eEvent);
+            alarm.OrderId = orderId;
+            await _context.Alarms.AddAsync(alarm);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteEntity(int id)
         {
-            var eEvent = await _context.Events
-                .FirstOrDefaultAsync(e => e.Id == id);
-            if (eEvent is null)
+            var alarm = await _context.Alarms
+                .FirstOrDefaultAsync(a => a.Id == id);
+            if (alarm is null)
             {
                 return;
             }
-            _context.Events.Remove(eEvent);
+            _context.Alarms.Remove(alarm);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<Event>> GetEntities()
+        public async Task<ICollection<Alarm>> GetEntities()
         {
-            return await _context.Events
+            return await _context.Alarms
                 .ToListAsync();
         }
 
-        public async Task<Event?> GetEntity(int id)
+        public async Task<Alarm?> GetEntity(int id)
         {
-            return await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Alarms
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public Task UpdateEntity(Event entity)
+        public Task UpdateEntity(Alarm entity)
         {
             throw new NotImplementedException();
         }

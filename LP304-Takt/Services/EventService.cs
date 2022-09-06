@@ -18,9 +18,9 @@ namespace LP304_Takt.Services
             await _eventRepository.Add(eEvent, orderId);
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            await _eventRepository.DeleteEntity(id);
         }
 
         public async Task<ICollection<Event>> GetEntities()
@@ -28,9 +28,9 @@ namespace LP304_Takt.Services
             return await _eventRepository.GetEntities();
         }
 
-        public Task<Event?> GetEntity(int id)
+        public async Task<Event?> GetEntity(int id)
         {
-            throw new NotImplementedException();
+            return await _eventRepository.GetEntity(id);
         }
 
         public Task UpdateEntity(Event entity)

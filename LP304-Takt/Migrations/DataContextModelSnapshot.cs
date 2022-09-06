@@ -22,6 +22,37 @@ namespace LP304_Takt.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("LP304_Takt.Models.Alarm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Alarms");
+                });
+
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
                 {
                     b.Property<int>("Id")
@@ -270,6 +301,17 @@ namespace LP304_Takt.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("LP304_Takt.Models.Alarm", b =>
+                {
+                    b.HasOne("LP304_Takt.Models.Order", "Order")
+                        .WithMany("Alarms")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
                 {
                     b.HasOne("LP304_Takt.Models.Company", "Company")
@@ -363,6 +405,8 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Order", b =>
                 {
+                    b.Navigation("Alarms");
+
                     b.Navigation("Events");
                 });
 
