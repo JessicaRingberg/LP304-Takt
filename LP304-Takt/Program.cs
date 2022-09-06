@@ -24,6 +24,10 @@ builder.Services.AddScoped<IStationRepository, StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddScoped<IConfigRepository, ConfigRepository>();
+builder.Services.AddTransient<IConfigService, ConfigService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<DataContext>(options =>

@@ -39,7 +39,6 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<Station>> GetEntities()
         {
             return await _context.Stations
-                .Include(s => s.Area)
                 .ToListAsync(); ;
         }
 
@@ -47,6 +46,7 @@ namespace LP304_Takt.Repositories
         {
             return await _context.Stations
                 .Include(s => s.Area)
+                .Include(s => s.Orders)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 

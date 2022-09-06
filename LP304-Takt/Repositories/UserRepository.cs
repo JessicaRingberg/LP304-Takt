@@ -20,7 +20,7 @@ namespace LP304_Takt.Repositories
             var role = await _context.Roles.FindAsync(1);
             if (role is null)
             {
-                role = new Role() {Name = "UserRole", Users = new List<User>() };
+                role = new Role() {Name = "DefaultRole", Users = new List<User>() };
                 role.Users.Add(user);
             }
 

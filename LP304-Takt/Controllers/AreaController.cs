@@ -22,7 +22,7 @@ namespace LP304_Takt.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
-        {
+        {//If company is null return 
             await _areaService.Add(area.AsEntity(), companyId);
 
             return Ok();

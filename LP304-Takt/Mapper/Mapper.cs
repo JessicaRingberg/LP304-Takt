@@ -16,6 +16,37 @@ namespace LP304_Takt.Mapper
                 Role = user.Role.Name
             };
         }
+        public static OrderDto AsDto(this Order order)
+        {
+            return new OrderDto
+            {
+                Id = order.Id,
+                StartTime = order.StartTime,
+                EndTime = order.EndTime,
+                Quantity = order.Quantity,
+                RunSetDec = order.RunSetDec,
+                ChangeSetDec = order.ChangeSetDec,
+                PartsProd = order.PartsProd,
+                Backlog = order.Backlog,
+                RunSecSet = order.RunSecSet,
+                ChangeSecSet = order.ChangeSecSet,
+                TaktSet = order.TaktSet,
+                LastPartProd = order.LastPartProd,
+                Takt = order.Takt
+            };
+        }
+        public static ConfigDto AsDto(this Config config)
+        {
+            return new ConfigDto
+            {
+                Id = config.Id,
+                LightsOn = config.LightsOn,
+                SoundOn = config.SoundOn,
+                FilterTime = config.FilterTime,
+                MacBidisp = config.MacBidisp,
+                //Area = config.Area
+            };
+        }
         public static RoleDto AsDto(this Role role)
         {
             return new RoleDto
@@ -51,6 +82,7 @@ namespace LP304_Takt.Mapper
             {
                 Id = station.Id,
                 Name = station.Name
+                //Orders = station.Orders.Select(o => o.AsDto()).ToList()
             };
         }
         public static Role AsEntity(this RoleCreateDto role)
@@ -58,6 +90,36 @@ namespace LP304_Takt.Mapper
             return new Role
             {
                 Name = role.Name
+            };
+        }
+
+        public static Order AsEntity(this OrderCreateDto order)
+        {
+            return new Order
+            {
+
+                StartTime = order.StartTime,
+                EndTime = order.EndTime,
+                Quantity = order.Quantity,
+                RunSetDec = order.RunSetDec,
+                ChangeSetDec = order.ChangeSetDec,
+                PartsProd = order.PartsProd,
+                Backlog = order.Backlog,
+                RunSecSet = order.RunSecSet,
+                ChangeSecSet = order.ChangeSecSet,
+                TaktSet = order.TaktSet,
+                LastPartProd = order.LastPartProd,
+                Takt = order.Takt
+            };
+        }
+        public static Config AsEntity(this ConfigCreateDto config)
+        {
+            return new Config
+            {
+                LightsOn = config.LightsOn,
+                SoundOn = config.SoundOn,
+                FilterTime = config.FilterTime,
+                MacBidisp = config.MacBidisp
             };
         }
         public static User AsEntity(this UserCreateDto user)

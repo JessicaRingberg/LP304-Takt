@@ -9,5 +9,6 @@ namespace LP304_Takt.Models
 
         public int AreaId { get; set; }
         public Area Area { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }
