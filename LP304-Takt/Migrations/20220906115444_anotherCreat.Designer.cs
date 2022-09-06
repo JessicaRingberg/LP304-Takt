@@ -4,6 +4,7 @@ using LP304_Takt.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220906115444_anotherCreat")]
+    partial class anotherCreat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,37 +93,6 @@ namespace LP304_Takt.Migrations
                         .IsUnique();
 
                     b.ToTable("Configs");
-                });
-
-            modelBuilder.Entity("LP304_Takt.Models.Event", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Order", b =>
@@ -292,17 +263,6 @@ namespace LP304_Takt.Migrations
                     b.Navigation("Area");
                 });
 
-            modelBuilder.Entity("LP304_Takt.Models.Event", b =>
-                {
-                    b.HasOne("LP304_Takt.Models.Order", "Order")
-                        .WithMany("Events")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("LP304_Takt.Models.Order", b =>
                 {
                     b.HasOne("LP304_Takt.Models.Queue", null)
@@ -359,11 +319,6 @@ namespace LP304_Takt.Migrations
                     b.Navigation("Areas");
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("LP304_Takt.Models.Order", b =>
-                {
-                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Queue", b =>

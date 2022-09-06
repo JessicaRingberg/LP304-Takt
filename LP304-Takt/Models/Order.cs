@@ -17,6 +17,7 @@
         public int Takt { get; set; }
         public int StationId { get; set; }
         public Station Station { get; set; }
+        public ICollection<Event> Events { get; set; }
 
     }
 }

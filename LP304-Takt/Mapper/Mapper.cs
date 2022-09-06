@@ -75,6 +75,17 @@ namespace LP304_Takt.Mapper
                 Stations = area.Stations.Select(s => s.AsDto()).ToList()
             };
         }
+        public static EventDto AsDto(this Event eEvent)
+        {
+            return new EventDto
+            {
+                Id = eEvent.Id,
+                StartTime = eEvent.StartTime,
+                EndTime = eEvent.EndTime,
+                Duration = eEvent.Duration,
+                Reason = eEvent.Reason
+            };
+        }
 
         public static StationDto AsDto(this Station station)
         {
@@ -90,6 +101,16 @@ namespace LP304_Takt.Mapper
             return new Role
             {
                 Name = role.Name
+            };
+        }
+        public static Event AsEntity(this EventCreateDto eEvent)
+        {
+            return new Event
+            {
+                StartTime = eEvent.StartTime,
+                EndTime = eEvent.EndTime,
+                Duration = eEvent.Duration,
+                Reason = eEvent.Reason
             };
         }
 

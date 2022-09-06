@@ -2,17 +2,17 @@
 {
     public record OrderCreateDto
     {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public int Quantity { get; set; }
-        public double RunSetDec { get; set; }
-        public double ChangeSetDec { get; set; }
-        public int PartsProd { get; set; }
-        public int Backlog { get; set; }
-        public int RunSecSet { get; set; }
-        public int ChangeSecSet { get; set; }
-        public int TaktSet { get; set; }
-        public int LastPartProd { get; set; }
-        public int Takt { get; set; }
+        public DateTime StartTime { get; init; }
+        public DateTime EndTime { get; init; }
+        public int Quantity { get; init; }
+        public double RunSetDec { get; init; }
+        public double ChangeSetDec { get; init; }
+        public int PartsProd { get; init; }
+        public int Backlog { get; init; }
+        public int RunSecSet { get; init; }
+        public int ChangeSecSet { get; init; }
+        public int TaktSet { get; init; }
+        public int LastPartProd { get; init; }
+        public int Takt { get; init; }
     }
 }

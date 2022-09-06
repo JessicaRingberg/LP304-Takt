@@ -6,6 +6,6 @@ namespace LP304_Takt.DTO
     {
         public int Id { get; init; }
         public string Name { get; init; }
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Order> Orders { get; init; }
     }
 }

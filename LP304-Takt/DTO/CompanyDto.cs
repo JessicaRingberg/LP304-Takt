@@ -6,7 +6,7 @@ namespace LP304_Takt.DTO
         public int Id { get; init; }
         public string Name { get; init; }
 
-        public ICollection<UserDto> Users { get; set; }
-        public ICollection<AreaDto> Areas { get; set; }
+        public ICollection<UserDto> Users { get; init; }
+        public ICollection<AreaDto> Areas { get; init; }
     }
 }

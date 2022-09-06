@@ -2,9 +2,9 @@
 {
     public record ConfigCreateDto
     {
-        public bool LightsOn { get; set; }
-        public bool SoundOn { get; set; }
-        public int FilterTime { get; set; }
-        public string MacBidisp { get; set; }
+        public bool LightsOn { get; init; }
+        public bool SoundOn { get; init; }
+        public int FilterTime { get; init; }
+        public string MacBidisp { get; init; }
     }
 }
