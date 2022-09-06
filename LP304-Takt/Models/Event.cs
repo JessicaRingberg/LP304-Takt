@@ -9,6 +9,8 @@
         public string Reason { get; set; }
         public int OrderId { get; set; }
         public Order Order { get; set; }
+        public int EventStatusId { get; set; }
+        public EventStatus EventStatus { get; set; }
 
     }
 }

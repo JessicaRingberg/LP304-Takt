@@ -2,10 +2,11 @@
 
 namespace LP304_Takt.DTO
 {
-    public record StationDto
+    public class AlarmTypeDto
     {
         public int Id { get; init; }
         public string Name { get; init; }
-        public ICollection<OrderDto> Orders { get; init; }
+
+        public ICollection<AlarmDto> Alarms { get; init; }
     }
 }

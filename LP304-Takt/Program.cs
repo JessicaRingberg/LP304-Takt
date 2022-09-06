@@ -32,6 +32,10 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddTransient<IEventService, EventService>();
 builder.Services.AddScoped<IAlarmRepository, AlarmRepository>();
 builder.Services.AddTransient<IAlarmService, AlarmService>();
+builder.Services.AddScoped<IEventStatusRepository, EventStatusRepository>();
+builder.Services.AddTransient<IEventStatusService, EventStatusService>();
+builder.Services.AddScoped<IAlarmTypeRepository, AlarmTypeRepository>();
+builder.Services.AddTransient<IAlarmTypeService, AlarmTypeService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<DataContext>(options =>

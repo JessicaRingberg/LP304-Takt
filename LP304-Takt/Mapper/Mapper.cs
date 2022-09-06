@@ -86,6 +86,14 @@ namespace LP304_Takt.Mapper
                 Reason = eEvent.Reason
             };
         }
+        public static EventStatusDto AsDto(this EventStatus eventStatus)
+        {
+            return new EventStatusDto
+            {
+                Name = eventStatus.Name,
+                Events = eventStatus.Events.Select(e => e.AsDto()).ToList()
+            };
+        }
         public static AlarmDto AsDto(this Alarm alarm)
         {
             return new AlarmDto
@@ -95,6 +103,15 @@ namespace LP304_Takt.Mapper
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
                 Reason = alarm.Reason
+            };
+        }
+        public static AlarmTypeDto AsDto(this AlarmType alarmType)
+        {
+            return new AlarmTypeDto
+            {
+                Id = alarmType.Id,
+                Name = alarmType.Name,
+                Alarms = alarmType.Alarms.Select(a => a.AsDto()).ToList()
             };
         }
 
@@ -124,6 +141,13 @@ namespace LP304_Takt.Mapper
                 Reason = eEvent.Reason
             };
         }
+        public static EventStatus AsEntity(this EventStatusCreateDto eventStatus)
+        {
+            return new EventStatus
+            {
+                Name = eventStatus.Name
+            };
+        }
         public static Alarm AsEntity(this AlarmCreateDto alarm)
         {
             return new Alarm
@@ -132,6 +156,13 @@ namespace LP304_Takt.Mapper
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
                 Reason = alarm.Reason
+            };
+        }
+        public static AlarmType AsEntity(this AlarmTypeCreateDto alarmType)
+        {
+            return new AlarmType
+            {
+                Name = alarmType.Name
             };
         }
 
