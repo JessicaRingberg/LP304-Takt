@@ -3,7 +3,6 @@ using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
-using LP304_Takt.Service;
 using LP304_Takt.Services;
 using Microsoft.EntityFrameworkCore;
 
