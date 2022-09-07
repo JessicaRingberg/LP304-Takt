@@ -1,6 +1,5 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories

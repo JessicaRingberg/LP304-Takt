@@ -1,4 +1,3 @@
-using System.Data.Common;
 using System.Text.Json.Serialization;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;

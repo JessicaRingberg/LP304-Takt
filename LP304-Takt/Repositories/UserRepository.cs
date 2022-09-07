@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using LP304_Takt.Interfaces.Repositories;
+﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
 using Microsoft.EntityFrameworkCore;
 
