@@ -24,6 +24,7 @@ namespace LP304_Takt.Controllers
 
             return Ok();
         }
+
         [HttpGet]
         public async Task<ActionResult<List<AlarmDto>>> GetAlarms()
         {
