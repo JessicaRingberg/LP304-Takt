@@ -2,7 +2,7 @@
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 
-namespace LP304_Takt.Service
+namespace LP304_Takt.Services
 {
     public class StationService : IStationService
     {
@@ -18,17 +18,22 @@ namespace LP304_Takt.Service
             await _stationRepository.Add(station, areaId);
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            await _stationRepository.DeleteEntity(id);
         }
 
-        public Task<ICollection<Station>> GetEntities()
+        public async Task<ICollection<Station>> GetEntities()
         {
-            throw new NotImplementedException();
+            return await _stationRepository.GetEntities();
         }
 
-        public Task<Station> GetEntity(int id)
+        public async Task<Station?> GetEntity(int id)
+        {
+            return await _stationRepository.GetEntity(id);
+        }
+
+        public Task UpdateEntity(Station entity)
         {
             throw new NotImplementedException();
         }

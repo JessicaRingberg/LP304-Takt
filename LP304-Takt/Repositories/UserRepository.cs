@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using LP304_Takt.Interfaces.Repositories;
+﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,32 +16,56 @@ namespace LP304_Takt.Repositories
         public async Task Add(User user, int companyId)
         {
             var company = await _context.Companies.FindAsync(companyId);
+            var role = await _context.Roles.FindAsync(1);
+            if (role is null)
+            {
+                role = new Role() {Name = "DefaultRole", Users = new List<User>() };
+                role.Users.Add(user);
+            }
 
             if (company != null)
             {
+                user.Role = role;
                 user.CompanyId = companyId;
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<User> GetEntity(int id)
+        public async Task<User?> GetEntity(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users
+                .Include(user => user.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<ICollection<User>> GetEntities()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                //.Include(user => user.Role)
+                .ToListAsync();
         }
 
-        public async Task<Company> GetCompanyByUser(int userId)
+        public async Task<Company?> GetCompanyByUser(int userId)
         {
             var user = await _context.Users.FindAsync(userId);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             return user.Company;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user is null)
+            {
+                return;
+            }
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public Task UpdateEntity(User entity)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,5 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
@@ -18,27 +17,60 @@ namespace LP304_Takt.Repositories
         {
             var company = await _context.Companies.FindAsync(companyId);
 
-            if (company != null)
+            if (company is null)
             {
-                area.CompanyId = companyId;
-                await _context.Areas.AddAsync(area);
-                await _context.SaveChangesAsync();
+                return;
             }
+
+            area.CompanyId = companyId;
+            await _context.Areas.AddAsync(area);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            var area = await _context.Areas
+                .FirstOrDefaultAsync(a => a.Id == id);
+            if (area is null)
+            {
+                return;
+            }
+            _context.Areas.Remove(area);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<ICollection<Area>> GetEntities()
+        public async Task<ICollection<Area>> GetEntities()
         {
-            throw new NotImplementedException();
+            return await _context.Areas
+                .Include(a => a.Stations)
+                .Include(a => a.Config)
+                .ToListAsync();
         }
 
-        public Task<Area> GetEntity(int id)
+        public async Task<Area?> GetEntity(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Areas
+                .Include(a => a.Stations)
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task UpdateEntity(Area area)
+        {
+            var updatedArea = await _context.Areas
+                .Include(a => a.Stations)
+                .Include(a => a.Config)
+                .FirstOrDefaultAsync(a => a.Id == area.Id);
+            if (updatedArea is null)
+            {
+                return;
+            }
+
+            updatedArea.Name = area.Name;
+            updatedArea.CompanyId = area.CompanyId;
+            updatedArea.Company = area.Company;
+            updatedArea.Stations = area.Stations;
+            await _context.SaveChangesAsync();
+
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿
-using LP304_Takt.Interfaces.Repositories;
+﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
-using LP304_Takt.Repositories;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace LP304_Takt.Service
+namespace LP304_Takt.Services
 {
     public class UserService : IUserService
     {
@@ -26,17 +23,22 @@ namespace LP304_Takt.Service
             return await _userRepository.GetEntities();
         }
 
-        public async Task<User> GetEntity(int id)
+        public async Task<User?> GetEntity(int id)
         {
             return await _userRepository.GetEntity(id);
         }
 
-        public async Task<Company> GetCompanyByUser(int userId)
+        public async Task<Company?> GetCompanyByUser(int userId)
         {
             return await _userRepository.GetCompanyByUser(userId);
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
+        {
+            await _userRepository.DeleteEntity(id);
+        }
+
+        public Task UpdateEntity(User entity)
         {
             throw new NotImplementedException();
         }

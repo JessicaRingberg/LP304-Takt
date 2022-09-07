@@ -3,7 +3,6 @@ using LP304_Takt.DTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
-using LP304_Takt.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +21,7 @@ namespace LP304_Takt.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
-        {
+        {//If company is null return 
             await _areaService.Add(area.AsEntity(), companyId);
 
             return Ok();
@@ -41,10 +40,25 @@ namespace LP304_Takt.Controllers
 
             if (area is null)
             {
-                return NotFound($"Area with {id} not found");
+                return NotFound($"Area with id: {id} was not found");
             }
 
             return Ok(area.AsDto());
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteArea(int id)
+        {
+            await _areaService.DeleteEntity(id);
+            return Ok();
+        }
+
+        //[HttpPut("{areaId}")]
+        //public async Task<IActionResult> UpdateArea(Area area, int areaId)
+        //{
+        //    area.Id = areaId;
+        //    await _areaService.UpdateEntity(area);
+        //    return NoContent();
+        //}
     }
 }

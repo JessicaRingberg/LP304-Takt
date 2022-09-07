@@ -24,17 +24,33 @@ namespace LP304_Takt.Repositories
             }
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            var station = await _context.Stations
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (station is null)
+            {
+                return;
+            }
+            _context.Stations.Remove(station);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<ICollection<Station>> GetEntities()
+        public async Task<ICollection<Station>> GetEntities()
         {
-            throw new NotImplementedException();
+            return await _context.Stations
+                .Include(s => s.Orders)
+                .ToListAsync(); ;
         }
 
-        public Task<Station> GetEntity(int id)
+        public async Task<Station?> GetEntity(int id)
+        {
+            return await _context.Stations
+                .Include(s => s.Orders)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public Task UpdateEntity(Station entity)
         {
             throw new NotImplementedException();
         }

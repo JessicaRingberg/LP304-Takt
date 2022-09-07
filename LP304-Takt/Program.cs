@@ -1,10 +1,9 @@
-using System.Data.Common;
 using System.Text.Json.Serialization;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
-using LP304_Takt.Service;
+using LP304_Takt.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +20,20 @@ builder.Services.AddScoped<IAreaRepository, AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddScoped<IStationRepository, StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddScoped<IConfigRepository, ConfigRepository>();
+builder.Services.AddTransient<IConfigService, ConfigService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddTransient<IEventService, EventService>();
+builder.Services.AddScoped<IAlarmRepository, AlarmRepository>();
+builder.Services.AddTransient<IAlarmService, AlarmService>();
+builder.Services.AddScoped<IEventStatusRepository, EventStatusRepository>();
+builder.Services.AddTransient<IEventStatusService, EventStatusService>();
+builder.Services.AddScoped<IAlarmTypeRepository, AlarmTypeRepository>();
+builder.Services.AddTransient<IAlarmTypeService, AlarmTypeService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<DataContext>(options =>

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using LP304_Takt.DTO;
+﻿using LP304_Takt.DTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
-using LP304_Takt.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -20,6 +17,14 @@ namespace LP304_Takt.Controllers
             _companyService = companyService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddCompany(CompanyCreateDto company)
+        {
+            await _companyService.Add(company.AsEntity());
+
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
@@ -30,10 +35,9 @@ namespace LP304_Takt.Controllers
         public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
             var company = await _companyService.GetEntity(id);
-
-            if (company == null)
+            if (company is null)
             {
-                return NotFound("User with id " + id + " was not found.");
+                return NotFound($"Company with id {id} was not found.");
             }
 
             return Ok(company.AsDto());
@@ -46,10 +50,17 @@ namespace LP304_Takt.Controllers
             return Ok(users);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddCompany(CompanyCreateDto company)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCompany(int id)
         {
-            await _companyService.Add(company.AsEntity());
+            await _companyService.DeleteEntity(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCompany(Company company)
+        {
+            await _companyService.Update(company);
 
             return Ok();
         }

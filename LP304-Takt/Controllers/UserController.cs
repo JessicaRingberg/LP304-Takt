@@ -4,7 +4,6 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
-using LP304_Takt.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +20,14 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
+        {
+            await _userService.Add(user.AsEntity(), companyId);
+
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
@@ -32,9 +39,9 @@ namespace LP304_Takt.Controllers
         {
             var user = await _userService.GetEntity(id);
 
-            if (user == null)
+            if (user is null)
             {
-                return NotFound("User with id " + id + " was not found.");
+                return NotFound($"User with id {id} was not found.");
             }
 
             return Ok(user.AsDto());
@@ -43,17 +50,20 @@ namespace LP304_Takt.Controllers
         [HttpGet("{userId}/companies")]
         public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
         {
-            return Ok();
+            var company = await _userService.GetCompanyByUser(userId);
+            if (company is null)
+            {
+                return NotFound("Not found");
+            }
+            return Ok(company.AsDto());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            await _userService.Add(user.AsEntity(), companyId);
-
+            await _userService.DeleteEntity(id);
             return Ok();
         }
-
 
     }
 }

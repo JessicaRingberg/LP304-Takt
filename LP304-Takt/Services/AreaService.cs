@@ -1,11 +1,8 @@
 ﻿using LP304_Takt.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 
-namespace LP304_Takt.Service
+namespace LP304_Takt.Services
 {
     public class AreaService : IAreaService
     {
@@ -21,20 +18,25 @@ namespace LP304_Takt.Service
             await _areaRepository.Add(area, companyId);
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            await _areaRepository.DeleteEntity(id);
         }
 
-        public Task<ICollection<Area>> GetEntities()
+        public async Task<ICollection<Area>> GetEntities()
         {
-            throw new NotImplementedException();
+            return await _areaRepository.GetEntities();
         }
 
-        public Task<Area> GetEntity(int id)
+        public async Task<Area?> GetEntity(int id)
         {
-            throw new NotImplementedException();
+            return await _areaRepository.GetEntity(id);
         }
 
+      
+        public async Task UpdateEntity(Area area)
+        {
+            await _areaRepository.UpdateEntity(area);
+        }
     }
 }

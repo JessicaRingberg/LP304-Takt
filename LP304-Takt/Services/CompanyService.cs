@@ -3,7 +3,7 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 
 
-namespace LP304_Takt.Service
+namespace LP304_Takt.Services
 {
     public class CompanyService : ICompanyService
     {
@@ -19,9 +19,9 @@ namespace LP304_Takt.Service
             await _companyRepository.Add(company);
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            await _companyRepository.DeleteEntity(id);
         }
 
         public async Task<ICollection<Company>> GetEntities()
@@ -29,7 +29,7 @@ namespace LP304_Takt.Service
             return await _companyRepository.GetEntities();
         }
 
-        public async Task<Company> GetEntity(int id)
+        public async Task<Company?> GetEntity(int id)
         {
             return await _companyRepository.GetEntity(id);
         }
@@ -37,6 +37,16 @@ namespace LP304_Takt.Service
         public async Task<ICollection<User>> GetUserByCompany(int companyId)
         {
             return await _companyRepository.GetUserByCompany(companyId);
+        }
+
+        public async Task Update(Company company)
+        { 
+            await _companyRepository.Update(company);
+        }
+
+        public Task UpdateEntity(Company entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
