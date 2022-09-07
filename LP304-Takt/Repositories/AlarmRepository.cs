@@ -12,15 +12,22 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-        public async Task Add(Alarm alarm, int orderId)
+        public async Task Add(Alarm alarm, int orderId, int alarmTypeId)
         {
             var order = await _context.Orders.FindAsync(orderId);
+            var alarmType = await _context.AlarmTypes.FindAsync(alarmTypeId);
 
             if (order is null)
             {
                 return;
             }
 
+            if (alarmType is null)
+            {
+                return;
+            }
+
+            alarm.AlarmTypeId = alarmTypeId;
             alarm.OrderId = orderId;
             await _context.Alarms.AddAsync(alarm);
             await _context.SaveChangesAsync();

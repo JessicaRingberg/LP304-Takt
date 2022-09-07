@@ -17,9 +17,9 @@ namespace LP304_Takt.Controllers
             _eventService = eventService;
         }
         [HttpPost]
-        public async Task<IActionResult> AddEvent([FromBody] EventCreateDto eEvent, [FromQuery] int orderId)
+        public async Task<IActionResult> AddEvent([FromBody] EventCreateDto eEvent, [FromQuery] int orderId, [FromQuery] int eventStatusId)
         { 
-            await _eventService.Add(eEvent.AsEntity(), orderId);
+            await _eventService.Add(eEvent.AsEntity(), orderId, eventStatusId);
 
             return Ok();
         }

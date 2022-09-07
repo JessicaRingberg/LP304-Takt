@@ -4,6 +4,6 @@ namespace LP304_Takt.Interfaces.Repositories
 {
     public interface IAlarmRepository : IBaseRepository<Alarm>
     {
-        Task Add(Alarm alarm, int orderId);
+        Task Add(Alarm alarm, int orderId, int alarmTypeId);
     }
 }

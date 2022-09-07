@@ -13,15 +13,22 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Event eEvent, int orderId)
+        public async Task Add(Event eEvent, int orderId, int eventStatusId)
         {
             var order = await _context.Orders.FindAsync(orderId);
+            var eventStatus = await _context.EventStatuses.FindAsync(eventStatusId);
 
             if (order is null)
             {
                 return;
             }
 
+            if (eventStatus is null)
+            {
+                return;
+            }
+
+            eEvent.EventStatusId = eventStatusId;
             eEvent.OrderId = orderId;
             await _context.Events.AddAsync(eEvent);
             await _context.SaveChangesAsync();

@@ -4,6 +4,6 @@ namespace LP304_Takt.Interfaces.Services
 {
     public interface IAlarmService : IBaseService<Alarm>
     {
-        Task Add(Alarm alarm, int orderId);
+        Task Add(Alarm alarm, int orderId, int alarmTypeId);
     }
 }

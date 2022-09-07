@@ -12,9 +12,9 @@ namespace LP304_Takt.Services
         {
             _alarmRepository = alarmRepository;
         }
-        public async Task Add(Alarm alarm, int orderId)
+        public async Task Add(Alarm alarm, int orderId, int alarmTypeId)
         {
-            await _alarmRepository.Add(alarm, orderId);
+            await _alarmRepository.Add(alarm, orderId, alarmTypeId);
         }
 
         public async Task DeleteEntity(int id)

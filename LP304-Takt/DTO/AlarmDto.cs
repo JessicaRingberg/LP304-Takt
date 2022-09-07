@@ -7,5 +7,7 @@
         public DateTime EndTime { get; init; }
         public int Duration { get; init; }
         public string Reason { get; init; }
-    }
+
+        public ICollection<AlarmTypeDto> AlarmTypes {get; init; }
+}
 }

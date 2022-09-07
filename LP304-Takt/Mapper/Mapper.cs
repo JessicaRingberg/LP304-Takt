@@ -90,6 +90,7 @@ namespace LP304_Takt.Mapper
         {
             return new EventStatusDto
             {
+                Id = eventStatus.Id,
                 Name = eventStatus.Name,
                 Events = eventStatus.Events.Select(e => e.AsDto()).ToList()
             };

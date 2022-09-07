@@ -18,9 +18,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAlarm([FromBody] AlarmCreateDto alarm, [FromQuery] int orderId)
+        public async Task<IActionResult> AddAlarm([FromBody] AlarmCreateDto alarm, [FromQuery] int orderId, [FromQuery] int alarmTypeId)
         {
-            await _alarmService.Add(alarm.AsEntity(), orderId);
+            await _alarmService.Add(alarm.AsEntity(), orderId, alarmTypeId);
 
             return Ok();
         }

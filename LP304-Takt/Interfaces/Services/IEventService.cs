@@ -4,6 +4,6 @@ namespace LP304_Takt.Interfaces.Services
 {
     public interface IEventService : IBaseService<Event>
     {
-        Task Add(Event eEvent, int orderId);
+        Task Add(Event eEvent, int orderId, int eventStatusId);
     }
 }

@@ -13,9 +13,9 @@ namespace LP304_Takt.Services
             _eventRepository = eventRepository;
         }
 
-        public async Task Add(Event eEvent, int orderId)
+        public async Task Add(Event eEvent, int orderId, int eventStatusId)
         {
-            await _eventRepository.Add(eEvent, orderId);
+            await _eventRepository.Add(eEvent, orderId, eventStatusId);
         }
 
         public async Task DeleteEntity(int id)
