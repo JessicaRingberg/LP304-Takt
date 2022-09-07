@@ -99,7 +99,9 @@ namespace LP304_Takt.Mapper
                 ChangeSecSet = order.ChangeSecSet,
                 TaktSet = order.TaktSet,
                 LastPartProd = order.LastPartProd,
-                Takt = order.Takt
+                Takt = order.Takt,
+                Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
+                Events = order.Events.Select(e => e.AsDto()).ToList()
             };
         }
 
@@ -117,8 +119,10 @@ namespace LP304_Takt.Mapper
             return new StationDto
             {
                 Id = station.Id,
-                Name = station.Name
-                //Orders = station.Orders.Select(o => o.AsDto()).ToList()
+                Name = station.Name,
+                Andon = station.Andon,
+                Finished = station.Finished,
+                Orders = station.Orders.Select(o => o.AsDto()).ToList()
             };
         }
 
@@ -130,7 +134,7 @@ namespace LP304_Takt.Mapper
                 UserName = user.UserName,
                 Email = user.Email,
                 Password = user.Password,
-                Role = user.Role
+                //Role = user.Role.Name
             };
         }
 
@@ -234,7 +238,9 @@ namespace LP304_Takt.Mapper
         {
             return new Station
             {
-                Name = station.Name
+                Name = station.Name,
+                Andon = station.Andon,
+                Finished = station.Finished
             };
         }
 

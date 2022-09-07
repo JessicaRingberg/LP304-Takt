@@ -28,7 +28,7 @@ namespace LP304_Takt.Services
             return await _userRepository.GetEntity(id);
         }
 
-        public async Task<Company> GetCompanyByUser(int userId)
+        public async Task<Company?> GetCompanyByUser(int userId)
         {
             return await _userRepository.GetCompanyByUser(userId);
         }

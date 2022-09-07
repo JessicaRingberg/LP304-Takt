@@ -50,7 +50,12 @@ namespace LP304_Takt.Controllers
         [HttpGet("{userId}/companies")]
         public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
         {
-            return Ok();
+            var company = await _userService.GetCompanyByUser(userId);
+            if (company is null)
+            {
+                return NotFound("Not found");
+            }
+            return Ok(company.AsDto());
         }
 
         [HttpDelete("{id}")]

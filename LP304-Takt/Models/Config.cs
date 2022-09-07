@@ -10,7 +10,7 @@ namespace LP304_Takt.Models
         [Required]
         public int FilterTime { get; set; }
         [Required]
-        public string MacBidisp { get; set; }
+        public string MacBidisp { get; set; } = string.Empty;
         public int AreaId { get; set; }
         public Area Area { get; set; }
     }

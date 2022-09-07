@@ -42,14 +42,16 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<User>> GetEntities()
         {
             return await _context.Users
-                .Include(user => user.Role)
+                //.Include(user => user.Role)
                 .ToListAsync();
         }
 
-        public async Task<Company> GetCompanyByUser(int userId)
+        public async Task<Company?> GetCompanyByUser(int userId)
         {
             var user = await _context.Users.FindAsync(userId);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             return user.Company;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         public async Task DeleteEntity(int id)
