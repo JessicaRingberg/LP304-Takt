@@ -39,9 +39,9 @@ namespace LP304_Takt.Controllers
         {
             var company = await _companyService.GetEntity(id);
 
-            if (company == null)
+            if (company is null)
             {
-                return NotFound("User with id " + id + " was not found.");
+                return NotFound($"Company with id {id} was not found.");
             }
 
             return Ok(company.AsDto());

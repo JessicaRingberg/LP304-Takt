@@ -41,7 +41,7 @@ namespace LP304_Takt.Controllers
 
             if (station is null)
             {
-                return NotFound("User with id " + id + " was not found.");
+                return NotFound($"Station with id {id} was not found.");
             }
 
             return Ok(station.AsDto());

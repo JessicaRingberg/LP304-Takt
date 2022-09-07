@@ -18,12 +18,14 @@ namespace LP304_Takt.Repositories
         {
             var company = await _context.Companies.FindAsync(companyId);
 
-            if (company != null)
+            if (company is null)
             {
-                area.CompanyId = companyId;
-                await _context.Areas.AddAsync(area);
-                await _context.SaveChangesAsync();
+                return;
             }
+
+            area.CompanyId = companyId;
+            await _context.Areas.AddAsync(area);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteEntity(int id)
@@ -42,6 +44,7 @@ namespace LP304_Takt.Repositories
         {
             return await _context.Areas
                 .Include(a => a.Stations)
+                .Include(a => a.Config)
                 .ToListAsync();
         }
 
@@ -56,6 +59,7 @@ namespace LP304_Takt.Repositories
         {
             var updatedArea = await _context.Areas
                 .Include(a => a.Stations)
+                .Include(a => a.Config)
                 .FirstOrDefaultAsync(a => a.Id == area.Id);
             if (updatedArea is null)
             {

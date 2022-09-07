@@ -17,9 +17,16 @@ namespace LP304_Takt.Repositories
         public async Task Add(User user, int companyId)
         {
             var company = await _context.Companies.FindAsync(companyId);
+            var role = await _context.Roles.FindAsync(1);
+            if (role is null)
+            {
+                role = new Role() {Name = "DefaultRole", Users = new List<User>() };
+                role.Users.Add(user);
+            }
 
             if (company != null)
             {
+                user.Role = role;
                 user.CompanyId = companyId;
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
@@ -28,12 +35,16 @@ namespace LP304_Takt.Repositories
 
         public async Task<User?> GetEntity(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users
+                .Include(user => user.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<ICollection<User>> GetEntities()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Include(user => user.Role)
+                .ToListAsync();
         }
 
         public async Task<Company> GetCompanyByUser(int userId)
