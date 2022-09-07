@@ -40,9 +40,9 @@ namespace LP304_Takt.Controllers
         {
             var user = await _userService.GetEntity(id);
 
-            if (user == null)
+            if (user is null)
             {
-                return NotFound("User with id " + id + " was not found.");
+                return NotFound($"User with id {id} was not found.");
             }
 
             return Ok(user.AsDto());

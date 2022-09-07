@@ -36,7 +36,7 @@ namespace LP304_Takt.Controllers
         {
             var role = await _roleService.GetEntity(id);
 
-            if (role == null)
+            if (role is null)
             {
                 return NotFound($"Role with id: {id} was not found");
             }

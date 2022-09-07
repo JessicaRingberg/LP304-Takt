@@ -36,9 +36,9 @@ namespace LP304_Takt.Controllers
         {
             var order = await _orderService.GetEntity(id);
 
-            if (order == null)
+            if (order is null)
             {
-                return NotFound("Orders with id " + id + " was not found.");
+                return NotFound("Order with id " + id + " was not found.");
             }
 
             return Ok(order.AsDto());

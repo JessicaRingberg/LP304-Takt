@@ -36,7 +36,7 @@ namespace LP304_Takt.Controllers
 
             if (eEvent is null)
             {
-                return NotFound($"Event with id: {id} not found");
+                return NotFound($"Event with id: {id} was not found");
             }
 
             return Ok(eEvent.AsDto());

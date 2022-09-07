@@ -36,9 +36,9 @@ namespace LP304_Takt.Controllers
         {
             var alarmType = await _alarmTypeService.GetEntity(id);
 
-            if (alarmType == null)
+            if (alarmType is null)
             {
-                return NotFound("AlarmType with id " + id + " was not found.");
+                return NotFound($"Alarm type with id {id} was not found.");
             }
 
             return Ok(alarmType.AsDto());

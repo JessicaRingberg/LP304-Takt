@@ -10,6 +10,19 @@ namespace LP304_Takt.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AlarmTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlarmTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Companies",
                 columns: table => new
                 {
@@ -20,6 +33,19 @@ namespace LP304_Takt.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Companies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,11 +211,18 @@ namespace LP304_Takt.Migrations
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    AlarmTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Alarms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Alarms_AlarmTypes_AlarmTypeId",
+                        column: x => x.AlarmTypeId,
+                        principalTable: "AlarmTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Alarms_Orders_OrderId",
                         column: x => x.OrderId,
@@ -208,11 +241,18 @@ namespace LP304_Takt.Migrations
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    EventStatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_EventStatuses_EventStatusId",
+                        column: x => x.EventStatusId,
+                        principalTable: "EventStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Events_Orders_OrderId",
                         column: x => x.OrderId,
@@ -220,6 +260,11 @@ namespace LP304_Takt.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alarms_AlarmTypeId",
+                table: "Alarms",
+                column: "AlarmTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alarms_OrderId",
@@ -236,6 +281,11 @@ namespace LP304_Takt.Migrations
                 table: "Configs",
                 column: "AreaId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_EventStatusId",
+                table: "Events",
+                column: "EventStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_OrderId",
@@ -281,6 +331,12 @@ namespace LP304_Takt.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "AlarmTypes");
+
+            migrationBuilder.DropTable(
+                name: "EventStatuses");
 
             migrationBuilder.DropTable(
                 name: "Orders");

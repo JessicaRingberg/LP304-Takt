@@ -36,9 +36,9 @@ namespace LP304_Takt.Controllers
         {
             var config = await _configService.GetEntity(id);
 
-            if (config == null)
+            if (config is null)
             {
-                return NotFound("Config with id " + id + " was not found.");
+                return NotFound($"Config with id {id} was not found.");
             }
 
             return Ok(config.AsDto());
