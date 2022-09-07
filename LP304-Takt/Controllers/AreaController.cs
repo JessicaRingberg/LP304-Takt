@@ -22,7 +22,7 @@ namespace LP304_Takt.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
-        {
+        {//If company is null return 
             await _areaService.Add(area.AsEntity(), companyId);
 
             return Ok();
@@ -41,7 +41,7 @@ namespace LP304_Takt.Controllers
 
             if (area is null)
             {
-                return NotFound($"Area with id: {id} not found");
+                return NotFound($"Area with id: {id} was not found");
             }
 
             return Ok(area.AsDto());
