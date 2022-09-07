@@ -8,7 +8,10 @@
   padding: 0;
   margin: 0;
   text-decoration: none;
+}
 
+ul {
+  list-style: none;
 }
 
 .App {
@@ -21,22 +24,26 @@
   background-color: #eff0f3;
 }
 
-.content {
+main {
   display: grid;
   grid-template-columns: 10% 80% 10%;
   grid-template-areas: "left-content main-content right-content";
   margin-bottom: 160px;
   padding: 30px 0;
+  min-height: 80%;
   position: relative;
 }
 
 .left-content {
   grid-area: left-content;
-  
 }
 
 .main-content {
   grid-area: main-content;
+  display: grid;
+  position: relative;
+  height: 80%;
+  text-align: center;
 }
 
 .right-content {

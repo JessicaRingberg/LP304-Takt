@@ -1,21 +1,24 @@
 import NavBar from './components/navbar/NavBar';
-import Home from './pages/home/Home';
+import Takt from './pages/Takt/Takt';
 import Footer from './components/footer/Footer';
-import Takt from './pages/order/Takt';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Events from './pages/events/Events';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import Alarms from './pages/alarms/Alarms';
+import Settings from './pages/settings/Settings';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <NavBar />
-        <div className="content">
+        <main>
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/takt" element={<Takt/>} />
+            <Route path="/" element={<Takt/>} />
+            <Route path="/events" element={<Events/>} />
+            <Route path="/alarms" element={<Alarms/>} />
+            <Route path="/settings" element={<Settings/>} />
           </Routes>
-          
-        </div>
+        </main>
         <Footer />
       </div>
     </BrowserRouter>

@@ -11,17 +11,15 @@ import Sidebar from '../sidebar/Sidebar';
 
 function NavBar() {
     return (
-        <div>
+        <header>
             <nav className="navbar">
                 <img src={logo} className="app-logo" alt="logo" />
                 <div className="links-container">
                     <div className="links">
-                        <NavLink to="/"><img src={home} />Home</NavLink>
-                        <NavLink to="/Takt"><img src={home} />Takt</NavLink>
-                        <a href="/History"><img src={home} />History</a>
-                        <a href="/Users"><img src={home} />Users</a>
-                        <a href="/Settings"><img src={settings} />Settings<img className="down-arrow" src={arrow} /></a>
-
+                        <NavLink to="/"><img src={home} />Takt</NavLink>
+                        <NavLink to="/events"><img src={home} />Events</NavLink>
+                        <NavLink to="/alarms"><img src={home} />Alarms</NavLink>
+                        <NavLink to="/settings"><img src={settings} />Settings<img className="down-arrow" src={arrow} /></NavLink>
                     </div>
                 </div>
                 <div className="right-menu-context">
@@ -42,7 +40,7 @@ function NavBar() {
                 <a href="/settings/takt-configure">Takt configure</a>
                 <a href="/settings/user-settings">User settings</a>
             </div>
-        </div>
+        </header>
     );
 }
 
