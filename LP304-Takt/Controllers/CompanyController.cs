@@ -38,7 +38,6 @@ namespace LP304_Takt.Controllers
         public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
             var company = await _companyService.GetEntity(id);
-
             if (company is null)
             {
                 return NotFound($"Company with id {id} was not found.");

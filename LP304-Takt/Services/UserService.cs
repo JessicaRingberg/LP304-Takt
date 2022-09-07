@@ -1,11 +1,8 @@
-﻿
-using LP304_Takt.Interfaces.Repositories;
+﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
-using LP304_Takt.Repositories;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace LP304_Takt.Service
+namespace LP304_Takt.Services
 {
     public class UserService : IUserService
     {

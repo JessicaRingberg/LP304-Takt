@@ -1,11 +1,8 @@
 ﻿using LP304_Takt.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 
-namespace LP304_Takt.Service
+namespace LP304_Takt.Services
 {
     public class AreaService : IAreaService
     {

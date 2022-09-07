@@ -2,7 +2,7 @@
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 
-namespace LP304_Takt.Service
+namespace LP304_Takt.Services
 {
     public class StationService : IStationService
     {
