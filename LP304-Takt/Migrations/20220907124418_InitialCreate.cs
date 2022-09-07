@@ -15,7 +15,7 @@ namespace LP304_Takt.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +28,7 @@ namespace LP304_Takt.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +41,7 @@ namespace LP304_Takt.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -272,9 +272,21 @@ namespace LP304_Takt.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AlarmTypes_Name",
+                table: "AlarmTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Areas_CompanyId",
                 table: "Areas",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Companies_Name",
+                table: "Companies",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Configs_AreaId",
@@ -291,6 +303,12 @@ namespace LP304_Takt.Migrations
                 name: "IX_Events_OrderId",
                 table: "Events",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventStatuses_Name",
+                table: "EventStatuses",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_QueueId",

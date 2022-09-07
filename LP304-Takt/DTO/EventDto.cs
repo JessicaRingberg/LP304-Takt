@@ -8,6 +8,6 @@
         public int Duration { get; init; }
         public string Reason { get; init; }
 
-        public ICollection<EventStatusDto> EventStatuses { get; init; }
+       // public ICollection<EventStatusDto> EventStatuses { get; init; }
     }
 }

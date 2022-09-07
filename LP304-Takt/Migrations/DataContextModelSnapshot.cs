@@ -68,9 +68,12 @@ namespace LP304_Takt.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("AlarmTypes");
                 });
@@ -107,9 +110,12 @@ namespace LP304_Takt.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Companies");
                 });
@@ -192,9 +198,12 @@ namespace LP304_Takt.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("EventStatuses");
                 });
@@ -296,8 +305,14 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Andon")
+                        .HasColumnType("bit");
+
                     b.Property<int>("AreaId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -350,7 +365,7 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Alarm", b =>
                 {
-                    b.HasOne("LP304_Takt.Models.AlarmType", "AlarmType")
+                    b.HasOne("LP304_Takt.Models.AlarmType", null)
                         .WithMany("Alarms")
                         .HasForeignKey("AlarmTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -361,8 +376,6 @@ namespace LP304_Takt.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AlarmType");
 
                     b.Navigation("Order");
                 });

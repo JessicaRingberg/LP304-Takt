@@ -15,5 +15,7 @@
         public int TaktSet { get; init; }
         public int LastPartProd { get; init; }
         public int Takt { get; init; }
+        public ICollection<AlarmDto> Alarms { get; init; }
+        public ICollection<EventDto> Events { get; init; }
     }
 }
