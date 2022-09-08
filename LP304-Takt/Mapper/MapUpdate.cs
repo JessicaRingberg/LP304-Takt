@@ -20,6 +20,29 @@ namespace LP304_Takt.Mapper
                 Name = alarmType.Name
             };
         }
+        public static Area AsUpdated(this AreaUpdateDto area)
+        {
+            return new Area
+            {
+                Name = area.Name
+            };
+        }
+
+        public static Company AsUpdated(this CompanyUpdateDto company)
+        {
+            return new Company
+            {
+                Name = company.Name
+            };
+        }
+
+        public static Config AsUpdated(this ConfigUpdateDto config)
+        {
+            return new Config
+            {
+                MacBidisp = config.MacBidisp
+            };
+        }
 
         public static Event AsUpdated(this EventUpdateDto eEvent)
         {

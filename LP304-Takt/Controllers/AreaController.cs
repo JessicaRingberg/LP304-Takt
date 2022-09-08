@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using LP304_Takt.DTO;
+using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
@@ -54,9 +55,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateArea([FromBody] AreaCreateDto area, [FromQuery] int areaId)
+        public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {
-            await _areaService.UpdateArea(area.AsEntity(), areaId);
+            await _areaService.UpdateArea(area.AsUpdated(), areaId);
 
             return Ok();
         }
