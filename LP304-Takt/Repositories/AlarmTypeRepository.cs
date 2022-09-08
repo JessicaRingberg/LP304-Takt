@@ -46,9 +46,5 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public Task UpdateEntity(AlarmType entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -5,6 +5,5 @@
         Task<ICollection<T>> GetEntities();
         Task<T?> GetEntity(int id);
         Task DeleteEntity(int id);
-        Task UpdateEntity(T entity);
     }
 }

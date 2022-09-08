@@ -52,5 +52,13 @@ namespace LP304_Takt.Controllers
             await _stationService.DeleteEntity(id);
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateStation([FromBody] StationUpdateDto station, [FromQuery] int stationId)
+        {
+            await _stationService.UpdateStation(station.AsUpdated(), stationId);
+
+            return Ok();
+        }
     }
 }

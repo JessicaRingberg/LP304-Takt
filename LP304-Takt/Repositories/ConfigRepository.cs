@@ -52,9 +52,5 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public Task UpdateEntity(Config entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

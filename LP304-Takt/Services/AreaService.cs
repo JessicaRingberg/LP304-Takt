@@ -33,10 +33,10 @@ namespace LP304_Takt.Services
             return await _areaRepository.GetEntity(id);
         }
 
-      
-        public async Task UpdateEntity(Area area)
+        public async Task UpdateArea(Area area, int areaId)
         {
-            await _areaRepository.UpdateEntity(area);
+            await _areaRepository.UpdateArea(area, areaId);
         }
+
     }
 }

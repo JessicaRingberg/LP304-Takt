@@ -42,9 +42,5 @@ namespace LP304_Takt.Repositories
             return await _context.Roles.FindAsync(id);
         }
 
-        public Task UpdateEntity(Role entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

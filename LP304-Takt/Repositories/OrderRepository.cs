@@ -52,10 +52,24 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync(); 
         }
 
-        public Task UpdateEntity(Order entity)
+        public async Task UpdateOrder(Order order, int orderId)
         {
-            throw new NotImplementedException();
+            var orderToUpdate = await _context.Orders
+                .FindAsync(orderId);
+            if (orderToUpdate is null)
+            {
+                return;
+            }
+
+            MapOrder(orderToUpdate, order);
+
+            await _context.SaveChangesAsync();
         }
 
+        private Order MapOrder(Order newOrder, Order oldOrder)
+        {
+            newOrder.Quantity = oldOrder.Quantity;
+            return newOrder;
+        }
     }
 }

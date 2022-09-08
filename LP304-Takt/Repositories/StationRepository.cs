@@ -50,9 +50,24 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public Task UpdateEntity(Station entity)
+        public async Task UpdateStation(Station station, int stationId)
         {
-            throw new NotImplementedException();
+            var stationToUpdate = await _context.Stations
+                .FindAsync(stationId);
+            if (stationToUpdate is null)
+            {
+                return;
+            }
+
+            MapStation(stationToUpdate, station);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private Station MapStation(Station newStation, Station oldStation)
+        {
+            newStation.Name = oldStation.Name;
+            return newStation;
         }
     }
 }

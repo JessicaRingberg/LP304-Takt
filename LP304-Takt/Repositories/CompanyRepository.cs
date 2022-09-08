@@ -71,10 +71,6 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task UpdateEntity(Company entity)
-        {
-            throw new NotImplementedException();
-        }
 
         private Company MapCompany(Company newComp, Company oldComp)
         {

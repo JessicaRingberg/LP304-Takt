@@ -53,12 +53,12 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        //[HttpPut("{areaId}")]
-        //public async Task<IActionResult> UpdateArea(Area area, int areaId)
-        //{
-        //    area.Id = areaId;
-        //    await _areaService.UpdateEntity(area);
-        //    return NoContent();
-        //}
+        [HttpPut]
+        public async Task<IActionResult> UpdateArea([FromBody] AreaCreateDto area, [FromQuery] int areaId)
+        {
+            await _areaService.UpdateArea(area.AsEntity(), areaId);
+
+            return Ok();
+        }
     }
 }

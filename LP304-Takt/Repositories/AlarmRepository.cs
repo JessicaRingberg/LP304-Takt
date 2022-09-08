@@ -56,10 +56,5 @@ namespace LP304_Takt.Repositories
             return await _context.Alarms
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
-
-        public Task UpdateEntity(Alarm entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
