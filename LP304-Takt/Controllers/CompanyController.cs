@@ -58,9 +58,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCompany(Company company)
+        public async Task<IActionResult> UpdateCompany([FromBody] CompanyCreateDto company, [FromQuery] int companyId)
         {
-            await _companyService.Update(company);
+            await _companyService.Update(company.AsEntity(), companyId);
 
             return Ok();
         }

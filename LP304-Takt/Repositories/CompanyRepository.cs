@@ -57,15 +57,16 @@ namespace LP304_Takt.Repositories
             return await _context.Users.Where(u => u.CompanyId == companyId).ToListAsync();
         }
 
-        public async Task Update(Company company)
+        public async Task Update(Company company, int companyId)
         {
             var companyToUpdate = await _context.Companies
-                .FirstOrDefaultAsync(c => c.Id == company.Id);
+                .FindAsync(companyId);
             if (companyToUpdate is null)
             {
                 return;
             }
-            companyToUpdate.Name = company.Name;
+
+            MapCompany(companyToUpdate, company);
 
             await _context.SaveChangesAsync();
         }
@@ -73,6 +74,12 @@ namespace LP304_Takt.Repositories
         public Task UpdateEntity(Company entity)
         {
             throw new NotImplementedException();
+        }
+
+        private Company MapCompany(Company newComp, Company oldComp)
+        {
+            newComp.Name = oldComp.Name;
+            return newComp;
         }
     }
 }
