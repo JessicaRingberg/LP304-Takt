@@ -20,6 +20,21 @@ namespace LP304_Takt.Mapper
                 Name = alarmType.Name
             };
         }
+
+        public static Event AsUpdated(this EventUpdateDto eEvent)
+        {
+            return new Event
+            {
+                Reason = eEvent.Reason
+            };
+        }
+        public static EventStatus AsUpdated(this EventStatusUpdateDto eventStatus)
+        {
+            return new EventStatus
+            {
+                Name = eventStatus.Name
+            };
+        }
         public static Order AsUpdated(this OrderUpdateDto station)
         {
             return new Order
