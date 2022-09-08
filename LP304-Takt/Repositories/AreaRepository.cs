@@ -68,7 +68,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private Area MapArea(Area newArea, Area oldArea)
+        private static Area MapArea(Area newArea, Area oldArea)
         {
             newArea.Name = oldArea.Name;
             return newArea;

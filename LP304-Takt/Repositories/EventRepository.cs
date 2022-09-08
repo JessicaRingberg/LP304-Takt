@@ -71,7 +71,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private Event MapEvent(Event newEvent, Event oldEvent)
+        private static Event MapEvent(Event newEvent, Event oldEvent)
         {
             newEvent.Reason = oldEvent.Reason;
             return newEvent;

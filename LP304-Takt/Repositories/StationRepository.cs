@@ -64,7 +64,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private Station MapStation(Station newStation, Station oldStation)
+        private static Station MapStation(Station newStation, Station oldStation)
         {
             newStation.Name = oldStation.Name;
             return newStation;

@@ -59,7 +59,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private EventStatus MapEventStatus(EventStatus newEventStatus, EventStatus oldEventStatus)
+        private static EventStatus MapEventStatus(EventStatus newEventStatus, EventStatus oldEventStatus)
         {
             newEventStatus.Name = oldEventStatus.Name;
             return newEventStatus;

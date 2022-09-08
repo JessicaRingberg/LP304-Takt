@@ -66,7 +66,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private Config MapConfig(Config newConfig, Config oldConfig)
+        private static Config MapConfig(Config newConfig, Config oldConfig)
         {
             newConfig.MacBidisp = oldConfig.MacBidisp;
             return newConfig;

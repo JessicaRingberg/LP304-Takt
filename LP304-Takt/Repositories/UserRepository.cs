@@ -79,7 +79,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private User MapUser(User newUser, User oldUser)
+        private static User MapUser(User newUser, User oldUser)
         {
             newUser.UserName = oldUser.UserName;
             newUser.Email = oldUser.Email;

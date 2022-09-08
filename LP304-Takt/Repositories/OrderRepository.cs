@@ -66,7 +66,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private Order MapOrder(Order newOrder, Order oldOrder)
+        private static Order MapOrder(Order newOrder, Order oldOrder)
         {
             newOrder.Quantity = oldOrder.Quantity;
             return newOrder;

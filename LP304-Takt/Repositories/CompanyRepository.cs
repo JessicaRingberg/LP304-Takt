@@ -72,7 +72,7 @@ namespace LP304_Takt.Repositories
         }
 
 
-        private Company MapCompany(Company newComp, Company oldComp)
+        private static Company MapCompany(Company newComp, Company oldComp)
         {
             newComp.Name = oldComp.Name;
             return newComp;

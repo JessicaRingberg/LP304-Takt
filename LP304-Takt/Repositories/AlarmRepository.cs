@@ -71,7 +71,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private Alarm MapAlarm(Alarm newAlarm, Alarm oldAlarm)
+        private static Alarm MapAlarm(Alarm newAlarm, Alarm oldAlarm)
         {
             newAlarm.Reason = oldAlarm.Reason;
             return newAlarm;

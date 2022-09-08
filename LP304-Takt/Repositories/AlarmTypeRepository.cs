@@ -60,7 +60,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private AlarmType MapAlarmType(AlarmType newAlarmType, AlarmType oldAlarmType)
+        private static AlarmType MapAlarmType(AlarmType newAlarmType, AlarmType oldAlarmType)
         {
             newAlarmType.Name = oldAlarmType.Name;
             return newAlarmType;
