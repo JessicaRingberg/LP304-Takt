@@ -151,7 +151,10 @@ namespace LP304_Takt.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AreaId = table.Column<int>(type: "int", nullable: false)
+                    Andon = table.Column<bool>(type: "bit", nullable: false),
+                    Finished = table.Column<bool>(type: "bit", nullable: false),
+                    AreaId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

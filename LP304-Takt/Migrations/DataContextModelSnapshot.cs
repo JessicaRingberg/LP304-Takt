@@ -318,6 +318,9 @@ namespace LP304_Takt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AreaId");
@@ -438,13 +441,11 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>
                 {
-                    b.HasOne("LP304_Takt.Models.Area", "Area")
+                    b.HasOne("LP304_Takt.Models.Area", null)
                         .WithMany("Stations")
                         .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Area");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.User", b =>
