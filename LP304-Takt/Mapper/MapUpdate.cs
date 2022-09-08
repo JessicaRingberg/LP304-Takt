@@ -13,6 +13,13 @@ namespace LP304_Takt.Mapper
                 Reason = alarm.Reason
             };
         }
+        public static AlarmType AsUpdated(this AlarmTypeUpdateDto alarmType)
+        {
+            return new AlarmType
+            {
+                Name = alarmType.Name
+            };
+        }
         public static Order AsUpdated(this OrderUpdateDto station)
         {
             return new Order
