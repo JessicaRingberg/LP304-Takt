@@ -13,7 +13,8 @@ namespace LP304_Takt.Mapper
                 StartTime = alarm.StartTime,
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
-                Reason = alarm.Reason
+                Reason = alarm.Reason,
+                AlarmTypeId = alarm.AlarmTypeId
             };
         }
 
@@ -56,8 +57,8 @@ namespace LP304_Takt.Mapper
                 LightsOn = config.LightsOn,
                 SoundOn = config.SoundOn,
                 FilterTime = config.FilterTime,
-                MacBidisp = config.MacBidisp,
-                //Area = config.Area
+                MacBidisp = config.MacBidisp
+             
             };
         }
 
@@ -69,7 +70,8 @@ namespace LP304_Takt.Mapper
                 StartTime = eEvent.StartTime,
                 EndTime = eEvent.EndTime,
                 Duration = eEvent.Duration,
-                Reason = eEvent.Reason
+                Reason = eEvent.Reason,
+                EventStatusId = eEvent.EventStatusId
             };
         }
 
@@ -100,6 +102,7 @@ namespace LP304_Takt.Mapper
                 TaktSet = order.TaktSet,
                 LastPartProd = order.LastPartProd,
                 Takt = order.Takt,
+                StationId = order.StationId,
                 Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };
@@ -122,7 +125,7 @@ namespace LP304_Takt.Mapper
                 Name = station.Name,
                 Andon = station.Andon,
                 Finished = station.Finished,
-                Orders = station.Orders.Select(o => o.AsDto()).ToList()
+                OrderId = station.OrderId
             };
         }
 
@@ -133,8 +136,7 @@ namespace LP304_Takt.Mapper
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Password = user.Password,
-                //Role = user.Role.Name
+                Password = user.Password
             };
         }
 

@@ -7,7 +7,7 @@
         public DateTime EndTime { get; init; }
         public int Duration { get; init; }
         public string Reason { get; init; }
+        public int EventStatusId { get; init; }
 
-       // public ICollection<EventStatusDto> EventStatuses { get; init; }
     }
 }
