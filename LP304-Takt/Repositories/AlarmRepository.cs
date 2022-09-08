@@ -56,5 +56,25 @@ namespace LP304_Takt.Repositories
             return await _context.Alarms
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
+
+        public async Task UpdateAlarm(Alarm alarm, int alarmId)
+        { 
+            var alarmToUpdate = await _context.Alarms
+                .FindAsync(alarmId);
+            if (alarmToUpdate is null)
+            {
+                return;
+            }
+
+            MapAlarm(alarmToUpdate, alarm);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private Alarm MapAlarm(Alarm newAlarm, Alarm oldAlarm)
+        {
+            newAlarm.Reason = oldAlarm.Reason;
+            return newAlarm;
+        }
     }
 }

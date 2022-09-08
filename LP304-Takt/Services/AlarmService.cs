@@ -32,9 +32,10 @@ namespace LP304_Takt.Services
             return await _alarmRepository.GetEntity(id);
         }
 
-        public Task UpdateEntity(Alarm entity)
+        public async Task UpdateAlarm(Alarm alarm, int alarmId)
         {
-            throw new NotImplementedException();
+            await _alarmRepository.UpdateAlarm(alarm, alarmId);
         }
+
     }
 }

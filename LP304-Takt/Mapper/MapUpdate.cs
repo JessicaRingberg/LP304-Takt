@@ -6,6 +6,13 @@ namespace LP304_Takt.Mapper
 {
     public static class MapUpdate
     {
+        public static Alarm AsUpdated(this AlarmUpdateDto alarm)
+        {
+            return new Alarm
+            {
+                Reason = alarm.Reason
+            };
+        }
         public static Order AsUpdated(this OrderUpdateDto station)
         {
             return new Order
