@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.App {
+  display: flex;
+  position: relative;
+  width: auto;
+  position: relative;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #eff0f3;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-areas: "left-content main-content right-content";
+  margin-bottom: 160px;
+  padding: 30px 0;
+  min-height: 80%;
+  position: relative;
+}
+
+.left-content {
+  grid-area: left-content;
+}
+
+.main-content {
+  grid-area: main-content;
+  display: grid;
+  position: relative;
+  height: 80%;
+  text-align: center;
+}
+
+.right-content {
+  grid-area: right-content;
+}
+
+.content p {
+  margin: 10px;
+}
+
+
+footer {
+  display: flex;
+  position: absolute;
+  height: 100px;
+  bottom: 0;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  padding: 30px 0;
+  gap: 5px;
+  border-top: 1px solid #d6d6d6;
+  background-color: #11193D;
+  justify-content: center;
+}
+
+footer p {
+  font-size: 12px;
+  color: white;
+}
+
+footer img {
+  height: 10px;
+  margin-bottom: 5px;
+}
