@@ -38,9 +38,9 @@ namespace LP304_Takt.Services
             await _userRepository.DeleteEntity(id);
         }
 
-        public Task UpdateEntity(User entity)
+        public async Task UpdateUser(User user, int userId)
         {
-            throw new NotImplementedException();
+           await _userRepository.UpdateUser(user, userId);
         }
     }
 }

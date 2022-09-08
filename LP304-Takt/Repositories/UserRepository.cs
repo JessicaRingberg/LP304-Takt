@@ -64,5 +64,27 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateUser(User user, int userId)
+        {
+
+            var userToUpdate = await _context.Users
+                .FindAsync(userId);
+            if (userToUpdate is null)
+            {
+                return;
+            }
+
+            MapUser(userToUpdate, user);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private User MapUser(User newUser, User oldUser)
+        {
+            newUser.UserName = oldUser.UserName;
+            newUser.Email = oldUser.Email;
+            newUser.Password = oldUser.Password;
+            return newUser;
+        }
     }
 }

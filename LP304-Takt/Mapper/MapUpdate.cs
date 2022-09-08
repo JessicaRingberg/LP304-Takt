@@ -50,5 +50,15 @@ namespace LP304_Takt.Mapper
             };
         }
 
+        public static User AsUpdated(this UserUpdateDto user)
+        {
+            return new User
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                Password = user.Password
+            };
+        }
+
     }
 }
