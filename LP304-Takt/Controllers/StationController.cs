@@ -56,7 +56,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateStation([FromBody] StationUpdateDto station, [FromQuery] int stationId)
         {
-            await _stationService.UpdateStation(station.AsUpdated(), stationId);
+            await _stationService.UpdateEntity(station.AsUpdated(), stationId);
 
             return Ok();
         }

@@ -5,6 +5,6 @@ namespace LP304_Takt.Interfaces.Repositories
     public interface IEventStatusRepository : IBaseRepository<EventStatus>
     {
         Task Add(EventStatus eventStatus);
-        Task UpdateEventStatus(EventStatus eventStatus, int eventStatusId);
+        //Task UpdateEventStatus(EventStatus eventStatus, int eventStatusId);
     }
 }

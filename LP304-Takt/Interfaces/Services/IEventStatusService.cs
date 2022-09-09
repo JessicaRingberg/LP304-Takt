@@ -5,6 +5,6 @@ namespace LP304_Takt.Interfaces.Services
     public interface IEventStatusService : IBaseService<EventStatus>
     {
         Task Add(EventStatus eventStatus);
-        Task UpdateEventStatus(EventStatus eventStatus, int eventStatusId);
+       // Task UpdateEventStatus(EventStatus eventStatus, int eventStatusId);
     }
 }

@@ -52,7 +52,7 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task UpdateConfig(Config config, int configId)
+        public async Task UpdateEntity(Config config, int configId)
         {
             var configToUpdate = await _context.Configs
                 .FindAsync(configId);

@@ -57,7 +57,7 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task UpdateAlarm(Alarm alarm, int alarmId)
+        public async Task UpdateEntity(Alarm alarm, int alarmId)
         { 
             var alarmToUpdate = await _context.Alarms
                 .FindAsync(alarmId);
@@ -76,5 +76,6 @@ namespace LP304_Takt.Repositories
             newAlarm.Reason = oldAlarm.Reason;
             return newAlarm;
         }
+
     }
 }

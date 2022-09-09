@@ -37,9 +37,9 @@ namespace LP304_Takt.Services
             throw new NotImplementedException();
         }
 
-        public async Task UpdateEventStatus(EventStatus eventStatus, int eventStatusId)
+        public async Task UpdateEntity(EventStatus eventStatus, int eventStatusId)
         {
-            await _eventStatusRepository.UpdateEventStatus(eventStatus, eventStatusId);
+            await _eventStatusRepository.UpdateEntity(eventStatus, eventStatusId);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateAlarmType([FromBody] AlarmTypeUpdateDto alarmType, [FromQuery] int alarmTypeId)
         {
-            await _alarmTypeService.UpdateAlarmType(alarmType.AsUpdated(), alarmTypeId);
+            await _alarmTypeService.UpdateEntity(alarmType.AsUpdated(), alarmTypeId);
 
             return Ok();
         }

@@ -57,7 +57,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateRole([FromBody] RoleUpdateDto role, [FromQuery] int roleId)
         {
-            await _roleService.UpdateRole(role.AsUpdated(), roleId);
+            await _roleService.UpdateEntity(role.AsUpdated(), roleId);
 
             return Ok();
         }
