@@ -13,11 +13,7 @@ namespace LP304_Takt.Models
 
         }
 
-        //public DataContext(DbContextOptions<DataContext> options)
-        //    : base(options)
-        //{
-
-        //}
+       
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -34,10 +30,7 @@ namespace LP304_Takt.Models
                 .HasIndex(c => c.Name)
                 .IsUnique();
         }
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    base.OnModelCreating(builder);
-        //}
+       
         public DbSet<User> Users { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Area> Areas { get; set; }
