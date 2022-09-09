@@ -8,5 +8,6 @@ namespace LP304_Takt.Interfaces.Services
         Task Add(User user, int companyId);
         Task<Company?> GetCompanyByUser(int userId);
         Task UpdateUser(User user, int userId);
+
     }
 }

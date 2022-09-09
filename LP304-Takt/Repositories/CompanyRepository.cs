@@ -57,6 +57,7 @@ namespace LP304_Takt.Repositories
             return await _context.Users.Where(u => u.CompanyId == companyId).ToListAsync();
         }
 
+
         public async Task Update(Company company, int companyId)
         {
             var companyToUpdate = await _context.Companies
@@ -65,6 +66,7 @@ namespace LP304_Takt.Repositories
             {
                 return;
             }
+            companyToUpdate.Name = company.Name;
 
             MapCompany(companyToUpdate, company);
 

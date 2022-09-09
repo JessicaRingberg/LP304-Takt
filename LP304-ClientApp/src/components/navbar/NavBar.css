@@ -1,0 +1,135 @@
+a {
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0d1430;
+    color: white;
+    height: 40px;
+    box-shadow: rgba(0, 0, 0, 0.507) 0px 0px 5px 2px  ;
+
+}
+
+.links-container {
+    display: none;
+    position: fixed;
+}
+
+.links-container img {
+    width: 15px;
+    margin-right: 5px;
+}
+
+.links-container .down-arrow {
+    width: 10px;
+    margin-left: 5px;
+}
+
+
+.app-logo {
+    margin-left: 15px;
+    height: 10px;
+}
+
+.right-menu-context {
+    margin-right: 15px;
+}
+
+
+
+.rest-status {
+    font-size: large;
+    color: rgb(10, 145, 10);
+    margin-left: 5px;
+}
+
+.burger-menu-icon {
+    width: 25px;
+    cursor: pointer;
+}
+
+.rest-connected {
+    display: none;
+}
+
+.rest-connected p {
+    font-size: small;
+}
+
+.user-info {
+    display: none;
+}
+
+.submenu {
+    display: none;
+}
+
+.account-icon {
+    width: 25px;
+}
+
+@media screen and (min-width: 800px) {
+    .navbar {
+        display: grid;
+        grid-template-columns: 15% 70% 15%;
+        height: 60px;
+    }
+
+    .burger-menu-icon {
+        display: none;
+    }
+
+    .links-container {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .links-container a {
+        padding: 10px 15px;
+    }
+
+    .links-container a:hover {
+        border-bottom: #c60c30 solid 3px;
+    }
+    .app-logo {
+        height: 15px;
+    }
+
+    .right-menu-context {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+    .user-info {
+        display: block;
+        text-align: center;
+        color: white;
+        margin-left: 15px;
+        font-size: small;
+    }
+
+    .submenu {
+        width: 100%;
+        position: absolute;
+        gap: 15px;
+        justify-content: center;
+        height: 35px;
+        border-top: #c60c30 2px solid;
+        background-color: #151E4A;
+        box-shadow: rgba(0, 0, 0, 0.507) 0px 0px 5px 2px  ;
+    }
+
+    .rest-connected {
+        display: block;
+    }
+}

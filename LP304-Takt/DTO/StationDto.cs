@@ -8,5 +8,6 @@ namespace LP304_Takt.DTO
         public string Name { get; init; }
         public bool Andon { get; init; }
         public bool Finished { get; init; }
+
     }
 }

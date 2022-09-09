@@ -1,0 +1,21 @@
+.company-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.company-list ul {
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: rgba(214, 214, 214, 0.507) 0px 3px 3px 2px  ;
+}
+
+.company-list h2 {
+    font-weight: 500;
+}

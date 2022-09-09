@@ -136,6 +136,8 @@ namespace LP304_Takt.Mapper
                 UserName = user.UserName,
                 Email = user.Email,
                 Password = user.Password
+
+
             };
         }
 

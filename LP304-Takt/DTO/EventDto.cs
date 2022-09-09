@@ -9,5 +9,6 @@
         public string Reason { get; init; }
         public int EventStatusId { get; init; }
 
+
     }
 }

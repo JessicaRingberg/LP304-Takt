@@ -44,5 +44,6 @@ namespace LP304_Takt.Services
             await _companyRepository.Update(company, companyId);
         }
 
+
     }
 }

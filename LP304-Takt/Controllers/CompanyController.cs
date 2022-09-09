@@ -63,6 +63,7 @@ namespace LP304_Takt.Controllers
         {
             await _companyService.Update(company.AsUpdated(), companyId);
 
+
             return Ok();
         }
 
