@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +12,6 @@ namespace LP304_Takt.Models
 
         }
 
-       
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
