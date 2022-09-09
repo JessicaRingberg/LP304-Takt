@@ -19,7 +19,7 @@ function NavBar() {
                         <NavLink to="/"><img src={home} />Takt</NavLink>
                         <NavLink to="/events"><img src={home} />Events</NavLink>
                         <NavLink to="/alarms"><img src={home} />Alarms</NavLink>
-                        <NavLink to="/settings"><img src={settings} />Settings<img className="down-arrow" src={arrow} /></NavLink>
+                        <NavLink to="/settings"><img src={settings} />Settings</NavLink>
                     </div>
                 </div>
                 <div className="right-menu-context">

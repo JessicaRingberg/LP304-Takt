@@ -11,14 +11,12 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <NavBar />
-        <main>
           <Routes>
             <Route path="/" element={<Takt/>} />
             <Route path="/events" element={<Events/>} />
             <Route path="/alarms" element={<Alarms/>} />
             <Route path="/settings" element={<Settings/>} />
           </Routes>
-        </main>
         <Footer />
       </div>
     </BrowserRouter>
