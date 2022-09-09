@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LP304-Takt", "LP304-Takt\LP
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LP304-ClientApp", "LP304-ClientApp\", "{93747981-715D-458D-A51D-E24698164F61}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_62858"
 		Debug.AspNetCompiler.PhysicalPath = "LP304-ClientApp\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62858\"
