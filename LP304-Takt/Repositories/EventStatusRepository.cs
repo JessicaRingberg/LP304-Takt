@@ -45,9 +45,24 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public Task UpdateEntity(EventStatus entity)
+        public async Task UpdateEventStatus(EventStatus eventStatus, int eventStatusId)
         {
-            throw new NotImplementedException();
+            var eventStatusToUpdate = await _context.EventStatuses
+                .FindAsync(eventStatusId);
+            if (eventStatusToUpdate is null)
+            {
+                return;
+            }
+
+            MapEventStatus(eventStatusToUpdate, eventStatus);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private static EventStatus MapEventStatus(EventStatus newEventStatus, EventStatus oldEventStatus)
+        {
+            newEventStatus.Name = oldEventStatus.Name;
+            return newEventStatus;
         }
     }
 }

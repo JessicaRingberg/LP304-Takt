@@ -46,9 +46,24 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public Task UpdateEntity(AlarmType entity)
+        public async Task UpdateAlarmType(AlarmType alarmType, int alarmTypeId)
         {
-            throw new NotImplementedException();
+            var alarmTypeToUpdate = await _context.AlarmTypes
+                .FindAsync(alarmTypeId);
+            if (alarmTypeToUpdate is null)
+            {
+                return;
+            }
+
+            MapAlarmType(alarmTypeToUpdate, alarmType);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private static AlarmType MapAlarmType(AlarmType newAlarmType, AlarmType oldAlarmType)
+        {
+            newAlarmType.Name = oldAlarmType.Name;
+            return newAlarmType;
         }
     }
 }

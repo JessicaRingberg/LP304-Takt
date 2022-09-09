@@ -54,23 +54,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateEntity(Area area)
+        public async Task UpdateArea(Area area, int areaId)
         {
-            var updatedArea = await _context.Areas
-                .Include(a => a.Stations)
-                .Include(a => a.Config)
-                .FirstOrDefaultAsync(a => a.Id == area.Id);
-            if (updatedArea is null)
+            var areaToUpdate = await _context.Areas
+                .FindAsync(areaId);
+            if (areaToUpdate is null)
             {
                 return;
             }
 
-            updatedArea.Name = area.Name;
-            updatedArea.CompanyId = area.CompanyId;
-            updatedArea.Company = area.Company;
-            updatedArea.Stations = area.Stations;
-            await _context.SaveChangesAsync();
+            MapArea(areaToUpdate, area);
 
+            await _context.SaveChangesAsync();
         }
+
+        private static Area MapArea(Area newArea, Area oldArea)
+        {
+            newArea.Name = oldArea.Name;
+            return newArea;
+        }
+
+
     }
 }

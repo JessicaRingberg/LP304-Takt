@@ -33,9 +33,9 @@ namespace LP304_Takt.Services
             return await _stationRepository.GetEntity(id);
         }
 
-        public Task UpdateEntity(Station entity)
+        public async Task UpdateStation(Station station, int stationId)
         {
-            throw new NotImplementedException();
+            await _stationRepository.UpdateStation(station, stationId);
         }
     }
 }
