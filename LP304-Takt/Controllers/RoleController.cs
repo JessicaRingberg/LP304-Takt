@@ -1,6 +1,8 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +51,14 @@ namespace LP304_Takt.Controllers
         public async Task<IActionResult> DeleteRole(int id)
         {
             await _roleService.DeleteEntity(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateRole([FromBody] RoleUpdateDto role, [FromQuery] int roleId)
+        {
+            await _roleService.UpdateRole(role.AsUpdated(), roleId);
+
             return Ok();
         }
     }
