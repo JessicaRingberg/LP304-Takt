@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Models
 {
-    public class DataContext: DbContext
+    public class DataContext: IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
@@ -11,8 +13,14 @@ namespace LP304_Takt.Models
 
         }
 
+        //public DataContext(DbContextOptions<DataContext> options)
+        //    : base(options)
+        //{
+
+        //}
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.Entity<User>()
                 .HasIndex(u => u.UserName)
                 .IsUnique();
@@ -26,7 +34,10 @@ namespace LP304_Takt.Models
                 .HasIndex(c => c.Name)
                 .IsUnique();
         }
-
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //}
         public DbSet<User> Users { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Area> Areas { get; set; }

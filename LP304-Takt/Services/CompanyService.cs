@@ -44,9 +44,5 @@ namespace LP304_Takt.Services
             await _companyRepository.Update(company, companyId);
         }
 
-        public Task UpdateEntity(Company entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
