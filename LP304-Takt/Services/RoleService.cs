@@ -37,5 +37,10 @@ namespace LP304_Takt.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task UpdateRole(Role role, int roleId)
+        {
+            await _roleRepository.UpdateRole(role, roleId);
+        }
     }
 }
