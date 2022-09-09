@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using Microsoft.AspNetCore.Http;
@@ -48,6 +49,14 @@ namespace LP304_Takt.Controllers
         public async Task<IActionResult> DeleteConfig(int id)
         {
             await _configService.DeleteEntity(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateConfig([FromBody] ConfigUpdateDto config, [FromQuery] int configId)
+        {
+            await _configService.UpdateConfig(config.AsUpdated(), configId);
+
             return Ok();
         }
     }

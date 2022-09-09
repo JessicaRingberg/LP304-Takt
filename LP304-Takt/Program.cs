@@ -4,6 +4,7 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +42,9 @@ builder.Services.AddDbContext<DataContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DbString");
     options.UseSqlServer(connectionString);
 });
-
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+        options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<DataContext>();
 
 
 builder.Services.AddEndpointsApiExplorer();

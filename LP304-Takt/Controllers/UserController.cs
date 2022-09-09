@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using LP304_Takt.DTO;
+using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
@@ -62,6 +63,14 @@ namespace LP304_Takt.Controllers
         public async Task<IActionResult> DeleteUser(int id)
         {
             await _userService.DeleteEntity(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
+        {
+            await _userService.UpdateUser(user.AsUpdated(), userId);
+
             return Ok();
         }
 

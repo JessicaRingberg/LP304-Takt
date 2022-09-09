@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using Microsoft.AspNetCore.Http;
@@ -48,6 +49,14 @@ namespace LP304_Takt.Controllers
         public async Task<IActionResult> DeleteEvent(int id)
         {
             await _alarmService.DeleteEntity(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAlarm([FromBody] AlarmUpdateDto alarm, [FromQuery] int alarmId)
+        {
+            await _alarmService.UpdateAlarm(alarm.AsUpdated(), alarmId);
+
             return Ok();
         }
     }

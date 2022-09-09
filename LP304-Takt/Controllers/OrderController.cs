@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using Microsoft.AspNetCore.Http;
@@ -49,6 +50,14 @@ namespace LP304_Takt.Controllers
         public async Task<IActionResult> DeleteOrder(int id)
         {
             await _orderService.DeleteEntity(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
+        {
+            await _orderService.UpdateOrder(order.AsUpdated(), orderId);
+
             return Ok();
         }
     }

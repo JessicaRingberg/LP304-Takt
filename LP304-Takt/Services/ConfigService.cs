@@ -33,9 +33,9 @@ namespace LP304_Takt.Services
             return await _configRepository.GetEntity(id);
         }
 
-        public Task UpdateEntity(Config entity)
+        public async Task UpdateConfig(Config config, int configId)
         {
-            throw new NotImplementedException();
+            await _configRepository.UpdateConfig(config, configId);
         }
     }
 }

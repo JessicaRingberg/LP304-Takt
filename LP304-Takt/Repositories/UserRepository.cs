@@ -42,7 +42,6 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<User>> GetEntities()
         {
             return await _context.Users
-                //.Include(user => user.Role)
                 .ToListAsync();
         }
 
@@ -65,9 +64,27 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task UpdateEntity(User entity)
+        public async Task UpdateUser(User user, int userId)
         {
-            throw new NotImplementedException();
+
+            var userToUpdate = await _context.Users
+                .FindAsync(userId);
+            if (userToUpdate is null)
+            {
+                return;
+            }
+
+            MapUser(userToUpdate, user);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private static User MapUser(User newUser, User oldUser)
+        {
+            newUser.UserName = oldUser.UserName;
+            newUser.Email = oldUser.Email;
+            newUser.Password = oldUser.Password;
+            return newUser;
         }
     }
 }

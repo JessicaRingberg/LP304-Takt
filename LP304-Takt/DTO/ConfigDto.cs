@@ -9,6 +9,5 @@ namespace LP304_Takt.DTO
         public bool SoundOn { get; init; }
         public int FilterTime { get; init; }
         public string MacBidisp { get; init; }
-        //public Area Area { get; set; }
     }
 }
