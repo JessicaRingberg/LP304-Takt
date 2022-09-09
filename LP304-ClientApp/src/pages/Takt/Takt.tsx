@@ -6,17 +6,24 @@ import UseFetch from '../../hooks/usefetch/UseFetch';
 import LoadingSpinner from '../../components/loadingspinner/LoadingSpinner';
 
 function Home() {
-    const {data : companies , isPending, error} = UseFetch('https://localhost:7112/api/Company')
+    const { data: companies, isPending, error } = UseFetch('https://localhost:7112/api/Company')
 
     return (
-        <div className="main-content">
-            <div>
-                { error && <p className='error'> {error} </p>}
-                {isPending && <LoadingSpinner />}
-                {companies && <CompanyList companies={companies} />}
+        <main>
+            <div className="left-content">
+
             </div>
+        <div className="main-content">
+            <section>
+                {error && <p className='error'> {error} </p>}
+                {isPending && <LoadingSpinner />}
+            </section>
+            {companies && <CompanyList companies={companies} />}
+        </div>
+        <div className="right-content">
 
         </div>
+        </main>
     );
 }
 
