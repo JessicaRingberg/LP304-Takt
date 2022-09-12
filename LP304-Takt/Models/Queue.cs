@@ -3,6 +3,6 @@
     public class Queue
     {
         public int Id { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Order>? Orders { get; set; }
     }
 }
