@@ -1,0 +1,22 @@
+.takt-content {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin: 20px 40px;
+}
+
+.takt-content p {
+    text-align: left;
+}
+
+.takt-content form {
+        display: block;
+        align-items: center;
+        justify-items: center;
+        background-color: white;
+        width: 500px;
+        border-radius: 10px;
+        padding: 30px 60px 30px 60px;
+        box-shadow: rgba(214, 214, 214, 0.507) 0px 3px 3px 2px  ;
+}

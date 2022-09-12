@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Company from '../../models/Company';
+import Company from '../../../models/Company';
 
 
 const UseFetch = (url: string) => {
