@@ -33,9 +33,9 @@ namespace LP304_Takt.Services
             return await _roleRepository.GetEntity(id);
         }
 
-        public Task UpdateEntity(Role entity)
+        public async Task UpdateEntity(Role role, int roleId)
         {
-            throw new NotImplementedException();
+            await _roleRepository.UpdateEntity(role, roleId);
         }
 
         public async Task UpdateEntity(Role role, int roleId)

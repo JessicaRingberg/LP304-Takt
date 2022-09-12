@@ -5,5 +5,6 @@ namespace LP304_Takt.Interfaces.Services
     public interface IRoleService : IBaseService<Role>
     {
         Task Add(Role role);
+       
     }
 }
