@@ -13,12 +13,22 @@ a {
     background-color: #0d1430;
     color: white;
     height: 40px;
-    box-shadow: rgba(0, 0, 0, 0.507) 0px 0px 5px 2px  ;
+    box-shadow: #00000081 0px 0px 5px 2px  ;
+    z-index: 1;
+}
+
+.navbar p {
+    color: white;
 }
 
 .links-container {
-    display: none;
+    display: block;
     position: fixed;
+    right: 0;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    background-color: #c60c30;
 }
 
 .links-container img {
@@ -31,6 +41,15 @@ a {
     margin-left: 5px;
 }
 
+.links {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin: 20px;
+    justify-items: center;
+    flex-direction: column;
+}
+
 
 .app-logo {
     margin-left: 15px;
@@ -41,9 +60,8 @@ a {
     margin-right: 15px;
 }
 
-
-
 .rest-status {
+    display: inline;
     font-size: large;
     color: rgb(10, 145, 10);
     margin-left: 5px;
@@ -89,9 +107,13 @@ a {
         display: flex;
         position: relative;
         align-items: center;
-        justify-content: center;
+        justify-items: center;
+        justify-self: center;
+        width: 100%;
         height: 100%;
+        background-color: transparent;
     }
+
     .links-container a {
         padding: 10px 15px;
     }
@@ -99,6 +121,14 @@ a {
     .links-container a:hover {
         border-bottom: #c60c30 solid 3px;
     }
+
+    .links {
+        display: block;
+        margin: 0;
+        text-align: center;
+        flex-direction: row;
+    }
+
     .app-logo {
         height: 15px;
     }
@@ -131,5 +161,6 @@ a {
 
     .rest-connected {
         display: block;
+        width: 100%;
     }
 }
