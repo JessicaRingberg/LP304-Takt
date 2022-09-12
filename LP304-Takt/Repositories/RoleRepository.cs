@@ -44,6 +44,7 @@ namespace LP304_Takt.Repositories
         }
 
         public async Task UpdateEntity(Role role, int roleId)
+
         {
             var roleToUpdate = await _context.Roles
                 .FindAsync(roleId);
