@@ -4,6 +4,6 @@ namespace LP304_Takt.Interfaces.Repositories
 {
     public interface IQueueRepository : IBaseRepository<Queue>
     {
-        Task Add(int id);
+        Task Add(Queue queue, int id);
     }
 }

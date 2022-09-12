@@ -1,8 +1,11 @@
-﻿namespace LP304_Takt.Models
+﻿using System.Security.Policy;
+
+namespace LP304_Takt.Models
 {
     public class Queue
     {
         public int Id { get; set; }
+        public int OrderId { get; set; }
         public ICollection<Order>? Orders { get; set; }
     }
 }
