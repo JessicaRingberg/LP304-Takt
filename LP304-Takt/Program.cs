@@ -1,3 +1,4 @@
+using System.Configuration;
 using System.Text.Json.Serialization;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
@@ -6,6 +7,7 @@ using LP304_Takt.Repositories;
 using LP304_Takt.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,13 +43,22 @@ builder.Services.AddTransient<IAlarmTypeService, AlarmTypeService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DbString");
-    options.UseSqlServer(connectionString);
+
+    options.UseMySql(builder.Configuration.GetConnectionString("DbString"),
+     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbString")),
+    builder =>
+    {
+        builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+    });
+
+    //    var connectionString = builder.Configuration.GetConnectionString("DbString");
+    //    options.UseSqlServer(connectionString);
 });
+
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
         options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<DataContext>();
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
