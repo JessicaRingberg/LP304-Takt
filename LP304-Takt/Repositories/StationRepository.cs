@@ -50,7 +50,7 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public async Task UpdateStation(Station station, int stationId)
+        public async Task UpdateEntity(Station station, int stationId)
         {
             var stationToUpdate = await _context.Stations
                 .FindAsync(stationId);

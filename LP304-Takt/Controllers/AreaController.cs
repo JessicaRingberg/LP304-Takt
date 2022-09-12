@@ -57,7 +57,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {
-            await _areaService.UpdateArea(area.AsUpdated(), areaId);
+            await _areaService.UpdateEntity(area.AsUpdated(), areaId);
 
             return Ok();
         }

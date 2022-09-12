@@ -5,6 +5,5 @@ namespace LP304_Takt.Interfaces.Repositories
     public interface IRoleRepository : IBaseRepository<Role>
     {
         Task Add(Role role);
-        Task UpdateRole(Role role, int roleId);
     }
 }

@@ -7,7 +7,7 @@ namespace LP304_Takt.Interfaces.Repositories
         Task Add(User user, int companyId);
         Task<Company?> GetCompanyByUser(int userId);
 
-        Task UpdateUser(User user, int userId);
+      
 
     }
 }

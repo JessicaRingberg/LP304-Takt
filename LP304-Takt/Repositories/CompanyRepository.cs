@@ -58,7 +58,7 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task Update(Company company, int companyId)
+        public async Task UpdateEntity(Company company, int companyId)
         {
             var companyToUpdate = await _context.Companies
                 .FindAsync(companyId);

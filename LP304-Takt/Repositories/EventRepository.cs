@@ -57,7 +57,7 @@ namespace LP304_Takt.Repositories
             return await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task UpdateEvent(Event eEvent, int eventId)
+        public async Task UpdateEntity(Event eEvent, int eventId)
         {
             var eventToUpdate = await _context.Events
                 .FindAsync(eventId);

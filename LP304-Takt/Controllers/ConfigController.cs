@@ -55,7 +55,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateConfig([FromBody] ConfigUpdateDto config, [FromQuery] int configId)
         {
-            await _configService.UpdateConfig(config.AsUpdated(), configId);
+            await _configService.UpdateEntity(config.AsUpdated(), configId);
 
             return Ok();
         }

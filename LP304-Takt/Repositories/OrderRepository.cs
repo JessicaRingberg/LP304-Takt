@@ -52,7 +52,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync(); 
         }
 
-        public async Task UpdateOrder(Order order, int orderId)
+        public async Task UpdateEntity(Order order, int orderId)
         {
             var orderToUpdate = await _context.Orders
                 .FindAsync(orderId);

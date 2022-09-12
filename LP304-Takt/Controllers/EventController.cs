@@ -53,7 +53,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateEvent([FromBody] EventUpdateDto eEvent, [FromQuery] int eventId)
         {
-            await _eventService.UpdateEvent(eEvent.AsUpdated(), eventId);
+            await _eventService.UpdateEntity(eEvent.AsUpdated(), eventId);
 
             return Ok();
         }

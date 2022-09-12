@@ -54,7 +54,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateEventStatus([FromBody] EventStatusUpdateDto eventStatus, [FromQuery] int eventStatusId)
         {
-            await _eventStatusService.UpdateEventStatus(eventStatus.AsUpdated(), eventStatusId);
+            await _eventStatusService.UpdateEntity(eventStatus.AsUpdated(), eventStatusId);
 
             return Ok();
         }

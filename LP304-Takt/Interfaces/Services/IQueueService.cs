@@ -2,8 +2,8 @@
 
 namespace LP304_Takt.Interfaces.Services
 {
-    public interface IRoleService : IBaseService<Role>
+    public interface IQueueService : IBaseService<Queue>
     {
-        Task Add(Role role);
+        Task Add(int id);
     }
 }

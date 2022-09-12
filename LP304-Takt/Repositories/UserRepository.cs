@@ -64,7 +64,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateUser(User user, int userId)
+        public async Task UpdateEntity(User user, int userId)
         {
 
             var userToUpdate = await _context.Users

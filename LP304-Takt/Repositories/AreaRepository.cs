@@ -54,7 +54,7 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateArea(Area area, int areaId)
+        public async Task UpdateEntity(Area area, int areaId)
         {
             var areaToUpdate = await _context.Areas
                 .FindAsync(areaId);

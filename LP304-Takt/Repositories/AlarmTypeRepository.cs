@@ -46,7 +46,7 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateAlarmType(AlarmType alarmType, int alarmTypeId)
+        public async Task UpdateEntity(AlarmType alarmType, int alarmTypeId)
         {
             var alarmTypeToUpdate = await _context.AlarmTypes
                 .FindAsync(alarmTypeId);

@@ -33,9 +33,9 @@ namespace LP304_Takt.Services
             return await _eventRepository.GetEntity(id);
         }
 
-        public async Task UpdateEvent(Event eEvent, int eventId)
+        public async Task UpdateEntity(Event eEvent, int eventId)
         {
-            await _eventRepository.UpdateEvent(eEvent, eventId);
+            await _eventRepository.UpdateEntity(eEvent, eventId);
         }
     }
 }

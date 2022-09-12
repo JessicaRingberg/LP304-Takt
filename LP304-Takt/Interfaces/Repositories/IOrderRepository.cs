@@ -5,6 +5,6 @@ namespace LP304_Takt.Interfaces.Repositories
     public interface IOrderRepository : IBaseRepository<Order>
     {
         Task Add(Order order, int stationId);
-        Task UpdateOrder(Order order, int orderId);
+        
     }
 }

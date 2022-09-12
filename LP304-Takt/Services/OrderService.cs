@@ -33,9 +33,9 @@ namespace LP304_Takt.Services
             return await _orderRepository.GetEntity(id);
         }
 
-        public async Task UpdateOrder(Order order, int orderId)
+        public async Task UpdateEntity(Order order, int orderId)
         {
-            await _orderRepository.UpdateOrder(order, orderId);
+            await _orderRepository.UpdateEntity(order, orderId);
         }
     }
 }
