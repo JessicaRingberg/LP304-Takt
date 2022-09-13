@@ -38,9 +38,5 @@ namespace LP304_Takt.Services
             await _roleRepository.UpdateEntity(role, roleId);
         }
 
-        public async Task UpdateEntity(Role role, int roleId)
-        {
-            await _roleRepository.UpdateEntity(role, roleId);
-        }
     }
 }
