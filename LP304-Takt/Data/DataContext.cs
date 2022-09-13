@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Models
 {
-    public class DataContext: IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class DataContext: DbContext //IdentityDbContext<IdentityUser, IdentityRole, string>
     {
-        public DataContext(DbContextOptions<DataContext> options)
+        public DataContext(DbContextOptions options)
             : base(options)
         {
 
@@ -14,19 +14,19 @@ namespace LP304_Takt.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            builder.Entity<User>()
-                .HasIndex(u => u.UserName)
-                .IsUnique();
-            builder.Entity<Company>()
-                .HasIndex(c => c.Name)
-                .IsUnique();
-            builder.Entity<AlarmType>()
-                .HasIndex(c => c.Name)
-                .IsUnique();
-            builder.Entity<EventStatus>()
-                .HasIndex(c => c.Name)
-                .IsUnique();
+            //base.OnModelCreating(builder);
+            //builder.Entity<User>()
+            //    .HasIndex(u => u.UserName)
+            //    .IsUnique();
+            //builder.Entity<Company>()
+            //    .HasIndex(c => c.Name)
+            //    .IsUnique();
+            //builder.Entity<AlarmType>()
+            //    .HasIndex(c => c.Name)
+            //    .IsUnique();
+            //builder.Entity<EventStatus>()
+            //    .HasIndex(c => c.Name)
+            //    .IsUnique();
         }
        
         public DbSet<User> Users { get; set; }

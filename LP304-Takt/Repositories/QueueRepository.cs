@@ -5,13 +5,13 @@ namespace LP304_Takt.Repositories
 {
     public class QueueRepository : IQueueRepository
     {
-        private readonly DataContext _context;
+        //private readonly DataContext _context;
 
-        public QueueRepository(DataContext context)
-        {
-            _context = context;
-        }
-        public async Task Add(Queue queue, int id)
+        //public QueueRepository(DataContext context)
+        //{
+        //    _context = context;
+        //}
+        public Task Add(Queue queue, int id)
         {
             throw new NotImplementedException();
             //var order = await _context.Orders.FindAsync(id);

@@ -56,9 +56,9 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-        options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DataContext>();
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+//        options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<DataContext>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
