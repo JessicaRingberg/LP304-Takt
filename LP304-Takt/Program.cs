@@ -1,11 +1,9 @@
-using System.Configuration;
 using System.Text.Json.Serialization;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
@@ -44,21 +42,17 @@ builder.Services.AddTransient<IAlarmTypeService, AlarmTypeService>();
 builder.Services.AddDbContext<DataContext>(options =>
 {
 
-    options.UseMySql(builder.Configuration.GetConnectionString("DbString"),
-     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbString")),
-    builder =>
-    {
-        builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-    });
+    //options.UseMySql(builder.Configuration.GetConnectionString("DbString"),
+    // ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbString")),
+    //builder =>
+    //{
+    //    builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+    //});
 
-    //    var connectionString = builder.Configuration.GetConnectionString("DbString");
-    //    options.UseSqlServer(connectionString);
+    var connectionString = builder.Configuration.GetConnectionString("DbString");
+    options.UseSqlServer(connectionString);
 });
 
-
-//builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-//        options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<DataContext>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -73,6 +67,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.UseAuthentication();
 
 app.UseAuthorization(); 
 

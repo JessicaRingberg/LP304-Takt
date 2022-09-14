@@ -36,7 +36,7 @@ namespace LP304_Takt.Repositories
         {
             return await _context.Companies
                 .Include(c => c.Users)
-                .ThenInclude(u => u.Role)
+                //.ThenInclude(u => u.Role)
                 .Include(c => c.Areas)
                 .ThenInclude(a => a.Stations)
                 .ToListAsync();
@@ -46,7 +46,7 @@ namespace LP304_Takt.Repositories
         {
             return await _context.Companies
                 .Include(c => c.Users)
-                .ThenInclude(u => u.Role)
+               // .ThenInclude(u => u.Role)
                 .Include(c => c.Areas)
                 .ThenInclude(a => a.Stations)
                 .FirstOrDefaultAsync(c => c.Id == id);

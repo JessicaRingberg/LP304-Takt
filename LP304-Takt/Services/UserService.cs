@@ -1,6 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
@@ -42,5 +43,16 @@ namespace LP304_Takt.Services
         {
            await _userRepository.UpdateEntity(user, userId);
         }
+        
+        public async Task<ServiceResponse<int>> RegisterUser(User user, string email)
+        {
+            return await _userRepository.RegisterUser(user, email);
+        }
+
+        public async Task<ServiceResponse<string>> LoginUser(string userName, string password)
+        {
+            return await _userRepository.Login(userName, password);
+        }
+
     }
 }

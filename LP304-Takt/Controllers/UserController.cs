@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using LP304_Takt.DTO;
+using LP304_Takt.DTO.LoginDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,6 +74,29 @@ namespace LP304_Takt.Controllers
             await _userService.UpdateEntity(user.AsUpdated(), userId);
 
             return Ok();
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user)
+        {
+           var response = await _userService.RegisterUser(new User 
+            {UserName = user.UserName, Email = user.Email }, user.Password);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
+        {
+            var response = await _userService.LoginUser(request.UserName, request.Password);
+            if(!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Interfaces.Services
 {
@@ -7,7 +8,10 @@ namespace LP304_Takt.Interfaces.Services
     {
         Task Add(User user, int companyId);
         Task<Company?> GetCompanyByUser(int userId);
-       
+        Task<ServiceResponse<int>> RegisterUser(User user, string password);
+        Task<ServiceResponse<string>> LoginUser(string userName, string password);
+
+
 
     }
 }
