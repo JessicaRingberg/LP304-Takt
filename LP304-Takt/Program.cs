@@ -1,10 +1,13 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +24,8 @@ builder.Services.AddScoped<IAreaRepository, AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddScoped<IStationRepository, StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddTransient<IRoleService, RoleService>();
+//builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+//builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddScoped<IConfigRepository, ConfigRepository>();
 builder.Services.AddTransient<IConfigService, ConfigService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -57,6 +60,19 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,7 +84,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
+app.UseAuthentication();
 
 app.UseAuthorization(); 
 

@@ -7,6 +7,7 @@ using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,6 +62,7 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsDto());
         }
 
+        [Authorize(nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

@@ -1,5 +1,4 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.Interfaces.Repositories;
+﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -110,7 +109,7 @@ namespace LP304_Takt.Repositories
           
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-
+            user.Role = Role.Admin;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -147,8 +146,8 @@ namespace LP304_Takt.Repositories
 
             List<Claim> claims = new()
             {
-                new Claim(ClaimTypes.Name, user.UserName)
-               // new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

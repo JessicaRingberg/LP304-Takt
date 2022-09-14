@@ -108,14 +108,14 @@ namespace LP304_Takt.Mapper
             };
         }
 
-        public static RoleDto AsDto(this Role role)
-        {
-            return new RoleDto
-            {
-                Id = role.Id,
-                Name = role.Name
-            };
-        }
+        //public static RoleDto AsDto(this Role role)
+        //{
+        //    return new RoleDto
+        //    {
+        //        Id = role.Id,
+        //        Name = role.Name
+        //    };
+        //}
 
         public static StationDto AsDto(this Station station)
         {
@@ -228,13 +228,13 @@ namespace LP304_Takt.Mapper
             };
         }
 
-        public static Role AsEntity(this RoleCreateDto role)
-        {
-            return new Role
-            {
-                Name = role.Name
-            };
-        }
+        //public static Role AsEntity(this RoleCreateDto role)
+        //{
+        //    return new Role
+        //    {
+        //        Name = role.Name
+        //    };
+        //}
 
         public static Station AsEntity(this StationCreateDto station)
         {
