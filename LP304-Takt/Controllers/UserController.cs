@@ -79,10 +79,10 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user)
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
            var response = await _userService.RegisterUser(new User 
-            {UserName = user.UserName, Email = user.Email }, user.Password);
+            {UserName = user.UserName, Email = user.Email }, user.Password, companyId);
             if (!response.Success)
             {
                 return BadRequest(response);

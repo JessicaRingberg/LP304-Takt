@@ -44,9 +44,9 @@ namespace LP304_Takt.Services
            await _userRepository.UpdateEntity(user, userId);
         }
         
-        public async Task<ServiceResponse<int>> RegisterUser(User user, string email)
+        public async Task<ServiceResponse<int>> RegisterUser(User user, string email, int companyId)
         {
-            return await _userRepository.RegisterUser(user, email);
+            return await _userRepository.RegisterUser(user, email, companyId);
         }
 
         public async Task<ServiceResponse<string>> LoginUser(string userName, string password)

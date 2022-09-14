@@ -8,7 +8,7 @@ namespace LP304_Takt.Interfaces.Services
     {
         Task Add(User user, int companyId);
         Task<Company?> GetCompanyByUser(int userId);
-        Task<ServiceResponse<int>> RegisterUser(User user, string password);
+        Task<ServiceResponse<int>> RegisterUser(User user, string password, int companyId);
         Task<ServiceResponse<string>> LoginUser(string userName, string password);
 
 

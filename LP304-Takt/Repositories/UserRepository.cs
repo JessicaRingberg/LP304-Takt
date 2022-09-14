@@ -3,6 +3,7 @@ using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.Design;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -94,9 +95,19 @@ namespace LP304_Takt.Repositories
             return newUser;
         }
 
-        public async Task<ServiceResponse<int>> RegisterUser(User user, string password)
+        public async Task<ServiceResponse<int>> RegisterUser(User user, string password, int companyId)
         {
-            if(await UserAlreadyExists(user.UserName))
+            var company = await _context.Companies.FindAsync(companyId);
+            if(company is null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = "User must belong to a company"
+                };
+            }
+
+            else if (await UserAlreadyExists(user.UserName))
             {
                 return new ServiceResponse<int>()
                 {
@@ -110,6 +121,7 @@ namespace LP304_Takt.Repositories
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.Role = Role.Admin;
+            user.CompanyId = companyId;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

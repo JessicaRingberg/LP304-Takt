@@ -9,7 +9,7 @@ namespace LP304_Takt.Interfaces.Repositories
         Task Add(User user, int companyId);
         Task<Company?> GetCompanyByUser(int userId);
         Task<bool> UserAlreadyExists(string userName);
-        Task<ServiceResponse<int>> RegisterUser(User user, string email);
+        Task<ServiceResponse<int>> RegisterUser(User user, string email, int companyId);
         Task<ServiceResponse<string>> Login(string userName, string passWord);
 
 
