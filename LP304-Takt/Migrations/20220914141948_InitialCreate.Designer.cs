@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220914070654_another")]
-    partial class another
+    [Migration("20220914141948_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -276,23 +276,6 @@ namespace LP304_Takt.Migrations
                     b.ToTable("Queue");
                 });
 
-            modelBuilder.Entity("LP304_Takt.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>
                 {
                     b.Property<int>("Id")
@@ -339,6 +322,14 @@ namespace LP304_Takt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -347,18 +338,12 @@ namespace LP304_Takt.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -451,10 +436,6 @@ namespace LP304_Takt.Migrations
                         .WithMany("Users")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("LP304_Takt.Models.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId");
-
                     b.Navigation("Company");
                 });
 
@@ -493,11 +474,6 @@ namespace LP304_Takt.Migrations
             modelBuilder.Entity("LP304_Takt.Models.Queue", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("LP304_Takt.Models.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>

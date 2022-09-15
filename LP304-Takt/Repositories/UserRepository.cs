@@ -89,7 +89,7 @@ namespace LP304_Takt.Repositories
 
         private static User MapUser(User newUser, User oldUser)
         {
-            newUser.UserName = oldUser.UserName;
+            //newUser.UserName = oldUser.UserName;
             newUser.Email = oldUser.Email;
             //newUser.Password = oldUser.Password;
             return newUser;
@@ -107,7 +107,7 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            else if (await UserAlreadyExists(user.UserName))
+            else if (await UserAlreadyExists(user.Email))
             {
                 return new ServiceResponse<int>()
                 {
@@ -120,19 +120,21 @@ namespace LP304_Takt.Repositories
           
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            //user.FirstName = user.FirstName;
+            //user.LastName = user.LastName;
             user.Role = Role.Admin;
             user.CompanyId = companyId;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return new ServiceResponse<int> { Data = user.Id, Message = "Registration successful" };
+            return new ServiceResponse<int> { Data = user.Id, Success = true, Message = "Registration successful" };
         }
 
-        public async Task<ServiceResponse<string>> Login(string userName, string passWord)
+        public async Task<ServiceResponse<string>> Login(string email, string passWord)
         {
             var response = new ServiceResponse<string>();
 
-            var verifiedUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName.Equals(userName));
+            var verifiedUser = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
             if(verifiedUser is null)
             {
                 response.Success = false;
@@ -148,6 +150,7 @@ namespace LP304_Takt.Repositories
             {
                 response.Success = true;
                 response.Data = CreateToken(verifiedUser);
+                response.Message = "Logged in";
             }
 
             return response;
@@ -158,7 +161,9 @@ namespace LP304_Takt.Repositories
 
             List<Claim> claims = new()
             {
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Name, user.Email),
+                //new Claim(ClaimTypes.Name, user.FirstName),
+                //new Claim(ClaimTypes.Name, user.LastName),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
@@ -191,9 +196,9 @@ namespace LP304_Takt.Repositories
             return computedHash.SequenceEqual(passwordHash);
         }
 
-        public async Task<bool> UserAlreadyExists(string username)
+        public async Task<bool> UserAlreadyExists(string email)
         {
-            if (await _context.Users.AnyAsync(user => user.UserName.Equals(username)))
+            if (await _context.Users.AnyAsync(user => user.Email.Equals(email)))
             {
                 return true;
             }

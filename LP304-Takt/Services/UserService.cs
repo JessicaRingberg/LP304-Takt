@@ -49,9 +49,9 @@ namespace LP304_Takt.Services
             return await _userRepository.RegisterUser(user, email, companyId);
         }
 
-        public async Task<ServiceResponse<string>> LoginUser(string userName, string password)
+        public async Task<ServiceResponse<string>> LoginUser(string email, string password)
         {
-            return await _userRepository.Login(userName, password);
+            return await _userRepository.Login(email, password);
         }
 
     }

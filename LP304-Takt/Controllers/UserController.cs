@@ -24,14 +24,14 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
-        {
-            await _userService.Add(user.AsEntity(), companyId);
+        //[HttpPost]
+        //public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
+        //{
+        //    await _userService.Add(user.AsEntity(), companyId);
 
-            return Ok();
-        }
-
+        //    return Ok();
+        //}
+        [Authorize(nameof(Role.Admin))]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
@@ -82,7 +82,7 @@ namespace LP304_Takt.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
            var response = await _userService.RegisterUser(new User 
-            {UserName = user.UserName, Email = user.Email }, user.Password, companyId);
+            {FirstName = user.FirstName, LastName = user.LastName, Email = user.Email }, user.Password, companyId);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -93,7 +93,7 @@ namespace LP304_Takt.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
         {
-            var response = await _userService.LoginUser(request.UserName, request.Password);
+            var response = await _userService.LoginUser(request.Email, request.Password);
             if(!response.Success)
             {
                 return BadRequest(response);
