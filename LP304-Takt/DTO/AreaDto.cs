@@ -5,6 +5,6 @@ namespace LP304_Takt.DTO
     {
         public int Id { get; init; }
         public string Name { get; init; } = string.Empty;
-        public ICollection<StationDto> Stations { get; init; }
+        public ICollection<StationDto> Stations { get; init; } = null!;
     }
 }

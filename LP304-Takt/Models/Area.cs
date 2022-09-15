@@ -10,7 +10,7 @@ namespace LP304_Takt.Models
         public int CompanyId { get; set; }
         public Company? Company { get; set; }
         public Config? Config { get; set; }
-        public ICollection<Station> Stations { get; set; }
+        public ICollection<Station> Stations { get; set; } = null!;
     }
 
 }
