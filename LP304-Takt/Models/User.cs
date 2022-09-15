@@ -11,10 +11,10 @@ namespace LP304_Takt.Models
         public string LastName { get; set; } = string.Empty;
         [Required]
         public string Email { get; set; } = string.Empty;
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public byte[] PasswordHash { get; set; } = null!;
+        public byte[] PasswordSalt { get; set; } = null!;
         public int? CompanyId { get; set; }
-        public Company Company { get; set; }
+        public Company? Company { get; set; }
         public Role Role { get; set; }
 
     }

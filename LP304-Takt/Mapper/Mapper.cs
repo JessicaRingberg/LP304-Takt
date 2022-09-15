@@ -20,12 +20,14 @@ namespace LP304_Takt.Mapper
 
         public static AlarmTypeDto AsDto(this AlarmType alarmType)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             return new AlarmTypeDto
             {
                 Id = alarmType.Id,
                 Name = alarmType.Name,
                 Alarms = alarmType.Alarms.Select(a => a.AsDto()).ToList()
             };
+#pragma warning restore CS8604 // Possible null reference argument.
         }
 
         public static AreaDto AsDto(this Area area)

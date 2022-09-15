@@ -10,7 +10,5 @@ namespace LP304_Takt.Interfaces.Repositories
         Task<bool> UserAlreadyExists(string userName);
         Task<ServiceResponse<int>> RegisterUser(User user, string email, int companyId);
         Task<ServiceResponse<string>> Login(string email, string passWord);
-
-
     }
 }

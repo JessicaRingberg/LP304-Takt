@@ -46,7 +46,7 @@ namespace LP304_Takt.Repositories
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.Role = Role.Admin;
+            user.Role = Role.User;
             user.CompanyId = companyId;
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -85,7 +85,6 @@ namespace LP304_Takt.Repositories
         public async Task<User?> GetEntity(int id)
         {
             return await _context.Users
-                //.Include(user => user.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
@@ -127,7 +126,7 @@ namespace LP304_Takt.Repositories
             {
                 return;
             }
-
+            
             MapUser(userToUpdate, user);
 
             await _context.SaveChangesAsync();
@@ -136,9 +135,10 @@ namespace LP304_Takt.Repositories
 
         private static User MapUser(User newUser, User oldUser)
         {
-            //newUser.UserName = oldUser.UserName;
+
+            newUser.FirstName = oldUser.FirstName;
+            newUser.LastName = oldUser.LastName;
             newUser.Email = oldUser.Email;
-            //newUser.Password = oldUser.Password;
             return newUser;
         }
 

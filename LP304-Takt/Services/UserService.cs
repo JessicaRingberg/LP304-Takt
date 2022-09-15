@@ -49,8 +49,5 @@ namespace LP304_Takt.Services
         {
            await _userRepository.UpdateEntity(user, userId);
         }
-        
-       
-
     }
 }

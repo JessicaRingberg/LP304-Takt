@@ -10,7 +10,5 @@ namespace LP304_Takt.Interfaces.Services
         Task<ServiceResponse<int>> RegisterUser(User user, string password, int companyId);
         Task<ServiceResponse<string>> LoginUser(string email, string password);
 
-
-
     }
 }
