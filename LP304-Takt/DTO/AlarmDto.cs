@@ -6,7 +6,7 @@
         public DateTime StartTime { get; init; }
         public DateTime EndTime { get; init; }
         public int Duration { get; init; }
-        public string Reason { get; init; }
+        public string Reason { get; init; } = string.Empty;
         public int AlarmTypeId { get; init; }
 
 }

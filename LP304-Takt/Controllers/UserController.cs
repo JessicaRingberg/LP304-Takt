@@ -5,6 +5,8 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
+using LP304_Takt.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,20 +23,38 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
+        [HttpPost("register")]
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
-            await _userService.Add(user.AsEntity(), companyId);
-
-            return Ok();
+            var response = await _userService.RegisterUser(new User
+            { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email }, user.Password, companyId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
+        {
+            var response = await _userService.LoginUser(request.Email, request.Password);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
             return Ok((await _userService.GetEntities()).Select(user => user.AsDto()));
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
@@ -48,6 +68,7 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet("{userId}/companies")]
         public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
         {
@@ -59,6 +80,7 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsDto());
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -66,6 +88,7 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
+        
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {

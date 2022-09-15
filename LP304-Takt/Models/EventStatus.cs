@@ -7,6 +7,6 @@ namespace LP304_Takt.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
-        public ICollection<Event> Events { get; set; }
+        public ICollection<Event>? Events { get; set; }
     }
 }

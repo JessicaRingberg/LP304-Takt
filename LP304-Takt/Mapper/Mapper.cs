@@ -20,12 +20,14 @@ namespace LP304_Takt.Mapper
 
         public static AlarmTypeDto AsDto(this AlarmType alarmType)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             return new AlarmTypeDto
             {
                 Id = alarmType.Id,
                 Name = alarmType.Name,
                 Alarms = alarmType.Alarms.Select(a => a.AsDto()).ToList()
             };
+#pragma warning restore CS8604 // Possible null reference argument.
         }
 
         public static AreaDto AsDto(this Area area)
@@ -40,6 +42,7 @@ namespace LP304_Takt.Mapper
 
         public static CompanyDto AsDto(this Company company)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             return new CompanyDto
             {
                 Id = company.Id,
@@ -47,6 +50,7 @@ namespace LP304_Takt.Mapper
                 Users = company.Users.Select(u => u.AsDto()).ToList(),
                 Areas = company.Areas.Select(a => a.AsDto()).ToList()
             };
+#pragma warning restore CS8604 // Possible null reference argument.
         }
 
         public static ConfigDto AsDto(this Config config)
@@ -77,16 +81,19 @@ namespace LP304_Takt.Mapper
 
         public static EventStatusDto AsDto(this EventStatus eventStatus)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             return new EventStatusDto
             {
                 Id = eventStatus.Id,
                 Name = eventStatus.Name,
                 Events = eventStatus.Events.Select(e => e.AsDto()).ToList()
             };
+#pragma warning restore CS8604 // Possible null reference argument.
         }
 
         public static OrderDto AsDto(this Order order)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             return new OrderDto
             {
                 Id = order.Id,
@@ -106,15 +113,7 @@ namespace LP304_Takt.Mapper
                 Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };
-        }
-
-        public static RoleDto AsDto(this Role role)
-        {
-            return new RoleDto
-            {
-                Id = role.Id,
-                Name = role.Name
-            };
+#pragma warning restore CS8604 // Possible null reference argument.
         }
 
         public static StationDto AsDto(this Station station)
@@ -133,14 +132,14 @@ namespace LP304_Takt.Mapper
             return new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                Password = user.Password
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+     
 
 
             };
         }
-
 
 
 
@@ -229,13 +228,6 @@ namespace LP304_Takt.Mapper
             };
         }
 
-        public static Role AsEntity(this RoleCreateDto role)
-        {
-            return new Role
-            {
-                Name = role.Name
-            };
-        }
 
         public static Station AsEntity(this StationCreateDto station)
         {
@@ -251,9 +243,9 @@ namespace LP304_Takt.Mapper
         {
             return new User
             {
-                UserName = user.UserName,
                 Email = user.Email,
-                Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
         }
 

@@ -12,6 +12,6 @@ namespace LP304_Takt.Models
         public bool Finished { get; set; }
         public int AreaId { get; set; }
         public int OrderId { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Order>? Orders { get; set; }
     }
 }

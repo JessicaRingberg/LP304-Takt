@@ -3,6 +3,7 @@ using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -26,7 +27,7 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = nameof(Role.Admin))]
         public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
             return Ok((await _companyService.GetEntities()).Select(c => c.AsDto()));
