@@ -2,6 +2,6 @@
 {
     public record AlarmUpdateDto
     {
-        public string Reason { get; init; }
+        public string Reason { get; init; } = string.Empty;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using LP304_Takt.DTO;
-using LP304_Takt.DTO.LoginDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -48,14 +47,14 @@ namespace LP304_Takt.Controllers
         }
 
 
-        [Authorize(nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
             return Ok((await _userService.GetEntities()).Select(user => user.AsDto()));
         }
 
-        [Authorize(nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
@@ -69,7 +68,7 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
-        [Authorize(nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet("{userId}/companies")]
         public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
         {
@@ -81,7 +80,7 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsDto());
         }
 
-        [Authorize(nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

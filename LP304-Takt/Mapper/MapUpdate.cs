@@ -73,13 +73,6 @@ namespace LP304_Takt.Mapper
             };
         }
 
-        //public static Role AsUpdated(this RoleUpdateDto role)
-        //{
-        //    return new Role
-        //    {
-        //        Name = role.Name
-        //    };
-        //}
 
         public static User AsUpdated(this UserUpdateDto user)
         {
