@@ -78,9 +78,9 @@ namespace LP304_Takt.Mapper
         {
             return new User
             {
-                //UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
-               // Password = user.Password
             };
         }
 

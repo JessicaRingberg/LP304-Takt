@@ -126,7 +126,7 @@ namespace LP304_Takt.Repositories
             {
                 return;
             }
-            
+
             MapUser(userToUpdate, user);
 
             await _context.SaveChangesAsync();

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Models
 {
@@ -13,8 +14,8 @@ namespace LP304_Takt.Models
         public string Email { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = null!;
         public byte[] PasswordSalt { get; set; } = null!;
-        public int? CompanyId { get; set; }
-        public Company? Company { get; set; }
+        public int CompanyId { get; set; }
+        public Company Company { get; set; } = null!;
         public Role Role { get; set; }
 
     }

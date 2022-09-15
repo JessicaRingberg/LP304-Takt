@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220914141948_InitialCreate")]
+    [Migration("20220915110519_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -446,8 +446,7 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
                 {
-                    b.Navigation("Config")
-                        .IsRequired();
+                    b.Navigation("Config");
 
                     b.Navigation("Stations");
                 });
