@@ -21,84 +21,10 @@ namespace LP304_Takt.Repositories
             _configuration = configuration;
         }
 
-        public async Task Add(User user, int companyId)
-        {
-            var company = await _context.Companies.FindAsync(companyId);
-            //var role = await _context.Roles.FindAsync(1);
-            //if (role is null)
-            //{
-            //    role = new Role() { Name = "DefaultRole", Users = new List<User>() };
-            //    role.Users.Add(user);
-            //}
-
-            if (company != null)
-            {
-               // user.Role = role;
-                user.CompanyId = companyId;
-                await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<User?> GetEntity(int id)
-        {
-            return await _context.Users
-                //.Include(user => user.Role)
-                .FirstOrDefaultAsync(u => u.Id == id);
-        }
-
-        public async Task<ICollection<User>> GetEntities()
-        {
-            return await _context.Users
-                .ToListAsync();
-        }
-
-        public async Task<Company?> GetCompanyByUser(int userId)
-        {
-            var user = await _context.Users.FindAsync(userId);
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            return user.Company;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-        }
-
-        public async Task DeleteEntity(int id)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user is null)
-            {
-                return;
-            }
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateEntity(User user, int userId)
-        {
-
-            var userToUpdate = await _context.Users
-                .FindAsync(userId);
-            if (userToUpdate is null)
-            {
-                return;
-            }
-
-            MapUser(userToUpdate, user);
-
-            await _context.SaveChangesAsync();
-        }
-
-        private static User MapUser(User newUser, User oldUser)
-        {
-            //newUser.UserName = oldUser.UserName;
-            newUser.Email = oldUser.Email;
-            //newUser.Password = oldUser.Password;
-            return newUser;
-        }
-
         public async Task<ServiceResponse<int>> RegisterUser(User user, string password, int companyId)
         {
             var company = await _context.Companies.FindAsync(companyId);
-            if(company is null)
+            if (company is null)
             {
                 return new ServiceResponse<int>()
                 {
@@ -117,31 +43,30 @@ namespace LP304_Takt.Repositories
             }
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-          
+
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            //user.FirstName = user.FirstName;
-            //user.LastName = user.LastName;
             user.Role = Role.Admin;
             user.CompanyId = companyId;
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
             return new ServiceResponse<int> { Data = user.Id, Success = true, Message = "Registration successful" };
         }
+
 
         public async Task<ServiceResponse<string>> Login(string email, string passWord)
         {
             var response = new ServiceResponse<string>();
 
             var verifiedUser = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
-            if(verifiedUser is null)
+            if (verifiedUser is null)
             {
                 response.Success = false;
                 response.Message = "Username not found";
 
             }
-            else if(!VerifyPasswordHash(passWord, verifiedUser.PasswordHash, verifiedUser.PasswordSalt))
+            else if (!VerifyPasswordHash(passWord, verifiedUser.PasswordHash, verifiedUser.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = "Incorrect password";
@@ -156,14 +81,77 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
+
+        public async Task<User?> GetEntity(int id)
+        {
+            return await _context.Users
+                //.Include(user => user.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+
+        public async Task<ICollection<User>> GetEntities()
+        {
+            return await _context.Users
+                .ToListAsync();
+        }
+
+
+        public async Task<Company?> GetCompanyByUser(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            return user.Company;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        }
+
+
+        public async Task DeleteEntity(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user is null)
+            {
+                return;
+            }
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task UpdateEntity(User user, int userId)
+        {
+
+            var userToUpdate = await _context.Users
+                .FindAsync(userId);
+            if (userToUpdate is null)
+            {
+                return;
+            }
+
+            MapUser(userToUpdate, user);
+
+            await _context.SaveChangesAsync();
+        }
+
+
+        private static User MapUser(User newUser, User oldUser)
+        {
+            //newUser.UserName = oldUser.UserName;
+            newUser.Email = oldUser.Email;
+            //newUser.Password = oldUser.Password;
+            return newUser;
+        }
+
+       
+
+
+
         private string CreateToken(User user)
         {
 
             List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.Name, user.Email),
-                //new Claim(ClaimTypes.Name, user.FirstName),
-                //new Claim(ClaimTypes.Name, user.LastName),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 

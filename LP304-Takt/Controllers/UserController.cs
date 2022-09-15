@@ -24,13 +24,30 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddUser([FromBody] UserCreateDto user, [FromQuery] int companyId)
-        //{
-        //    await _userService.Add(user.AsEntity(), companyId);
+        [HttpPost("register")]
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
+        {
+            var response = await _userService.RegisterUser(new User
+            { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email }, user.Password, companyId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
 
-        //    return Ok();
-        //}
+        [HttpPost("login")]
+        public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
+        {
+            var response = await _userService.LoginUser(request.Email, request.Password);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+
         [Authorize(nameof(Role.Admin))]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
@@ -38,6 +55,7 @@ namespace LP304_Takt.Controllers
             return Ok((await _userService.GetEntities()).Select(user => user.AsDto()));
         }
 
+        [Authorize(nameof(Role.Admin))]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
@@ -51,6 +69,7 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
+        [Authorize(nameof(Role.Admin))]
         [HttpGet("{userId}/companies")]
         public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
         {
@@ -70,35 +89,13 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
+        
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
             await _userService.UpdateEntity(user.AsUpdated(), userId);
 
             return Ok();
-        }
-
-        [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
-        {
-           var response = await _userService.RegisterUser(new User 
-            {FirstName = user.FirstName, LastName = user.LastName, Email = user.Email }, user.Password, companyId);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
-
-        [HttpPost("login")]
-        public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
-        {
-            var response = await _userService.LoginUser(request.Email, request.Password);
-            if(!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
         }
 
     }

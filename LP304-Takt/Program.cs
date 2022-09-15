@@ -24,8 +24,6 @@ builder.Services.AddScoped<IAreaRepository, AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddScoped<IStationRepository, StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
-//builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-//builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddScoped<IConfigRepository, ConfigRepository>();
 builder.Services.AddTransient<IConfigService, ConfigService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
