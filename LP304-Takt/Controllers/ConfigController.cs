@@ -2,6 +2,7 @@
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace LP304_Takt.Controllers
             _configService = configService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddConfig([FromBody] ConfigCreateDto config, [FromQuery] int areaId)
         {
@@ -48,14 +50,14 @@ namespace LP304_Takt.Controllers
             return Ok(config.AsDto());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteConfig(int id)
         {
             await _configService.DeleteEntity(id);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateConfig([FromBody] ConfigUpdateDto config, [FromQuery] int configId)
         {
             await _configService.UpdateEntity(config.AsUpdated(), configId);

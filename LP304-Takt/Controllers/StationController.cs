@@ -3,6 +3,7 @@ using LP304_Takt.DTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace LP304_Takt.Controllers
             _stationService = stationService;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<IActionResult> AddStation([FromBody] StationCreateDto station, [FromQuery] int areaId)
         {
             await _stationService.Add(station.AsEntity(), areaId);
@@ -49,14 +50,14 @@ namespace LP304_Takt.Controllers
             return Ok(station.AsDto());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteStation(int id)
         {
             await _stationService.DeleteEntity(id);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateStation([FromBody] StationUpdateDto station, [FromQuery] int stationId)
         {
             await _stationService.UpdateEntity(station.AsUpdated(), stationId);

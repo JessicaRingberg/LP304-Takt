@@ -4,6 +4,7 @@ using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace LP304_Takt.Controllers
         {
             _areaService = areaService;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
         {//If company is null return 
@@ -50,14 +51,14 @@ namespace LP304_Takt.Controllers
             return Ok(area.AsDto());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteArea(int id)
         {
             await _areaService.DeleteEntity(id);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {
             await _areaService.UpdateEntity(area.AsUpdated(), areaId);

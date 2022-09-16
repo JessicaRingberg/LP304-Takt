@@ -2,6 +2,7 @@
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace LP304_Takt.Controllers
             _alarmService = alarmService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddAlarm([FromBody] AlarmCreateDto alarm, [FromQuery] int orderId, [FromQuery] int alarmTypeId)
         {
@@ -48,14 +50,14 @@ namespace LP304_Takt.Controllers
             return Ok(alarm.AsDto());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             await _alarmService.DeleteEntity(id);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateAlarm([FromBody] AlarmUpdateDto alarm, [FromQuery] int alarmId)
         {
             await _alarmService.UpdateEntity(alarm.AsUpdated(), alarmId);

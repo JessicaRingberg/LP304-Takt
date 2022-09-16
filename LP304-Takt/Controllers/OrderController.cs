@@ -2,6 +2,7 @@
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace LP304_Takt.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<IActionResult> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int stationId)
         {
             await _orderService.Add(order.AsEntity(), stationId);
@@ -49,14 +50,14 @@ namespace LP304_Takt.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             await _orderService.DeleteEntity(id);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
         {
             await _orderService.UpdateEntity(order.AsUpdated(), orderId);

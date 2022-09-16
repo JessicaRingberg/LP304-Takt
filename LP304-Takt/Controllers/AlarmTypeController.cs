@@ -20,6 +20,7 @@ namespace LP304_Takt.Controllers
             _alarmTypeService = alarmTypeService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddAlarmType(AlarmTypeCreateDto alarmType)
         {
@@ -52,7 +53,7 @@ namespace LP304_Takt.Controllers
             return Ok(alarmType.AsDto());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteAlarmType(int id)
         {
             await _alarmTypeService.DeleteEntity(id);
