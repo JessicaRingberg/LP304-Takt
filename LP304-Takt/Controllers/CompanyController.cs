@@ -21,11 +21,14 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCompany(CompanyCreateDto company)
+        public async Task<ActionResult<ServiceResponse<int>>> AddCompany(CompanyCreateDto company)
         {
-            await _companyService.Add(company.AsEntity());
-
-            return Ok();
+            var response = await _companyService.Add(company.AsEntity());
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpGet, Authorize(Roles = nameof(Role.Admin))]

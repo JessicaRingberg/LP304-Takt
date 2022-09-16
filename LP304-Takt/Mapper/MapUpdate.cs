@@ -80,7 +80,7 @@ namespace LP304_Takt.Mapper
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email,
+                Email = user.Email
             };
         }
 

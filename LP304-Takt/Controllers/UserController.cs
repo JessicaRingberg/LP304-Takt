@@ -88,7 +88,7 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
@@ -96,6 +96,7 @@ namespace LP304_Takt.Controllers
 
             return Ok();
         }
+
 
     }
 }

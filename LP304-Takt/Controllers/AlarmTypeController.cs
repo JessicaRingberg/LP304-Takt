@@ -2,6 +2,7 @@
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,11 +20,14 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAlarmType(AlarmTypeCreateDto alarmType)
+        public async Task<ActionResult<ServiceResponse<int>>> AddAlarmType(AlarmTypeCreateDto alarmType)
         {
-            await _alarmTypeService.Add(alarmType.AsEntity());
-
-            return Ok();
+            var response = await _alarmTypeService.Add(alarmType.AsEntity());
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpGet]
