@@ -30,7 +30,10 @@ namespace LP304_Takt.Repositories
             await _context.Companies.AddAsync(company);
 
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int> { Data = company.Id, Success = true, Message = $"Company named {company.Name} added." };
+            return new ServiceResponse<int>() 
+            { Data = company.Id, Success = true, 
+              Message = $"Company named {company.Name} added."
+            };
         }
 
         public async Task DeleteEntity(int id)
