@@ -2,6 +2,7 @@
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,12 +26,15 @@ namespace LP304_Takt.Controllers
 
             return Ok();
         }
+
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<EventStatusDto>>> GetEventStatuses()
         {
             return Ok((await _eventStatusService.GetEntities()).Select(e => e.AsDto()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<EventStatusDto>> GetEventStatus(int id)
         {

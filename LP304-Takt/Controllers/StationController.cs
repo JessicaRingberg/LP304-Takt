@@ -3,6 +3,7 @@ using LP304_Takt.DTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,12 +28,14 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<StationDto>>> GetStations()
         {
             return Ok((await _stationService.GetEntities()).Select(s => s.AsDto()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<StationDto>> GetCompany(int id)
         {

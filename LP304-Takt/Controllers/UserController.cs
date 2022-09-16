@@ -54,7 +54,7 @@ namespace LP304_Takt.Controllers
             return Ok((await _userService.GetEntities()).Select(user => user.AsDto()));
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {

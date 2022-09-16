@@ -2,6 +2,7 @@
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace LP304_Takt.Controllers
         {
             _eventService = eventService;
         }
+
         [HttpPost]
         public async Task<IActionResult> AddEvent([FromBody] EventCreateDto eEvent, [FromQuery] int orderId, [FromQuery] int eventStatusId)
         { 
@@ -24,12 +26,15 @@ namespace LP304_Takt.Controllers
 
             return Ok();
         }
+
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<EventDto>>> GetEvents()
         {
             return Ok((await _eventService.GetEntities()).Select(e => e.AsDto()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<EventDto>> GetEvent(int id)
         {
