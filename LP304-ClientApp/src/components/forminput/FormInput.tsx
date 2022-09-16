@@ -5,7 +5,7 @@ function FormInput(props: any) {
     const [focused, setFocused] = useState<boolean>(false);
     const { label, errorMessage, onChange, id, ...inputProps } = props;
 
-    const handleFocus = (e: any) => {
+    const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFocused(true);
     }
 

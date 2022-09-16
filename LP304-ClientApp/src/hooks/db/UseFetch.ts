@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Company from '../../../models/Company';
+import Company from '../../models/db/Company';
 
 
 const UseFetch = (url: string) => {
@@ -25,7 +25,7 @@ const UseFetch = (url: string) => {
                 setIsPending(false)
                 setError(err.message)
             })
-    }, [])
+    })
 
     return { data, isPending, error }
 }

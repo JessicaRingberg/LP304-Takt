@@ -1,5 +1,4 @@
-import Company from "../../models/Company";
-import UseFetch from "../../hooks/db/usefetch/UseFetch";
+import Company from "../../models/db/Company";
 import './CompanyList.css';
 
 type Props = {
