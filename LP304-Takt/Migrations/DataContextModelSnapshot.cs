@@ -444,8 +444,7 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
                 {
-                    b.Navigation("Config")
-                        .IsRequired();
+                    b.Navigation("Config");
 
                     b.Navigation("Stations");
                 });

@@ -2,7 +2,7 @@
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
-using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +10,7 @@ namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   // [Authorize(Roles = nameof(Role.Admin))]
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyService _companyService;
@@ -20,11 +21,14 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCompany(CompanyCreateDto company)
+        public async Task<ActionResult<ServiceResponse<int>>> AddCompany(CompanyCreateDto company)
         {
-            await _companyService.Add(company.AsEntity());
-
-            return Ok();
+            var response = await _companyService.Add(company.AsEntity());
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpGet, Authorize(Roles = nameof(Role.Admin))]

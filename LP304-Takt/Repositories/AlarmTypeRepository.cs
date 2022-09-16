@@ -1,6 +1,8 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -13,11 +15,20 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(AlarmType alarmType)
+        public async Task<ServiceResponse<int>> Add(AlarmType alarmType)
         {
+            var found = await _context.AlarmTypes.FirstOrDefaultAsync(c => c.Name == alarmType.Name);
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"AlarmType with name {alarmType.Name} already exists!"
+                };
+            }
             await _context.AlarmTypes.AddAsync(alarmType);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int> { Data = alarmType.Id, Success = true, Message = $"AlarmType named {alarmType.Name} added." };
         }
 
         public async Task DeleteEntity(int id)

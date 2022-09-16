@@ -1,6 +1,8 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace LP304_Takt.Repositories
 {
@@ -13,11 +15,22 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Company company)
+        public async Task<ServiceResponse<int>> Add(Company company)
         {
+            var found = await _context.Companies.FirstOrDefaultAsync(c => c.Name == company.Name);
+            if(found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Company name {company.Name} already exists!"
+                };
+            }
+            
             await _context.Companies.AddAsync(company);
 
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int> { Data = company.Id, Success = true, Message = $"Company named {company.Name} added." };
         }
 
         public async Task DeleteEntity(int id)
@@ -25,7 +38,7 @@ namespace LP304_Takt.Repositories
             var company = await _context.Companies
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (company is null)
-            {
+            {// message here
                 return;
             }
             _context.Companies.Remove(company);

@@ -116,6 +116,7 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
+   
 
         public async Task UpdateEntity(User user, int userId)
         {
@@ -126,7 +127,7 @@ namespace LP304_Takt.Repositories
             {
                 return;
             }
-            
+
             MapUser(userToUpdate, user);
 
             await _context.SaveChangesAsync();
@@ -192,5 +193,7 @@ namespace LP304_Takt.Repositories
             }
             return false;
         }
+
+    
     }
 }

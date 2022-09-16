@@ -38,6 +38,7 @@ builder.Services.AddScoped<IEventStatusRepository, EventStatusRepository>();
 builder.Services.AddTransient<IEventStatusService, EventStatusService>();
 builder.Services.AddScoped<IAlarmTypeRepository, AlarmTypeRepository>();
 builder.Services.AddTransient<IAlarmTypeService, AlarmTypeService>();
+
 //builder.Services.AddScoped<IQueueRepository, QueueRepository>();
 //builder.Services.AddTransient<IQueueService, QueueService>();
 

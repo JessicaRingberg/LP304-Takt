@@ -1,6 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
@@ -12,9 +13,9 @@ namespace LP304_Takt.Services
         {
             _alarmTypeRepository = alarmTypeRepository;
         }
-        public async Task Add(AlarmType alarmType)
+        public async Task<ServiceResponse<int>> Add(AlarmType alarmType)
         {
-            await _alarmTypeRepository.Add(alarmType);
+            return await _alarmTypeRepository.Add(alarmType);
         }
 
         public async Task DeleteEntity(int id)
