@@ -99,9 +99,7 @@ namespace LP304_Takt.Repositories
         public async Task<Company?> GetCompanyByUser(int userId)
         {
             var user = await _context.Users.FindAsync(userId);
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            return user.Company;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            return user?.Company;
         }
 
 
