@@ -49,12 +49,15 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<Event>> GetEntities()
         {
             return await _context.Events
+                .Include(e => e.EventStatus)
                 .ToListAsync();
         }
 
         public async Task<Event?> GetEntity(int id)
         {
-            return await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Events
+                .Include(e => e.EventStatus)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task UpdateEntity(Event eEvent, int eventId)

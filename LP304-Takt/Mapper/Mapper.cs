@@ -14,7 +14,7 @@ namespace LP304_Takt.Mapper
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
                 Reason = alarm.Reason,
-                AlarmTypeId = alarm.AlarmTypeId
+                AlarmType = alarm.AlarmType?.Name
             };
         }
 
@@ -75,7 +75,7 @@ namespace LP304_Takt.Mapper
                 EndTime = eEvent.EndTime,
                 Duration = eEvent.Duration,
                 Reason = eEvent.Reason,
-                EventStatusId = eEvent.EventStatusId
+                EventStatus = eEvent.EventStatus?.Name
             };
         }
 
@@ -89,6 +89,7 @@ namespace LP304_Takt.Mapper
                 Events = eventStatus.Events.Select(e => e.AsDto()).ToList()
             };
 #pragma warning restore CS8604 // Possible null reference argument.
+
         }
 
         public static OrderDto AsDto(this Order order)
