@@ -8,7 +8,10 @@ namespace LP304_Takt.Interfaces.Services
     {
         Task<Company?> GetCompanyByUser(int userId);
         Task<ServiceResponse<int>> RegisterUser(User user, string password, int companyId);
+        Task<ServiceResponse<string>> VerifyEmail(string token);
         Task<ServiceResponse<string>> LoginUser(string email, string password);
+        Task<ServiceResponse<string>> ForgotPassword(string email);
+        Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request);
 
     }
 }

@@ -46,12 +46,15 @@ namespace LP304_Takt.Repositories
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.Role = Role.User;
+            user.VerificationToken = CreateRandomToken();
+            user.Role = Role.Admin;
             user.CompanyId = companyId;
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return new ServiceResponse<int> { Data = user.Id, Success = true, Message = "Registration successful" };
+            return new ServiceResponse<int> { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
+
+            //Mail sent with verification token to verify endpoint
         }
 
 
@@ -71,14 +74,85 @@ namespace LP304_Takt.Repositories
                 response.Success = false;
                 response.Message = "Incorrect password";
             }
+            else if (verifiedUser.VerifiedAt is null)
+            {
+                response.Success = false;
+                response.Message = $"{email} is not a verified email";
+            }
             else
             {
                 response.Success = true;
                 response.Data = CreateToken(verifiedUser);
-                response.Message = "Logged in";
+                response.Message = $"Logged in: {verifiedUser.FirstName}";
             }
 
             return response;
+        }
+
+        public async Task<ServiceResponse<string>> VerifyEmail(string token)
+        {
+            var response = new ServiceResponse<string>();
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
+            if (user is null)
+            {
+                response.Success = false;
+                response.Message = "Invalid token";
+            }
+            else
+            {
+                user.VerifiedAt = DateTime.Now;
+                await _context.SaveChangesAsync();
+                response.Success = true;
+                response.Message = "Email verified";
+            }
+            
+            return response;
+        }
+
+        public async Task<ServiceResponse<string>> ForgotPassword(string email)
+        {
+            var response = new ServiceResponse<string>();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+            {
+                response.Success = false;
+                response.Message = "User not found";                
+            }
+            else
+            {
+                //Ok -mail containing resetToken sent to user, redirection to endpoint: reset-password.
+                user.PasswordResetToken = CreateRandomToken();
+                user.ResetTokenExpires = DateTime.Now.AddDays(1);
+                response.Data = user.PasswordResetToken;
+                response.Message = $"Email to reset password haes ben sent to {user.Email}";
+                response.Success = true;
+                await _context.SaveChangesAsync();
+            }
+   
+            return response; 
+
+        }
+
+        public async Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request)
+        {
+            var response = new ServiceResponse<string>();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
+            if(user is null || user.ResetTokenExpires < DateTime.Now)
+            {
+                response.Success = false;
+                response.Message = "Invalid token";
+            }
+
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            user.PasswordResetToken = null;
+            user.ResetTokenExpires = null;
+
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<string> { Success = true, Message = "Password reset complete" };
         }
 
 
@@ -131,7 +205,6 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-
         private static User MapUser(User newUser, User oldUser)
         {
 
@@ -142,6 +215,7 @@ namespace LP304_Takt.Repositories
         }
 
        
+
 
 
 
@@ -192,6 +266,11 @@ namespace LP304_Takt.Repositories
             return false;
         }
 
-    
+
+        private string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
     }
 }

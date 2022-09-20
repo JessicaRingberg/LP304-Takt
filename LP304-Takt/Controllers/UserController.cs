@@ -46,6 +46,38 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult<ServiceResponse<string>>> ForgotPassword(string email)
+        {
+            var response = await _userService.ForgotPassword(email);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<ActionResult<ServiceResponse<string>>> ResetPassword(ResetPasswordRequest request)
+        {
+            var response = await _userService.ResetPassword(request);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("verify")]
+        public async Task<ActionResult<ServiceResponse<string>>> Verify(string token)
+        {
+            var response = await _userService.VerifyEmail(token);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
 
         [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet]

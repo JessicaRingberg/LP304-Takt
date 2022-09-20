@@ -9,6 +9,9 @@ namespace LP304_Takt.Interfaces.Repositories
         Task<Company?> GetCompanyByUser(int userId);
         Task<bool> UserAlreadyExists(string userName);
         Task<ServiceResponse<int>> RegisterUser(User user, string email, int companyId);
+        Task<ServiceResponse<string>> VerifyEmail(string token);
         Task<ServiceResponse<string>> Login(string email, string passWord);
+        Task<ServiceResponse<string>> ForgotPassword(string email);
+        Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request);
     }
 }
