@@ -146,6 +146,18 @@ namespace LP304_Takt.Repositories
                 response.Message = $"Email to reset password haes ben sent to {user.Email}";
                 response.Success = true;
                 await _context.SaveChangesAsync();
+
+                var message = new MimeMessage();
+                message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+                message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+                message.Subject = "Password reset";
+                message.Body = new TextPart(TextFormat.Html) { Text = user.PasswordResetToken };
+
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
+                smtp.Send(message);
+                smtp.Disconnect(true);
             }
    
             return response; 
