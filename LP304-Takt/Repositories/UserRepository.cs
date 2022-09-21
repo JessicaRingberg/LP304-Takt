@@ -59,10 +59,11 @@ namespace LP304_Takt.Repositories
 
             //Mail containing verificationToken sent 
             var message = new MimeMessage();
-            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
             message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
             message.Subject = "Registration verification";
             message.Body = new TextPart(TextFormat.Html) { Text = user.VerificationToken };
+            // Console.WriteLine($"{message}");
 
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
