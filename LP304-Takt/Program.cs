@@ -1,13 +1,16 @@
-using System.Configuration;
+using System.Text;
 using System.Text.Json.Serialization;
 using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Repositories;
 using LP304_Takt.Services;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +26,6 @@ builder.Services.AddScoped<IAreaRepository, AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddScoped<IStationRepository, StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddScoped<IConfigRepository, ConfigRepository>();
 builder.Services.AddTransient<IConfigService, ConfigService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -37,6 +38,7 @@ builder.Services.AddScoped<IEventStatusRepository, EventStatusRepository>();
 builder.Services.AddTransient<IEventStatusService, EventStatusService>();
 builder.Services.AddScoped<IAlarmTypeRepository, AlarmTypeRepository>();
 builder.Services.AddTransient<IAlarmTypeService, AlarmTypeService>();
+
 //builder.Services.AddScoped<IQueueRepository, QueueRepository>();
 //builder.Services.AddTransient<IQueueService, QueueService>();
 
@@ -44,24 +46,45 @@ builder.Services.AddTransient<IAlarmTypeService, AlarmTypeService>();
 builder.Services.AddDbContext<DataContext>(options =>
 {
 
-    options.UseMySql(builder.Configuration.GetConnectionString("DbString"),
-     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbString")),
-    builder =>
-    {
-        builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-    });
+    //options.UseMySql(builder.Configuration.GetConnectionString("DbString"),
+    // ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbString")),
+    //builder =>
+    //{
+    //    builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+    //});
 
-    //    var connectionString = builder.Configuration.GetConnectionString("DbString");
-    //    options.UseSqlServer(connectionString);
+    var connectionString = builder.Configuration.GetConnectionString("DbString");
+    options.UseSqlServer(connectionString);
 });
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-        options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DataContext>();
-
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options => {
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 var app = builder.Build();
 
@@ -73,6 +96,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization(); 
 

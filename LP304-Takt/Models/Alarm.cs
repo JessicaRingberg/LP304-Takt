@@ -10,10 +10,11 @@ namespace LP304_Takt.Models
         [Required]
         public int Duration { get; set; }
         [Required]
-        public string Reason { get; set; } = string.Empty;
+        public string Reason { get; set; } = null!;
         public int OrderId { get; set; }
-        public Order Order { get; set; }
+        public Order Order { get; set; } = null!;
         public int AlarmTypeId { get; set; }
+        public AlarmType? AlarmType { get; set; }
 
     }
 }

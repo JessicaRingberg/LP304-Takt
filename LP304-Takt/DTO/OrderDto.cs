@@ -17,7 +17,7 @@
         public int Takt { get; init; }
 
         public int StationId { get; init; }
-        public ICollection<AlarmDto> Alarms { get; init; }
-        public ICollection<EventDto> Events { get; init; }
+        public ICollection<AlarmDto> Alarms { get; init; } = null!;
+        public ICollection<EventDto> Events { get; init; } = null!;
     }
 }

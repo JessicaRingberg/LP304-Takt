@@ -26,6 +26,11 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LP304-ClientApp", "LP304-Cl
 		SlnRelativePath = "LP304-ClientApp\"
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF4D1C96-54BF-44FA-941C-6EB2AB00602B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

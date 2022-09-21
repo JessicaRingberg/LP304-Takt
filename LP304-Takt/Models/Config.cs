@@ -12,6 +12,6 @@ namespace LP304_Takt.Models
         [Required]
         public string MacBidisp { get; set; } = string.Empty;
         public int AreaId { get; set; }
-        public Area Area { get; set; }
+        public Area? Area { get; set; }
     }
 }

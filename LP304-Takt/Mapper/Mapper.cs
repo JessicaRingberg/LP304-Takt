@@ -14,7 +14,7 @@ namespace LP304_Takt.Mapper
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
                 Reason = alarm.Reason,
-                AlarmTypeId = alarm.AlarmTypeId
+                AlarmType = alarm.AlarmType?.Name
             };
         }
 
@@ -71,7 +71,7 @@ namespace LP304_Takt.Mapper
                 EndTime = eEvent.EndTime,
                 Duration = eEvent.Duration,
                 Reason = eEvent.Reason,
-                EventStatusId = eEvent.EventStatusId
+                EventStatus = eEvent.EventStatus?.Name
             };
         }
 
@@ -83,6 +83,7 @@ namespace LP304_Takt.Mapper
                 Name = eventStatus.Name,
                 Events = eventStatus.Events.Select(e => e.AsDto()).ToList()
             };
+
         }
 
         public static OrderDto AsDto(this Order order)
@@ -108,15 +109,6 @@ namespace LP304_Takt.Mapper
             };
         }
 
-        public static RoleDto AsDto(this Role role)
-        {
-            return new RoleDto
-            {
-                Id = role.Id,
-                Name = role.Name
-            };
-        }
-
         public static StationDto AsDto(this Station station)
         {
             return new StationDto
@@ -133,14 +125,11 @@ namespace LP304_Takt.Mapper
             return new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                Password = user.Password
-
-
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
             };
         }
-
 
 
 
@@ -229,13 +218,6 @@ namespace LP304_Takt.Mapper
             };
         }
 
-        public static Role AsEntity(this RoleCreateDto role)
-        {
-            return new Role
-            {
-                Name = role.Name
-            };
-        }
 
         public static Station AsEntity(this StationCreateDto station)
         {
@@ -251,9 +233,9 @@ namespace LP304_Takt.Mapper
         {
             return new User
             {
-                UserName = user.UserName,
                 Email = user.Email,
-                Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
         }
 

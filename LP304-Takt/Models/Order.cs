@@ -28,11 +28,9 @@ namespace LP304_Takt.Models
         [Required]
         public int Takt { get; set; }
         public int StationId { get; set; }
-        public Station Station { get; set; }
-        //public int QueueId { get; set; }
-        //public Queue Queue {get; set;}
-        public ICollection<Event> Events { get; set; }
-        public ICollection<Alarm> Alarms { get; set; }
+        public Station Station { get; set; } = null!;
+        public ICollection<Event>? Events { get; set; }
+        public ICollection<Alarm>? Alarms { get; set; }
 
     }
 }

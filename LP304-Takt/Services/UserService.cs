@@ -1,6 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
@@ -13,10 +14,16 @@ namespace LP304_Takt.Services
             _userRepository = userRepository;
         }
 
-        public async Task Add(User user, int companyId)
+        public async Task<ServiceResponse<int>> RegisterUser(User user, string email, int companyId)
         {
-            await _userRepository.Add(user, companyId);
+            return await _userRepository.RegisterUser(user, email, companyId);
         }
+
+        public async Task<ServiceResponse<string>> LoginUser(string email, string password)
+        {
+            return await _userRepository.Login(email, password);
+        }
+
 
         public async Task<ICollection<User>> GetEntities()
         {
@@ -41,6 +48,21 @@ namespace LP304_Takt.Services
         public async Task UpdateEntity(User user, int userId)
         {
            await _userRepository.UpdateEntity(user, userId);
+        }
+
+        public async Task<ServiceResponse<string>> ForgotPassword(string email)
+        {
+            return await _userRepository.ForgotPassword(email);
+        }
+
+        public async Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request)
+        {
+            return await _userRepository.ResetPassword(request);
+        }
+
+        public async Task<ServiceResponse<string>> VerifyEmail(string token)
+        {
+            return await _userRepository.VerifyEmail(token);
         }
     }
 }

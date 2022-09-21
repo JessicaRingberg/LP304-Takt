@@ -48,12 +48,14 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<Alarm>> GetEntities()
         {
             return await _context.Alarms
+                .Include(a => a.AlarmType)
                 .ToListAsync();
         }
 
         public async Task<Alarm?> GetEntity(int id)
         {
             return await _context.Alarms
+                .Include(a => a.AlarmType)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 

@@ -2,6 +2,6 @@
 {
     public class ConfigUpdateDto
     {
-        public string MacBidisp { get; init; }
+        public string MacBidisp { get; init; } = string.Empty;
     }
 }
