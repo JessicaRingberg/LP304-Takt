@@ -5,10 +5,13 @@ import account from '../../assets/icons/account.png'
 import { useState } from 'react';
 import Links from './links/Links';
 import { NavLink } from 'react-router-dom';
+import UserInfo from '../userinfoarea/UserInfo';
 
 
 const NavBar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false)
+    const [showUserInfo, setShowUserInfo] = useState(false)
+    
 
     const style = {
         display: 'flex'
@@ -20,6 +23,10 @@ const NavBar: React.FC = () => {
 
     const handleMenuClose = () => {
         setMenuOpen(false)
+    }
+
+    const handleUserOpen = () => {
+        setShowUserInfo(true)
     }
 
     return (
@@ -42,9 +49,10 @@ const NavBar: React.FC = () => {
                             <span className="rest-status">●</span>
                         </p>
                     </div>
-                    <div className="user-info">
+                    <div className="user-info" onClick={handleUserOpen}>
                         <img src={account} className="account-icon" alt="account" />
                         <p>Jonas</p>
+                        <UserInfo showUserInfo={showUserInfo} setShowUserInfo={setShowUserInfo} />
                     </div>
                     <img src={menu} onClick={handleMenuOpen} className="burger-menu-icon" alt="Menu" />
                 </div>

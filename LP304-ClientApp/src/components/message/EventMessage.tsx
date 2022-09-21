@@ -16,6 +16,7 @@ interface Style {
 const EventMessage: React.FC<Props> = ({ showMessage, setShowMessage, messageTime , message, isError }) => {
     const [style, setStyle] = useState<Style>();
 
+    
     useEffect(() => {
         if(isError) {
             setStyle({ color: "red"})
@@ -27,7 +28,7 @@ const EventMessage: React.FC<Props> = ({ showMessage, setShowMessage, messageTim
           setShowMessage(false)
         }, messageTime);
         return () => clearTimeout(timer);
-      }, [showMessage]);
+      }, [showMessage, setShowMessage, isError, messageTime]);
 
     return (
         <div className="error-message-container">

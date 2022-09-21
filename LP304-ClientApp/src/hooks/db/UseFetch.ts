@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import Company from '../../models/db/Company';
-
 
 const UseFetch = (url: string) => {
-    const [data, setData] = useState<Company[]>();
+    const [data, setData] = useState();
     const [isPending, setIsPending] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        fetch(url)
+        const abortFetch = new AbortController();
+
+        fetch(url, {signal: abortFetch.signal})
             .then(res => {
                 if (!res.ok) {
                     throw Error('Could not fetch the data for that resource')
@@ -16,16 +16,20 @@ const UseFetch = (url: string) => {
                 return res.json()
             })
             .then(data => {
-                console.log(data)
                 setData(data)
                 setIsPending(false)
                 setError(null)
             })
             .catch(err => {
-                setIsPending(false)
-                setError(err.message)
+                if(err.name === "AbortError") {
+                    
+                } else {
+                    setIsPending(false)
+                    setError(err.message)
+                }
             })
-    })
+            return () => abortFetch.abort();
+    }, [url])
 
     return { data, isPending, error }
 }

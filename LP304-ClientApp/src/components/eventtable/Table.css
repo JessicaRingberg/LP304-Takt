@@ -1,0 +1,91 @@
+.table-container {
+    display: block;
+    border-collapse: collapse;
+    padding: 10px;
+    border-left: 1px solid rgb(218, 217, 217);
+    border-right: 1px solid rgb(218, 217, 217);
+    border-bottom: 2px solid rgb(202, 202, 202);
+    background-color: white;
+    border-radius: 5px;
+}
+
+.table-container .table-columns,
+.table-container .table-rows {
+    border-bottom: 1px  solid rgb(218, 217, 217);
+}
+
+.table-container .table-rows:last-child {
+    border: none;
+}
+
+.table-container td {
+    font-size: 10px;
+    color: rgb(70, 70, 70);
+}
+
+.table-container th {
+    font-size: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.table-container img {
+    margin-left: 10px;
+    width: 10px;
+    height: 10px;
+}
+
+.table-container td,
+.table-container th {
+    text-align: right;
+    padding: 10px;
+}
+
+.table-container td:first-child,
+.table-container th:first-child {
+    text-align: left;
+    padding: 10px;
+}
+
+.table-container tbody {
+    max-height: 350px;
+    height: auto;
+    overflow: scroll;
+}
+
+.pagination-container {
+    display: flex;
+    padding: 10px;
+    gap: 5px;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+.pagination-container p {
+    padding: 2px 10px;
+    background-color: #c60c30;
+    text-align: center;
+    color: white;
+}
+
+@media screen and (min-width: 600px) {
+    .table-container tbody {
+        max-height: 500px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+
+    .table-container tbody {
+        max-height: 300px;
+    }
+
+    .table-container td,
+    .table-container th {
+        padding: 14px 20px;
+    }
+}

@@ -11,9 +11,13 @@ h2 {
   font-size: 20px;
 }
 
+.root {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  height: 100vh;
+  height: 100%;
   font-family:  BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -130,10 +134,19 @@ button {
   margin-top: 15px;
 }
 
+.table-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
 @media screen and (min-width: 800px) { 
 
   button {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   main {

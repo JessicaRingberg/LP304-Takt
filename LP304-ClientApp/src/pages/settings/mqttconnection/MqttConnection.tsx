@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import FormInput from '../../../components/forminput/FormInput';
 import MqttHost from '../../../models/mqtt/MqttHost';
 import UseMqttConnection from '../../../hooks/mqtt/UseMqttConnection';
 import './MqttConnection.css'
 import EventMessage from '../../../components/message/EventMessage';
+import FormInput from '../../../components/forminput/FormInput';
 
 const MqttConnection: React.FC = () => {
     const [buttonText, setButtonText] = useState<string>("Test connection");

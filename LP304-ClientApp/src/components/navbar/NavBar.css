@@ -106,6 +106,7 @@ a {
 
 .user-info {
     display: none;
+    cursor: pointer;
 }
 
 .submenu {

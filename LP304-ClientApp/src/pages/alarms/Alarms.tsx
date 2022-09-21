@@ -1,4 +1,10 @@
+import Table from "../../components/eventtable/Table";
+import LoadingSpinner from "../../components/loadingspinner/LoadingSpinner";
+import UseFetch from "../../hooks/db/UseFetch";
+
 function Alarms() {
+    const { data: events, isPending, error } = UseFetch('https://localhost:7112/api/Alarm')
+
     return (
         <main>
             <div className="main-content">
@@ -6,8 +12,12 @@ function Alarms() {
                     <h2>Alarms</h2>
                     <p>A table of all the alarms is shown below. You can sort by column and filter on specific value</p>
                 </div>
-                <div>
-
+                <div className="table-content">
+                    <section className='loading-container'>
+                        {error && <p> {error} </p>}
+                        {isPending && <LoadingSpinner />}
+                    </section>
+                    {events && <Table events={events} />}
                 </div>
             </div>
         </main>
