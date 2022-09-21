@@ -50,6 +50,19 @@ namespace LP304_Takt.Services
            await _userRepository.UpdateEntity(user, userId);
         }
 
-       
+        public async Task<ServiceResponse<string>> ForgotPassword(string email)
+        {
+            return await _userRepository.ForgotPassword(email);
+        }
+
+        public async Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request)
+        {
+            return await _userRepository.ResetPassword(request);
+        }
+
+        public async Task<ServiceResponse<string>> VerifyEmail(string token)
+        {
+            return await _userRepository.VerifyEmail(token);
+        }
     }
 }
