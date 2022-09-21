@@ -1,8 +1,12 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
+using MimeKit.Text;
 using System.ComponentModel.Design;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -49,14 +53,28 @@ namespace LP304_Takt.Repositories
             user.VerificationToken = CreateRandomToken();
             user.Role = Role.Admin;
             user.CompanyId = companyId;
+
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return new ServiceResponse<int> { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
+            //Mail containing verificationToken sent 
+            var message = new MimeMessage();
+            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+            message.Subject = "Registration verification";
+            message.Body = new TextPart(TextFormat.Html) { Text = user.VerificationToken };
 
-            //Mail sent with verification token to verify endpoint
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
+            smtp.Send(message);
+            smtp.Disconnect(true);
+
+            return new ServiceResponse<int> 
+            { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
+            
         }
-
+      
 
         public async Task<ServiceResponse<string>> Login(string email, string passWord)
         {
