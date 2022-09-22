@@ -1,9 +1,4 @@
 import { useEffect, useState } from "react";
-<<<<<<<< HEAD:LP304-ClientApp/src/hooks/db/UseFetch.ts
-========
-import Company from '../../../models/Company';
-
->>>>>>>> development:LP304-ClientApp/src/hooks/db/usefetch/UseFetch.ts
 
 const UseFetch = (url: string) => {
     const [data, setData] = useState();

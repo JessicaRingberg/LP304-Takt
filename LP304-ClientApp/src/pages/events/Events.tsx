@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import Table from '../../components/eventtable/Table';
 import LoadingSpinner from '../../components/loadingspinner/LoadingSpinner';
 import UseFetch from '../../hooks/db/UseFetch';
