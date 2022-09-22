@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import MqttStatus from "../../models/mqtt/MqttStatus";
-import mqtt from "mqtt";
 import MqttHost from "../../models/mqtt/MqttHost";
 
 const UseFetch = (mqttHost: MqttHost) => {
+
+    
+    var mqtt = require('mqtt/dist/mqtt')
+
     const [client, setClient] = useState<any>();
     const [isSub, setIsSub] = useState<boolean>(false);
     const [mqttStatus, setMqttStatus] = useState<MqttStatus>();

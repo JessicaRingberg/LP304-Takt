@@ -3,7 +3,6 @@ import "../forminput/FormInput.css"
 import arrow from "../../assets/icons/arrow-down-sign-to-navigate.png"
 import { useState } from "react"
 import Pagination from "../pagination/Pagination"
-import { useSearchParams } from "react-router-dom"
 
 type Props = {
     events: any[]
