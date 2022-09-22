@@ -85,19 +85,19 @@ namespace LP304_Takt.Repositories
             if (verifiedUser is null)
             {
                 response.Success = false;
-                response.Message = "Username not found";
+                response.Message = "User not found";
 
             }
             else if (!VerifyPasswordHash(passWord, verifiedUser.PasswordHash, verifiedUser.PasswordSalt))
             {
                 response.Success = false;
-                response.Message = "Incorrect password";
+                response.Message = "Password or email is incorrect";
             }
-            else if (verifiedUser.VerifiedAt is null)
-            {
-                response.Success = false;
-                response.Message = $"{email} is not a verified email";
-            }
+            //else if (verifiedUser.VerifiedAt is null)
+            //{
+            //    response.Success = false;
+            //    response.Message = $"{email} is not a verified email";
+            //}
             else
             {
                 response.Success = true;
@@ -137,6 +137,11 @@ namespace LP304_Takt.Repositories
             {
                 response.Success = false;
                 response.Message = "User not found";                
+            }
+            else if (user.VerifiedAt is null)
+            {
+                response.Success = false;
+                response.Message = "User not verified";
             }
             else
             {
