@@ -18,7 +18,7 @@ namespace LP304_Takt.Models
         public DateTime? ResetTokenExpires { get; set; }
         public string? VerificationToken { get; set; }
         public DateTime? VerifiedAt { get; set; }
-        public int CompanyId { get; set; }
+        public int? CompanyId { get; set; }
         public Company Company { get; set; } = null!;
         public Role Role { get; set; }
     }

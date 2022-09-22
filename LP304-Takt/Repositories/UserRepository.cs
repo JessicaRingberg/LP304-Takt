@@ -51,7 +51,7 @@ namespace LP304_Takt.Repositories
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.VerificationToken = CreateRandomToken();
-            user.Role = Role.Admin;
+            user.Role = Role.User;
             user.CompanyId = companyId;
 
             await _context.Users.AddAsync(user);
