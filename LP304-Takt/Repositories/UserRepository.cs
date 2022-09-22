@@ -140,7 +140,7 @@ namespace LP304_Takt.Repositories
 
                 EmailToResetPassword(user);
 
-                response.Message = $"Email to reset password haes ben sent to {user.Email}";
+                response.Message = $"Email to reset password has been sent to {user.Email}";
                 response.Success = true;
                 await _context.SaveChangesAsync();
 
@@ -294,8 +294,9 @@ namespace LP304_Takt.Repositories
             message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
             message.Subject = "Password reset";
             //Something like this:
+            var url = "https://localhost:7112/api/User/Reset-Password?token=";
             message.Body = new TextPart(TextFormat.Html)
-            { Text = $"<a href=\"https://localhost:7112/api/User/Reset-Password?token={user.PasswordResetToken}\" Reset </a>" };
+            { Text = $"<a href=\"{url}{user.PasswordResetToken}\">Reset password</a>" };
             Smtp(message);
         }
 
@@ -305,8 +306,9 @@ namespace LP304_Takt.Repositories
             message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));//user.Email
             message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
             message.Subject = "Email verification";
+            var url = "https://localhost:7112/api/User/verify?token=";
             message.Body = new TextPart(TextFormat.Html)
-            { Text = $"<a href=\"https://localhost:7112/api/User/verify?token={user.VerificationToken}\" Verify </a>" };
+            { Text = $"<a href=\"{url}{user.VerificationToken}\">Verify email</a>" };
             Smtp(message);
         }
         private static void Smtp(MimeMessage email)
