@@ -1,5 +1,5 @@
-import Company from "../../models/Company";
-import UseFetch from "../../hooks/db/usefetch/UseFetch";
+import { NavLink } from "react-router-dom";
+import Company from "../../models/db/Company";
 import './CompanyList.css';
 
 type Props = {
@@ -12,9 +12,9 @@ function CompanyList({ companies }: Props) {
         <div className="company-list">
             {companies.map(company =>
                 <ul className="company-preview" key={company.id}>
-                    <li><h2>{company.name}</h2></li>
-                    <li><p>{company.areas.map(area => area.name)}</p></li>
-                    <li><p>{company.users.map(user => user.username)}</p></li>
+                    <NavLink to={`/settings/companies/${company.id}`} >
+                        <li><h2>{company.name}</h2></li>
+                    </NavLink>
                 </ul>
             )}
         </div>

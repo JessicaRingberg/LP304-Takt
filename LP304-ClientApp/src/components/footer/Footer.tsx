@@ -4,7 +4,7 @@ import logo from '../../assets/icons/logo.svg'
 function Footer() {
     return (
         <footer className="footer">
-            <img src={logo} />
+            <img src={logo} alt="logo"/>
             <p>Hedekullevägen 24</p>
             <p>461 38 Trollhättan</p>
             <p>SWEDEN</p>

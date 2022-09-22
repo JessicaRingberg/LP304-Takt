@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
-<<<<<<<< HEAD:LP304-ClientApp/src/hooks/db/UseFetch.ts
-========
-import Company from '../../../models/Company';
+import Company from '../../models/Company';
 
->>>>>>>> development:LP304-ClientApp/src/hooks/db/usefetch/UseFetch.ts
 
 const UseFetch = (url: string) => {
-    const [data, setData] = useState();
+    const [data, setData] = useState<Company[]>();
     const [isPending, setIsPending] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        const abortFetch = new AbortController();
-
-        fetch(url, {signal: abortFetch.signal})
+        fetch(url)
             .then(res => {
                 if (!res.ok) {
                     throw Error('Could not fetch the data for that resource')
@@ -21,20 +16,16 @@ const UseFetch = (url: string) => {
                 return res.json()
             })
             .then(data => {
+                console.log(data)
                 setData(data)
                 setIsPending(false)
                 setError(null)
             })
             .catch(err => {
-                if(err.name === "AbortError") {
-                    
-                } else {
-                    setIsPending(false)
-                    setError(err.message)
-                }
+                setIsPending(false)
+                setError(err.message)
             })
-            return () => abortFetch.abort();
-    }, [url])
+    }, [])
 
     return { data, isPending, error }
 }

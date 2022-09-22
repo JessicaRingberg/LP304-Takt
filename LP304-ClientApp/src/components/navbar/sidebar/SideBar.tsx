@@ -1,8 +1,10 @@
-function Sidebar() {
+
+const SideBar: React.FC = () => {
     return ( 
         <div className="sidebar-container">
+
         </div>
      );
 }
 
-export default Sidebar;
+export default SideBar;

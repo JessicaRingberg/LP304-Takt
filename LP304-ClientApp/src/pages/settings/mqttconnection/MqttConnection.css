@@ -1,4 +1,4 @@
-.takt-content {
+.mqtt-connect-content {
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -6,18 +6,23 @@
     margin: 20px 40px;
 }
 
-.takt-content p {
+.mqtt-connect-content p {
     text-align: left;
 }
 
-.takt-content form {
+.mqtt-connect-content form {
         display: block;
         align-items: center;
         justify-items: center;
         background-color: white;
-        border-radius: 5px;
-        padding: 30px 60px;
+        border-radius: 10px;
+        padding: 30px 60px 30px 60px;
         border-left: 1px solid rgb(218, 217, 217);
         border-right: 1px solid rgb(218, 217, 217);
         border-bottom: 2px solid rgb(202, 202, 202);
+}
+
+.mqtt-connect-content .button-container {
+    display: flex;
+    gap: 15px;
 }

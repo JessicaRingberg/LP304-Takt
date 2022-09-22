@@ -12,8 +12,8 @@ a {
     align-items: center;
     background-color: #0d1430;
     color: white;
-    height: 40px;
-    box-shadow: #00000081 0px 0px 5px 2px  ;
+    height: 50px;
+    box-shadow: #00000081 0px 0px 5px 2px;
     z-index: 1;
 }
 
@@ -22,13 +22,41 @@ a {
 }
 
 .links-container {
-    display: block;
+    display: none;
     position: fixed;
     right: 0;
     top: 0;
     width: 60%;
     height: 100%;
+    background: #050815;
+    z-index: 10;
+}
+
+.links {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 20px 0 20px 5px;
+    flex-direction: column;
+}
+
+.links li {
+    padding: 10px 10px;
+    border-radius: 5px 0 0 5px;
+}
+
+.links li:hover {
     background-color: #c60c30;
+}
+
+.menu-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.495);
+    z-index: -1;
 }
 
 .links-container img {
@@ -41,23 +69,17 @@ a {
     margin-left: 5px;
 }
 
-.links {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    margin: 20px;
-    justify-items: center;
-    flex-direction: column;
-}
-
 
 .app-logo {
-    margin-left: 15px;
-    height: 10px;
+    margin-left: 20px;
+    height: 15px;
 }
 
 .right-menu-context {
-    margin-right: 15px;
+    display: flex;
+    margin-right: 20px;
+    align-items: center;
+    vertical-align: middle;
 }
 
 .rest-status {
@@ -68,7 +90,9 @@ a {
 }
 
 .burger-menu-icon {
-    width: 25px;
+    width: 35px;
+    margin-left: auto;
+    margin-right: auto;
     cursor: pointer;
 }
 
@@ -82,6 +106,7 @@ a {
 
 .user-info {
     display: none;
+    cursor: pointer;
 }
 
 .submenu {
@@ -95,7 +120,7 @@ a {
 @media screen and (min-width: 800px) {
     .navbar {
         display: grid;
-        grid-template-columns: 15% 70% 15%;
+        grid-template-columns: 20% 60% 20%;
         height: 60px;
     }
 
@@ -114,23 +139,35 @@ a {
         background-color: transparent;
     }
 
+    .menu-background {
+        display: none;
+    }
+
     .links-container a {
         padding: 10px 15px;
     }
 
-    .links-container a:hover {
-        border-bottom: #c60c30 solid 3px;
-    }
-
     .links {
-        display: block;
         margin: 0;
         text-align: center;
+        justify-content: center;
         flex-direction: row;
+        align-items: center;
     }
 
-    .app-logo {
-        height: 15px;
+    .links li {
+        padding: 10px 0;
+        border-radius: 0;
+    }
+
+    .links li a {
+        display: block;
+        align-items: center;
+        height: 100%;
+    }
+
+    .links  {
+        text-align: center;
     }
 
     .right-menu-context {
@@ -156,11 +193,12 @@ a {
         height: 35px;
         border-top: #c60c30 2px solid;
         background-color: #151E4A;
-        box-shadow: rgba(0, 0, 0, 0.507) 0px 0px 5px 2px  ;
+        box-shadow: rgba(0, 0, 0, 0.507) 0px 0px 5px 2px;
     }
 
     .rest-connected {
         display: block;
+        text-align: right;
         width: 100%;
     }
 }

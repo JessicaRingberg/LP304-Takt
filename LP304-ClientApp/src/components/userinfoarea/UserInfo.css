@@ -1,0 +1,92 @@
+.user-info-container {
+    position: relative;
+}
+
+.user-info-content {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    padding: 20px;
+    height: auto;
+    width: auto;
+    top: 0;
+    gap: 5px;
+    right: 40px;
+    left: 40px;
+    background-color: white;
+    border-radius: 5px;
+    border-left: 1px solid rgb(218, 217, 217);
+    border-right: 1px solid rgb(218, 217, 217);
+    border-bottom: 1px solid rgb(218, 217, 217);
+}
+
+.user-info-content p {
+    color: black;
+    font-size: 14px;
+}
+
+.user-info-content div {
+    text-align: left;
+}
+
+.user-info-content .user-settings {
+    border-radius: 5px;
+    margin: 0;
+}
+
+.user-info-content .user-logout {
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: brown;
+    overflow: hidden;
+}
+
+.slide-in {
+    -webkit-animation: slide-in 0.5s forwards;
+    animation: slide-in 0.5s forwards;
+}
+
+.slide-out {
+    -webkit-animation: slide-out 0.5s forwards;
+    animation: slide-out 0.5s forwards;
+}
+
+@-webkit-keyframes slide-in {
+    100% { top: 60px; }
+}
+
+@keyframes slide-in {
+    100% { top: 60px; }
+}
+
+@-webkit-keyframes slide-out {
+    0% { top: 80px; }
+    100% { top:0 }
+}
+
+@keyframes slide-out {
+    0% { top: 80px; }
+    100% { top:0 }
+}
+
+@media screen and (min-width: 600px) {
+    .user-info-content {
+        top: 80;
+        left: auto;
+        right: 0;
+        min-width: 200px;
+        right: 40px;
+    }
+
+    @-webkit-keyframes slide-in {
+        0% {right: 0;}
+        100% { right: 80px; }
+    }
+    
+    @keyframes slide-in {
+        0% {right: 0;}
+        100% { right: 80px; }
+    }
+ }

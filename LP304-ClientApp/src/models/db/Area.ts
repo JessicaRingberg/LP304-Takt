@@ -1,9 +1,7 @@
 import Station from "./Stations";
 
-interface Area {
+export default interface Area {
     id: number,
     name: string,
     stations: Station[]
 }
-
-export default Area; 
