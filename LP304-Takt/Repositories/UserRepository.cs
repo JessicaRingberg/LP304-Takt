@@ -11,6 +11,7 @@ using System.ComponentModel.Design;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LP304_Takt.Repositories
 {
@@ -57,19 +58,7 @@ namespace LP304_Takt.Repositories
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            //Mail containing verificationToken sent 
-            var message = new MimeMessage();
-            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
-            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
-            message.Subject = "Registration verification";
-            message.Body = new TextPart(TextFormat.Html) { Text = user.VerificationToken };
-            // Console.WriteLine($"{message}");
-
-            using var smtp = new SmtpClient();
-            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
-            smtp.Send(message);
-            smtp.Disconnect(true);
+            EmailForVerification(user);
 
             return new ServiceResponse<int> 
             { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
@@ -145,25 +134,16 @@ namespace LP304_Takt.Repositories
             }
             else
             {
-                //Ok -mail containing resetToken sent to user, redirection to endpoint: reset-password.
                 user.PasswordResetToken = CreateRandomToken();
                 user.ResetTokenExpires = DateTime.Now.AddDays(1);
                 response.Data = user.PasswordResetToken;
+
+                EmailToResetPassword(user);
+
                 response.Message = $"Email to reset password haes ben sent to {user.Email}";
                 response.Success = true;
                 await _context.SaveChangesAsync();
 
-                var message = new MimeMessage();
-                message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
-                message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
-                message.Subject = "Password reset";
-                message.Body = new TextPart(TextFormat.Html) { Text = user.PasswordResetToken };
-
-                using var smtp = new SmtpClient();
-                smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
-                smtp.Send(message);
-                smtp.Disconnect(true);
             }
    
             return response; 
@@ -302,11 +282,41 @@ namespace LP304_Takt.Repositories
             return false;
         }
 
-
         private string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
 
+        private static void EmailToResetPassword(User user)
+        {
+            var message = new MimeMessage();
+            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));//user.Email
+            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+            message.Subject = "Password reset";
+            //Something like this:
+            message.Body = new TextPart(TextFormat.Html)
+            { Text = $"<a href=\"https://localhost:7112/api/User/Reset-Password?token={user.PasswordResetToken}\" Reset </a>" };
+            Smtp(message);
+        }
+
+        private static void EmailForVerification(User user)
+        {
+            var message = new MimeMessage();
+            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));//user.Email
+            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+            message.Subject = "Email verification";
+            message.Body = new TextPart(TextFormat.Html)
+            { Text = $"<a href=\"https://localhost:7112/api/User/verify?token={user.VerificationToken}\" Verify </a>" };
+            Smtp(message);
+        }
+        private static void Smtp(MimeMessage email)
+        {
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
+            smtp.Send(email);
+            smtp.Disconnect(true);
+        }
+    
     }
 }
