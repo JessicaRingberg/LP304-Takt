@@ -193,15 +193,29 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<string>> DeleteUser(int id)
         {
+            var response = new ServiceResponse<string>();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user is null)
             {
-                return;
+                response.Success = false;
+                response.Message = "No user found";
             }
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            else if(user.Role.Equals(Role.Admin))
+            {
+                response.Success = false;
+                response.Message = "Admin cannot be removed";
+            }
+            else
+            {
+                response.Success = true;
+                response.Message = $"User with email{user.Email} successfully removed.";
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+
+            return response;
         }
 
    
@@ -320,6 +334,10 @@ namespace LP304_Takt.Repositories
 
             smtp.Disconnect(true);
         }
-    
+
+        public Task DeleteEntity(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

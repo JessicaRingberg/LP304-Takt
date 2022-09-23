@@ -114,10 +114,14 @@ namespace LP304_Takt.Controllers
 
         [Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<ActionResult<ServiceResponse<string>>> DeleteUser(int id)
         {
-            await _userService.DeleteEntity(id);
-            return Ok();
+            var response = await _userService.DeleteUser(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [Authorize]
