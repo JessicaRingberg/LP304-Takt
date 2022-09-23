@@ -282,7 +282,7 @@ namespace LP304_Takt.Repositories
             return false;
         }
 
-        private string CreateRandomToken()
+        private static string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
@@ -317,6 +317,7 @@ namespace LP304_Takt.Repositories
             smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
             smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
             smtp.Send(email);
+
             smtp.Disconnect(true);
         }
     
