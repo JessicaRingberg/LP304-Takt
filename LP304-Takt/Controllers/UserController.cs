@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Security.Cryptography;
 using LP304_Takt.DTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
@@ -9,6 +10,7 @@ using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 
 namespace LP304_Takt.Controllers
 {
@@ -32,6 +34,7 @@ namespace LP304_Takt.Controllers
             {
                 return BadRequest(response);
             }
+
             return Ok(response);
         }
 
@@ -43,6 +46,7 @@ namespace LP304_Takt.Controllers
             {
                 return BadRequest(response);
             }
+
             return Ok(response);
         }
 
@@ -72,6 +76,17 @@ namespace LP304_Takt.Controllers
         public async Task<ActionResult<ServiceResponse<string>>> Verify(string token)
         {
             var response = await _userService.VerifyEmail(token);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken(string token)
+        {
+            var response = await _userService.RefreshToken(token);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -132,7 +147,15 @@ namespace LP304_Takt.Controllers
 
             return Ok();
         }
+        //private void SetRefreshToken(string newRefreshToken)
+        //{
+        //    var cookieOptions = new CookieOptions
+        //    {
+        //        HttpOnly = true,
+        //        Expires = DateTime.Now.AddDays(7)
+        //    };
+        //    Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
 
-
+        //}
     }
 }
