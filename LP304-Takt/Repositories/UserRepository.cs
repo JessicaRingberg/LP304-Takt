@@ -7,11 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 using MimeKit.Text;
+
 using System.ComponentModel.Design;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Authorization;
+using System.Web;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace LP304_Takt.Repositories
 {
@@ -52,6 +55,7 @@ namespace LP304_Takt.Repositories
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.VerificationToken = CreateRandomToken();
+          
             user.Role = Role.User;
             user.CompanyId = companyId;
 
@@ -64,7 +68,6 @@ namespace LP304_Takt.Repositories
             { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
             
         }
-      
 
         public async Task<ServiceResponse<string>> Login(string email, string passWord)
         {
@@ -82,18 +85,51 @@ namespace LP304_Takt.Repositories
                 response.Success = false;
                 response.Message = "Password or email is incorrect";
             }
-            //else if (verifiedUser.VerifiedAt is null)
-            //{
-            //    response.Success = false;
-            //    response.Message = $"{email} is not a verified email";
-            //}
             else
             {
                 response.Success = true;
                 response.Data = CreateToken(verifiedUser);
                 response.Message = $"Logged in: {verifiedUser.FirstName}";
-            }
 
+                var refreshToken = GenerateRefreshToken();
+                verifiedUser.RefreshToken = refreshToken.Token;
+                verifiedUser.TokenCreated = refreshToken.Created;
+                verifiedUser.TokenExpires = refreshToken.Expires;
+                await _context.SaveChangesAsync();
+
+            }
+           
+            return response;
+        }
+
+        public async Task<ServiceResponse<string>> RefreshToken(string token)
+        {
+            var response = new ServiceResponse<string>();
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.RefreshToken == token);
+
+            if (user is null)
+            {
+                response.Success = false;
+                response.Message = "Not found";
+            }
+            else if (user.TokenExpires < DateTime.Now)
+            {
+                response.Success = false;
+                response.Message = "Token expired";
+            }
+            else
+            {
+                var newRefreshed = GenerateRefreshToken();
+                user.RefreshToken = newRefreshed.Token;
+                user.TokenCreated = newRefreshed.Created;
+                user.TokenExpires = newRefreshed.Expires;
+
+                var newJwt = CreateToken(user);
+                response.Success = true;
+                response.Message = $"New token:{user.RefreshToken} and jwt: {newJwt}";
+                await _context.SaveChangesAsync();
+            }
             return response;
         }
 
@@ -333,6 +369,18 @@ namespace LP304_Takt.Repositories
             smtp.Send(email);
 
             smtp.Disconnect(true);
+        }
+
+
+        private static RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.Now.AddDays(7),
+                Created = DateTime.Now
+            };
+            return refreshToken;
         }
 
         public Task DeleteEntity(int id)
