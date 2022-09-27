@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Security.Cryptography;
-using LP304_Takt.DTO;
+﻿using LP304_Takt.DTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
-using LP304_Takt.Repositories;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
 
 namespace LP304_Takt.Controllers
 {
@@ -106,7 +101,7 @@ namespace LP304_Takt.Controllers
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
             var user = await _userService.GetEntity(id);
-
+            
             if (user is null)
             {
                 return NotFound($"User with id {id} was not found.");

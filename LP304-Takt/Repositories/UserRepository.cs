@@ -7,14 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 using MimeKit.Text;
-
-using System.ComponentModel.Design;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Authorization;
-using System.Web;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace LP304_Takt.Repositories
 {
