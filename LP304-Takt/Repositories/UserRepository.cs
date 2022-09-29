@@ -97,6 +97,7 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
+
         public async Task<ServiceResponse<string>> RefreshToken(string token)
         {
             var response = new ServiceResponse<string>();
@@ -115,6 +116,7 @@ namespace LP304_Takt.Repositories
             }
             else
             {
+
                 var newRefresToken = GenerateRefreshToken();
                 user.RefreshToken = newRefresToken.Token;
                 user.TokenCreated = newRefresToken.Created;
@@ -124,6 +126,7 @@ namespace LP304_Takt.Repositories
                 response.Data = newJwt;
                 response.Success = true;
                 response.Message = $"New refresh token:{user.RefreshToken}";
+
                 await _context.SaveChangesAsync();
             }
             return response;
