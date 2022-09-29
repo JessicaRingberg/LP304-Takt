@@ -1,4 +1,3 @@
-
 ﻿using System.Collections;
 using System.Security.Cryptography;
 using LP304_Takt.DTO;
@@ -24,6 +23,7 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
