@@ -41,7 +41,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = "Username already exists"
+                    Message = "Email already exists"
                 };
             }
 
@@ -115,14 +115,15 @@ namespace LP304_Takt.Repositories
             }
             else
             {
-                var newRefreshed = GenerateRefreshToken();
-                user.RefreshToken = newRefreshed.Token;
-                user.TokenCreated = newRefreshed.Created;
-                user.TokenExpires = newRefreshed.Expires;
+                var newRefresToken = GenerateRefreshToken();
+                user.RefreshToken = newRefresToken.Token;
+                user.TokenCreated = newRefresToken.Created;
+                user.TokenExpires = newRefresToken.Expires;
 
                 var newJwt = CreateToken(user);
+                response.Data = newJwt;
                 response.Success = true;
-                response.Message = $"New token:{user.RefreshToken} and jwt: {newJwt}";
+                response.Message = $"New refresh token:{user.RefreshToken}";
                 await _context.SaveChangesAsync();
             }
             return response;
@@ -245,7 +246,7 @@ namespace LP304_Takt.Repositories
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }
-
+           
             return response;
         }
 
@@ -296,7 +297,7 @@ namespace LP304_Takt.Repositories
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: creds);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

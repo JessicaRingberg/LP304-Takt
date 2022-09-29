@@ -20,6 +20,7 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
