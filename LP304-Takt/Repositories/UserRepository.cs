@@ -90,13 +90,12 @@ namespace LP304_Takt.Repositories
 
                 response.Success = true;
                 response.Data = CreateToken(verifiedUser);
-                response.Message = $"Logged in: {verifiedUser.FirstName} {verifiedUser.LastName}";
-                var role = verifiedUser.Role;
-                response.UserId = verifiedUser.Id;
-                response.Role = verifiedUser.Role.ToString();
-                response.Created = verifiedUser.TokenCreated;
-                response.Expires = verifiedUser.TokenExpires;
-                response.Token = verifiedUser.RefreshToken;
+                response.Message = $"Logged in: {verifiedUser.FirstName}";
+
+                var refreshToken = GenerateRefreshToken();
+                verifiedUser.RefreshToken = refreshToken.Token;
+                verifiedUser.TokenCreated = refreshToken.Created;
+                verifiedUser.TokenExpires = refreshToken.Expires;
 
                 await _context.SaveChangesAsync();
 
@@ -104,6 +103,7 @@ namespace LP304_Takt.Repositories
            
             return response;
         }
+
 
         public async Task<ServiceResponse<string>> RefreshToken(string token)
         {
@@ -123,12 +123,14 @@ namespace LP304_Takt.Repositories
             }
             else
             {
+
                 var newRefresToken = GenerateRefreshToken();
                 user.RefreshToken = newRefresToken.Token;
                 user.TokenCreated = newRefresToken.Created;
                 user.TokenExpires = newRefresToken.Expires;
-                var newJwt = CreateToken(user);
 
+
+                var newJwt = CreateToken(user);
                 response.Data = newJwt;
                 response.Success = true;
                 response.Message = $"New refresh token:{user.RefreshToken}";
