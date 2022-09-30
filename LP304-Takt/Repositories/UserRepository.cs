@@ -90,12 +90,14 @@ namespace LP304_Takt.Repositories
 
                 response.Success = true;
                 response.Data = CreateToken(verifiedUser);
-                response.Message = $"Logged in: {verifiedUser.FirstName}";
-
-                var refreshToken = GenerateRefreshToken();
-                verifiedUser.RefreshToken = refreshToken.Token;
-                verifiedUser.TokenCreated = refreshToken.Created;
-                verifiedUser.TokenExpires = refreshToken.Expires;
+                response.Message = $"Logged in: {verifiedUser.FirstName} {verifiedUser.LastName}";
+                response.UserId = verifiedUser.Id;
+                var role = verifiedUser.Role;
+                response.Role = role.ToString();
+                response.Token = verifiedUser.RefreshToken;
+                response.Created = verifiedUser.TokenCreated;
+                response.Expires = verifiedUser.TokenExpires;
+               
 
                 await _context.SaveChangesAsync();
 
