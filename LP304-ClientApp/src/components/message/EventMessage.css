@@ -1,5 +1,6 @@
 .error-message-container {
     position: relative;
+    z-index: 100;
 }
 
 .error-message {

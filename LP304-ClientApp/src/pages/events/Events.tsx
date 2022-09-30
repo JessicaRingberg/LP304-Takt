@@ -1,11 +1,12 @@
 import React from 'react';
 import Table from '../../components/eventtable/Table';
 import LoadingSpinner from '../../components/loadingspinner/LoadingSpinner';
-import UseFetch from '../../hooks/db/UseFetch';
-import "./Events.css"
+import useFetch from '../../hooks/db/useFetch';
+import { Cookies } from 'react-cookie';
+import "./Events.css";
 
 const Events: React.FC = () => {
-  const { data: events, isPending, error } = UseFetch('https://localhost:7112/api/Event')
+  const { data: events, isPending, error } = useFetch('https://localhost:7112/api/Event')
   
   return (
     <main>

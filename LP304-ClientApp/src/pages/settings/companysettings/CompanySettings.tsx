@@ -1,10 +1,10 @@
 import './CompanySettings.css'
 import CompanyList from '../../../components/companyList/CompanyList';
-import UseFetch from '../../../hooks/db/UseFetch';
+import useFetch from '../../../hooks/db/useFetch';
 import LoadingSpinner from '../../../components/loadingspinner/LoadingSpinner';
 
 function CompanySettings() {
-    const { data: companies, isPending, error } = UseFetch('https://localhost:7112/api/Company')
+    const { data: companies, isPending, error } = useFetch('https://localhost:7112/api/Company')
 
     return (
         <main>

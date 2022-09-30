@@ -1,9 +1,9 @@
 import Table from "../../components/eventtable/Table";
 import LoadingSpinner from "../../components/loadingspinner/LoadingSpinner";
-import UseFetch from "../../hooks/db/UseFetch";
+import useFetch from "../../hooks/db/useFetch";
 
 function Alarms() {
-    const { data: events, isPending, error } = UseFetch('https://localhost:7112/api/Alarm')
+    const { data: events, isPending, error } = useFetch('https://localhost:7112/api/Alarm')
 
     return (
         <main>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MqttHost from '../../../models/mqtt/MqttHost';
-import UseMqttConnection from '../../../hooks/mqtt/UseMqttConnection';
+import useMqttConnection from '../../../hooks/mqtt/useMqttConnection';
 import './MqttConnection.css'
 import EventMessage from '../../../components/message/EventMessage';
 import FormInput from '../../../components/forminput/FormInput';
@@ -18,7 +18,7 @@ const MqttConnection: React.FC = () => {
         password: ""
     });
 
-    const { mqttStatus, mqttConnect } = UseMqttConnection(values);
+    const { mqttStatus, mqttConnect } = useMqttConnection(values);
 
     useEffect(() => {
         if (mqttStatus?.status === "Connected") {

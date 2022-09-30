@@ -1,10 +1,11 @@
 import './Takt.css';
-import { useState } from "react";
-import UseMqttConnection from '../../hooks/mqtt/UseMqttConnection';
+import { useEffect, useState } from "react";
+import useMqttConnection from '../../hooks/mqtt/useMqttConnection';
 import FormInput from '../../components/forminput/FormInput';
 
 
 function Home() {
+    const [isStarted, setIsStarted] = useState(window.sessionStorage.getItem("taktStarted"));
     const [values, setValues] = useState<any>({
         taktTime: "",
         OrderQuantity: "",
@@ -12,7 +13,7 @@ function Home() {
         repeatTakt: false
     });
 
-    const { mqttConnect, mqttPublish } = UseMqttConnection({ host: "172.17.10.129", port: "1884" });
+    const { mqttConnect, mqttPublish, mqttSub, mqttStatus, mqttPayload } = useMqttConnection({ host: "172.17.10.129", port: "1884" });
 
     const inputs = [
         {
@@ -57,7 +58,7 @@ function Home() {
         e.preventDefault();
     }
 
-    const onChange = (e: any) => {
+    const onChange = (e: any) => {        
         setValues(
             e.target.type === "checkbox" ?
                 { ...values, [e.target.name]: e.target.checked } :
@@ -67,7 +68,14 @@ function Home() {
 
     const publishStart = () => {
         mqttPublish({ topic: "from/lp304-takt/webclient/requesttakt", qos: 0, payload: JSON.stringify(values) })
+        mqttSub({topic: "from/lp304-takt/taktclient/taktstart", qos: 2})
     }
+    useEffect(() => {
+        if(mqttPayload?.message === "true") {
+            window.sessionStorage.setItem("taktStarted", mqttPayload?.message)
+            setIsStarted("true")
+        }
+    }, [mqttPayload])
 
     return (
         <main>
@@ -77,6 +85,7 @@ function Home() {
                     <p>Here you can configure and start the Takt</p>
                 </div>
                 <div className="takt-content">
+                    {isStarted !== "true" ? (
                     <form onSubmit={handleSubmit}>
                         <h2>Configure and start Takt</h2>
                         <div>
@@ -86,6 +95,11 @@ function Home() {
                             <button type="button" onClick={publishStart}>Start cycle</button>
                         </div>
                     </form>
+                    ) : (
+                        <div>
+                            <button onClick={publishStart}>hej</button>
+                        </div>
+                    )}
                 </div>
             </div>
         </main>

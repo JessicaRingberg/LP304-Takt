@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
+import { Cookies } from 'react-cookie';
 
-const UseFetch = (url: string) => {
+const useFetch = (url: string) => {
     const [data, setData] = useState();
     const [isPending, setIsPending] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null);
+    var cookie = new Cookies();
+    
 
     useEffect(() => {
         const abortFetch = new AbortController();
+        const token: any = window.sessionStorage.getItem("token")
 
-        fetch(url, {signal: abortFetch.signal})
-            .then(res => {
+        fetch(url, {
+            headers: { "Authorization": "Bearer " + cookie.get("token")},
+            signal: abortFetch.signal
+        }).then(res => {
                 if (!res.ok) {
                     throw Error('Could not fetch the data for that resource')
                 }
@@ -34,4 +40,4 @@ const UseFetch = (url: string) => {
     return { data, isPending, error }
 }
 
-export default UseFetch;
+export default useFetch;
