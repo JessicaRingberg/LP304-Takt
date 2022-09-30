@@ -12,6 +12,7 @@ namespace LP304_Takt.Interfaces.Services
         Task<ServiceResponse<string>> LoginUser(string email, string password);
         Task<ServiceResponse<string>> ForgotPassword(string email);
         Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request);
-
+        Task<ServiceResponse<string>> DeleteUser(int id);
+        Task<ServiceResponse<string>> RefreshToken(string token);
     }
 }

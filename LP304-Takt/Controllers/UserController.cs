@@ -1,14 +1,14 @@
 ﻿using System.Collections;
+using System.Security.Cryptography;
 using LP304_Takt.DTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
-using LP304_Takt.Repositories;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 
 namespace LP304_Takt.Controllers
 {
@@ -23,6 +23,7 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
@@ -32,6 +33,7 @@ namespace LP304_Takt.Controllers
             {
                 return BadRequest(response);
             }
+
             return Ok(response);
         }
 
@@ -43,6 +45,7 @@ namespace LP304_Takt.Controllers
             {
                 return BadRequest(response);
             }
+
             return Ok(response);
         }
 
@@ -79,6 +82,17 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken(string token)
+        {
+            var response = await _userService.RefreshToken(token);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
         [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
@@ -91,7 +105,7 @@ namespace LP304_Takt.Controllers
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
             var user = await _userService.GetEntity(id);
-
+            
             if (user is null)
             {
                 return NotFound($"User with id {id} was not found.");
@@ -114,10 +128,14 @@ namespace LP304_Takt.Controllers
 
         [Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<ActionResult<ServiceResponse<string>>> DeleteUser(int id)
         {
-            await _userService.DeleteEntity(id);
-            return Ok();
+            var response = await _userService.DeleteUser(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [Authorize]
@@ -128,7 +146,15 @@ namespace LP304_Takt.Controllers
 
             return Ok();
         }
+        //private void SetRefreshToken(string newRefreshToken)
+        //{
+        //    var cookieOptions = new CookieOptions
+        //    {
+        //        HttpOnly = true,
+        //        Expires = DateTime.Now.AddDays(7)
+        //    };
+        //    Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
 
-
+        //}
     }
 }

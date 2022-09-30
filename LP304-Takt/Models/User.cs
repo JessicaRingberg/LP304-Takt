@@ -21,5 +21,8 @@ namespace LP304_Takt.Models
         public int? CompanyId { get; set; }
         public Company Company { get; set; } = null!;
         public Role Role { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
+        public DateTime TokenCreated { get; set; }
+        public DateTime TokenExpires { get; set; }
     }
 }

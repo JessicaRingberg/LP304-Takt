@@ -64,5 +64,15 @@ namespace LP304_Takt.Services
         {
             return await _userRepository.VerifyEmail(token);
         }
+
+        public async Task<ServiceResponse<string>> DeleteUser(int id)
+        {
+            return await _userRepository.DeleteUser(id);
+        }
+
+        public async Task<ServiceResponse<string>> RefreshToken(string token)
+        {
+            return await _userRepository.RefreshToken(token);
+        }
     }
 }
