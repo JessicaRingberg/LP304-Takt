@@ -82,6 +82,12 @@ namespace LP304_Takt.Repositories
             }
             else
             {
+             
+                var refreshToken = GenerateRefreshToken();
+                verifiedUser.RefreshToken = refreshToken.Token;
+                verifiedUser.TokenCreated = refreshToken.Created;
+                verifiedUser.TokenExpires = refreshToken.Expires;
+
                 response.Success = true;
                 response.Data = CreateToken(verifiedUser);
                 response.Message = $"Logged in: {verifiedUser.FirstName}";
@@ -90,6 +96,7 @@ namespace LP304_Takt.Repositories
                 verifiedUser.RefreshToken = refreshToken.Token;
                 verifiedUser.TokenCreated = refreshToken.Created;
                 verifiedUser.TokenExpires = refreshToken.Expires;
+
                 await _context.SaveChangesAsync();
 
             }
@@ -122,11 +129,11 @@ namespace LP304_Takt.Repositories
                 user.TokenCreated = newRefresToken.Created;
                 user.TokenExpires = newRefresToken.Expires;
 
+
                 var newJwt = CreateToken(user);
                 response.Data = newJwt;
                 response.Success = true;
                 response.Message = $"New refresh token:{user.RefreshToken}";
-
                 await _context.SaveChangesAsync();
             }
             return response;
