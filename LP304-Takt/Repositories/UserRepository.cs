@@ -73,7 +73,6 @@ namespace LP304_Takt.Repositories
             {
                 response.Success = false;
                 response.Message = "User not found";
-
             }
             else if (!VerifyPasswordHash(passWord, verifiedUser.PasswordHash, verifiedUser.PasswordSalt))
             {
@@ -81,8 +80,7 @@ namespace LP304_Takt.Repositories
                 response.Message = "Password or email is incorrect";
             }
             else
-            {
-             
+            {            
                 var refreshToken = GenerateRefreshToken();
                 verifiedUser.RefreshToken = refreshToken.Token;
                 verifiedUser.TokenCreated = refreshToken.Created;
@@ -98,7 +96,6 @@ namespace LP304_Takt.Repositories
                 response.Created = verifiedUser.TokenCreated;
                 response.Expires = verifiedUser.TokenExpires;
                
-
                 await _context.SaveChangesAsync();
 
             }
