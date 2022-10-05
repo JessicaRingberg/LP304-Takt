@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220926092947_Refresh")]
-    partial class Refresh
+    [Migration("20221005121139_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -209,6 +209,9 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AreaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Backlog")
                         .HasColumnType("int");
 
@@ -242,9 +245,6 @@ namespace LP304_Takt.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StationId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Takt")
                         .HasColumnType("int");
 
@@ -253,9 +253,9 @@ namespace LP304_Takt.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QueueId");
+                    b.HasIndex("AreaId");
 
-                    b.HasIndex("StationId");
+                    b.HasIndex("QueueId");
 
                     b.ToTable("Orders");
                 });
@@ -267,9 +267,6 @@ namespace LP304_Takt.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -296,9 +293,6 @@ namespace LP304_Takt.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -432,17 +426,15 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.Order", b =>
                 {
-                    b.HasOne("LP304_Takt.Models.Queue", null)
+                    b.HasOne("LP304_Takt.Models.Area", null)
                         .WithMany("Orders")
-                        .HasForeignKey("QueueId");
-
-                    b.HasOne("LP304_Takt.Models.Station", "Station")
-                        .WithMany("Orders")
-                        .HasForeignKey("StationId")
+                        .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Station");
+                    b.HasOne("LP304_Takt.Models.Queue", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("QueueId");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>
@@ -472,6 +464,8 @@ namespace LP304_Takt.Migrations
                 {
                     b.Navigation("Config");
 
+                    b.Navigation("Orders");
+
                     b.Navigation("Stations");
                 });
 
@@ -495,11 +489,6 @@ namespace LP304_Takt.Migrations
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Queue", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("LP304_Takt.Models.Station", b =>
                 {
                     b.Navigation("Orders");
                 });

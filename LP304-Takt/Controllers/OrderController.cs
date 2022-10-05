@@ -21,9 +21,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int stationId)
+        public async Task<IActionResult> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
         {
-            await _orderService.Add(order.AsEntity(), stationId);
+            await _orderService.Add(order.AsEntity(), areaId);
 
             return Ok();
         }

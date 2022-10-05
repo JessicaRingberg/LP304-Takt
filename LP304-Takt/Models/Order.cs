@@ -27,8 +27,9 @@ namespace LP304_Takt.Models
         public int LastPartProd { get; set; }
         [Required]
         public int Takt { get; set; }
-        public int StationId { get; set; }
-        public Station Station { get; set; } = null!;
+        public int AreaId { get; set; }
+        //public int StationId { get; set; }
+        //public Station Station { get; set; } = null!;
         public ICollection<Event>? Events { get; set; }
         public ICollection<Alarm>? Alarms { get; set; }
 

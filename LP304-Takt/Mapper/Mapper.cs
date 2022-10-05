@@ -103,7 +103,6 @@ namespace LP304_Takt.Mapper
                 TaktSet = order.TaktSet,
                 LastPartProd = order.LastPartProd,
                 Takt = order.Takt,
-                StationId = order.StationId,
                 Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };
