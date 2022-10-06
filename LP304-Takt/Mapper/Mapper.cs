@@ -94,6 +94,15 @@ namespace LP304_Takt.Mapper
             };
 
         }
+        public static OrderDetailsDto AsDto(this OrderDetailsDto orderDetails)
+        {
+            return new OrderDetailsDto
+            {
+                Article = orderDetails.Article,
+                Order = orderDetails.Order,
+                Quantity = orderDetails.Quantity
+            };
+        }
 
         public static OrderDto AsDto(this Order order)
         {
@@ -212,6 +221,14 @@ namespace LP304_Takt.Mapper
             };
         }
 
+        public static OrderDetails AsEntity(this OrderDetailsCreateDto orderDetails)
+        {
+            return new OrderDetails
+            {
+
+                Quantity = orderDetails.Quantity
+            };
+        }
         public static Order AsEntity(this OrderCreateDto order)
         {
             return new Order

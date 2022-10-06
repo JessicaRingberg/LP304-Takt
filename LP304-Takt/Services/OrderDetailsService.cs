@@ -13,14 +13,19 @@ namespace LP304_Takt.Services
             _orderDetailsRepository = orderDetailsRepository;
         }
 
+        public async Task Add(OrderDetails orderDetails, int orderId, int articleId)
+        {
+            await _orderDetailsRepository.Add(orderDetails, orderId, articleId);
+        }
+
         public Task DeleteEntity(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<OrderDetails>> GetEntities()
+        public async Task<ICollection<OrderDetails>> GetEntities()
         {
-            throw new NotImplementedException();
+            return await _orderDetailsRepository.GetEntities(); ;
         }
 
         public Task<OrderDetails?> GetEntity(int id)
