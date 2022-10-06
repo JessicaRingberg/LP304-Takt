@@ -8,12 +8,12 @@ namespace LP304_Takt.Interfaces.Repositories
     {
         Task<Company?> GetCompanyByUser(int userId);
         Task<bool> UserAlreadyExists(string userName);
-        Task<ServiceResponse<int>> RegisterUser(User user, string email, int companyId);
-        Task<ServiceResponse<string>> VerifyEmail(string token);
-        Task<ServiceResponse<string>> Login(string email, string passWord);
-        Task<ServiceResponse<string>> ForgotPassword(string email);
-        Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request);
-        Task<ServiceResponse<string>> DeleteUser(int id);
-        Task<ServiceResponse<string>> RefreshToken(string token);
+        Task<UserResponse<int>> RegisterUser(User user, string email, int companyId);
+        Task<UserResponse<string>> VerifyEmail(string token);
+        Task<UserResponse<string>> Login(string email, string passWord);
+        Task<UserResponse<string>> ForgotPassword(string email);
+        Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request);
+        Task<UserResponse<string>> DeleteUser(int id);
+        Task<UserResponse<string>> RefreshToken(string token);
     }
 }

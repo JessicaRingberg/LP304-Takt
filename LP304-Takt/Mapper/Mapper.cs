@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.Models;
 
 namespace LP304_Takt.Mapper
@@ -37,7 +38,15 @@ namespace LP304_Takt.Mapper
                 Stations = area.Stations.Select(s => s.AsDto()).ToList()
             };
         }
-
+        public static ArticleDto AsDto(this Article article)
+        {
+            return new ArticleDto
+            {
+                Id = article.Id,
+                Name = article.Name,
+                ArticleNumber = article.ArticleNumber
+            };
+        }
         public static CompanyDto AsDto(this Company company)
         {
             return new CompanyDto
@@ -93,7 +102,6 @@ namespace LP304_Takt.Mapper
                 Id = order.Id,
                 StartTime = order.StartTime,
                 EndTime = order.EndTime,
-                Quantity = order.Quantity,
                 RunSetDec = order.RunSetDec,
                 ChangeSetDec = order.ChangeSetDec,
                 PartsProd = order.PartsProd,
@@ -158,7 +166,14 @@ namespace LP304_Takt.Mapper
                 Name = area.Name
             };
         }
-
+        public static Article AsEntity(this ArticleCreateDto article)
+        {
+            return new Article
+            {
+                Name = article.Name,
+                ArticleNumber = article.ArticleNumber
+            };
+        }
         public static Company AsEntity(this CompanyCreateDto company)
         {
             return new Company
@@ -204,7 +219,6 @@ namespace LP304_Takt.Mapper
 
                 StartTime = order.StartTime,
                 EndTime = order.EndTime,
-                Quantity = order.Quantity,
                 RunSetDec = order.RunSetDec,
                 ChangeSetDec = order.ChangeSetDec,
                 PartsProd = order.PartsProd,

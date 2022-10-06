@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221005121139_Initial")]
-    partial class Initial
+    [Migration("20221006081821_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,11 +92,36 @@ namespace LP304_Takt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("QueueId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("QueueId");
+
                     b.ToTable("Areas");
+                });
+
+            modelBuilder.Entity("LP304_Takt.Models.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ArticleNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Article");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Company", b =>
@@ -230,9 +255,6 @@ namespace LP304_Takt.Migrations
                     b.Property<int>("PartsProd")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
                     b.Property<int?>("QueueId")
                         .HasColumnType("int");
 
@@ -258,6 +280,32 @@ namespace LP304_Takt.Migrations
                     b.HasIndex("QueueId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("LP304_Takt.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Queue", b =>
@@ -391,7 +439,13 @@ namespace LP304_Takt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LP304_Takt.Models.Queue", "Queue")
+                        .WithMany()
+                        .HasForeignKey("QueueId");
+
                     b.Navigation("Company");
+
+                    b.Navigation("Queue");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Config", b =>
@@ -435,6 +489,25 @@ namespace LP304_Takt.Migrations
                     b.HasOne("LP304_Takt.Models.Queue", null)
                         .WithMany("Orders")
                         .HasForeignKey("QueueId");
+                });
+
+            modelBuilder.Entity("LP304_Takt.Models.OrderDetails", b =>
+                {
+                    b.HasOne("LP304_Takt.Models.Article", "Article")
+                        .WithMany()
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LP304_Takt.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>

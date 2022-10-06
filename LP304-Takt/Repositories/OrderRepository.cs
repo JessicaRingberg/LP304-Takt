@@ -28,9 +28,7 @@ namespace LP304_Takt.Repositories
                 //if order start time is before or same time as end time && stationId equals station.Id
                 if (await _context.Orders.AnyAsync(o => o.EndTime.Equals(order.StartTime)))
                 {
-
                    await _context.SaveChangesAsync();
-
                 }
             }
         }
@@ -63,24 +61,29 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync(); 
         }
 
-        public async Task UpdateEntity(Order order, int orderId)
+        public Task UpdateEntity(Order entity, int id)
         {
-            var orderToUpdate = await _context.Orders
-                .FindAsync(orderId);
-            if (orderToUpdate is null)
-            {
-                return;
-            }
-
-            MapOrder(orderToUpdate, order);
-
-            await _context.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
-        private static Order MapOrder(Order newOrder, Order oldOrder)
-        {
-            newOrder.Quantity = oldOrder.Quantity;
-            return newOrder;
-        }
+        //public async Task UpdateEntity(Order order, int orderId)
+        //{
+        //    var orderToUpdate = await _context.Orders
+        //        .FindAsync(orderId);
+        //    if (orderToUpdate is null)
+        //    {
+        //        return;
+        //    }
+
+        //    MapOrder(orderToUpdate, order);
+
+        //    await _context.SaveChangesAsync();
+        //}
+
+        //private static Order MapOrder(Order newOrder, Order oldOrder)
+        //{
+        //    newOrder.Quantity = oldOrder.Quantity;
+        //    return newOrder;
+        //}
     }
 }

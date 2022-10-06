@@ -14,12 +14,12 @@ namespace LP304_Takt.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ServiceResponse<int>> RegisterUser(User user, string email, int companyId)
+        public async Task<UserResponse<int>> RegisterUser(User user, string email, int companyId)
         {
             return await _userRepository.RegisterUser(user, email, companyId);
         }
 
-        public async Task<ServiceResponse<string>> LoginUser(string email, string password)
+        public async Task<UserResponse<string>> LoginUser(string email, string password)
         {
             return await _userRepository.Login(email, password);
         }
@@ -50,27 +50,27 @@ namespace LP304_Takt.Services
            await _userRepository.UpdateEntity(user, userId);
         }
 
-        public async Task<ServiceResponse<string>> ForgotPassword(string email)
+        public async Task<UserResponse<string>> ForgotPassword(string email)
         {
             return await _userRepository.ForgotPassword(email);
         }
 
-        public async Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request)
+        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request)
         {
             return await _userRepository.ResetPassword(request);
         }
 
-        public async Task<ServiceResponse<string>> VerifyEmail(string token)
+        public async Task<UserResponse<string>> VerifyEmail(string token)
         {
             return await _userRepository.VerifyEmail(token);
         }
 
-        public async Task<ServiceResponse<string>> DeleteUser(int id)
+        public async Task<UserResponse<string>> DeleteUser(int id)
         {
             return await _userRepository.DeleteUser(id);
         }
 
-        public async Task<ServiceResponse<string>> RefreshToken(string token)
+        public async Task<UserResponse<string>> RefreshToken(string token)
         {
             return await _userRepository.RefreshToken(token);
         }

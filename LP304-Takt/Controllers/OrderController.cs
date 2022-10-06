@@ -57,12 +57,12 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
-        public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
-        {
-            await _orderService.UpdateEntity(order.AsUpdated(), orderId);
+    //    [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+    //    public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
+    //    {
+    //        await _orderService.UpdateEntity(order.AsUpdated(), orderId);
 
-            return Ok();
-        }
+    //        return Ok();
+    //    }
     }
 }
