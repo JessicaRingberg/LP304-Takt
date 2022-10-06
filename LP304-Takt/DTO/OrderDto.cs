@@ -1,4 +1,6 @@
-﻿namespace LP304_Takt.DTO
+﻿using LP304_Takt.Models;
+
+namespace LP304_Takt.DTO
 {
     public record OrderDto
     {
@@ -17,6 +19,7 @@
         public int Takt { get; init; }
 
         public int StationId { get; init; }
+        public ICollection<OrderDetailsDto> OrderDetails { get; init; } = null!;
         public ICollection<AlarmDto> Alarms { get; init; } = null!;
         public ICollection<EventDto> Events { get; init; } = null!;
     }

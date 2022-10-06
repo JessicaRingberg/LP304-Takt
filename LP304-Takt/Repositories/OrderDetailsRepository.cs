@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -35,9 +36,16 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteEntity(int id)
+        public async Task DeleteEntity(int id)
         {
-            throw new NotImplementedException();
+            var orderDetails = await _context.OrderDetails
+               .FirstOrDefaultAsync(o => o.Id == id);
+            if (orderDetails is null)
+            {
+                return;
+            }
+            _context.OrderDetails.Remove(orderDetails);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ICollection<OrderDetails>> GetEntities()
@@ -48,9 +56,12 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public Task<OrderDetails?> GetEntity(int id)
+        public async Task<OrderDetails?> GetEntity(int id)
         {
-            throw new NotImplementedException();
+            return await _context.OrderDetails
+                .Include(o => o.Article)
+                .Include(o => o.Order)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public Task UpdateEntity(OrderDetails entity, int id)

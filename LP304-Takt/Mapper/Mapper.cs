@@ -94,13 +94,13 @@ namespace LP304_Takt.Mapper
             };
 
         }
-        public static OrderDetailsDto AsDto(this OrderDetailsDto orderDetails)
+        public static OrderDetailsDto AsDto(this OrderDetails orderDetails)
         {
             return new OrderDetailsDto
             {
-                Article = orderDetails.Article,
-                Order = orderDetails.Order,
-                Quantity = orderDetails.Quantity
+                Id = orderDetails.Id,
+                Quantity = orderDetails.Quantity,
+                ArticleName = orderDetails.Article?.Name
             };
         }
 
@@ -120,6 +120,7 @@ namespace LP304_Takt.Mapper
                 TaktSet = order.TaktSet,
                 LastPartProd = order.LastPartProd,
                 Takt = order.Takt,
+                OrderDetails = order.OrderDetails.Select(o => o.AsDto()).ToList(),
                 Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };

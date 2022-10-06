@@ -36,6 +36,7 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<Order>> GetEntities()
         {
             return await _context.Orders
+                .Include(o => o.OrderDetails)
                 .Include(o => o.Alarms)
                 .Include(o => o.Events)
                 .ToListAsync();
@@ -44,6 +45,7 @@ namespace LP304_Takt.Repositories
         public async Task<Order?> GetEntity(int id)
         {
             return await _context.Orders
+                .Include(o => o.OrderDetails)
                 .Include(o => o.Alarms)
                 .Include(o => o.Events)
                 .FirstOrDefaultAsync(a => a.Id == id);

@@ -1,6 +1,6 @@
-﻿namespace LP304_Takt.DTO
+﻿namespace LP304_Takt.DTO.CreateDTO
 {
-    public record AreaCreateDto
+    public record CompanyCreateDto
     {
         public string Name { get; init; } = string.Empty;
     }

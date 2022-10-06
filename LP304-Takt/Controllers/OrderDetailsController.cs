@@ -34,5 +34,23 @@ namespace LP304_Takt.Controllers
         {
             return Ok(await _orderDetailsService.GetEntities());
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OrderDetailsDto>> GetOrderDetail(int id)
+        {
+            var orderDetail = await _orderDetailsService.GetEntity(id);
+            if (orderDetail is null)
+            {
+                return NotFound($"OrderDetail with id: {id} was not found");
+            }
+            return Ok(orderDetail.AsDto());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteArticle(int id)
+        {
+            await _orderDetailsService.DeleteEntity(id);
+            return Ok();
+        }
     }
 }

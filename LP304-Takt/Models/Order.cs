@@ -26,7 +26,7 @@ namespace LP304_Takt.Models
         [Required]
         public int Takt { get; set; }
         public int AreaId { get; set; }
-       // public Article OrderItem { get; set; } = null!;
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
         public ICollection<Event>? Events { get; set; }
         public ICollection<Alarm>? Alarms { get; set; }
         //public int StationId { get; set; }
