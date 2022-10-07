@@ -35,11 +35,14 @@ namespace LP304_Takt.Repositories
     
         public async Task<ICollection<Order>> GetEntities()
         {
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
             return await _context.Orders
                 .Include(o => o.OrderDetails)
+                .ThenInclude(o => o.Article)
                 .Include(o => o.Alarms)
                 .Include(o => o.Events)
                 .ToListAsync();
+#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
         }
 
         public async Task<Order?> GetEntity(int id)

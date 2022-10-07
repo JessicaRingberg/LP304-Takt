@@ -51,7 +51,7 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<OrderDetails>> GetEntities()
         {
             return await _context.OrderDetails
-                .Include(o => o.Article)
+               // .Include(o => o.Article)
                 .ToListAsync();
         }
 
