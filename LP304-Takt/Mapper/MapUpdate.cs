@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.UpdateDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Models;
 
@@ -27,7 +28,14 @@ namespace LP304_Takt.Mapper
                 Name = area.Name
             };
         }
-
+        public static Article AsUpdated(this ArticleUpdateDto article)
+        {
+            return new Article
+            {
+                Name = article.Name,
+                ArticleNumber = article.ArticleNumber
+            };
+        }
         public static Company AsUpdated(this CompanyUpdateDto company)
         {
             return new Company
@@ -58,13 +66,15 @@ namespace LP304_Takt.Mapper
                 Name = eventStatus.Name
             };
         }
-        //public static Order AsUpdated(this OrderUpdateDto station)
-        //{
-        //    return new Order
-        //    {
-        //        Quantity = station.Quantity
-        //    };
-        //}
+        public static OrderDetails AsUpdated(this OrderDetailsUpdateDto orderDetails)
+        {
+            return new OrderDetails
+            {
+                Quantity = orderDetails.Quantity
+   
+            };
+        }
+
         public static Station AsUpdated(this StationUpdateDto station)
         {
             return new Station
