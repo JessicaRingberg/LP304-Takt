@@ -8,8 +8,6 @@ namespace LP304_Takt.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         [Required]
-        public int Quantity { get; set; }
-        [Required]
         public double RunSetDec { get; set; }
         [Required]
         public double ChangeSetDec { get; set; }
@@ -27,10 +25,12 @@ namespace LP304_Takt.Models
         public int LastPartProd { get; set; }
         [Required]
         public int Takt { get; set; }
-        public int StationId { get; set; }
-        public Station Station { get; set; } = null!;
+        public int AreaId { get; set; }
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
         public ICollection<Event>? Events { get; set; }
         public ICollection<Alarm>? Alarms { get; set; }
+        //public int StationId { get; set; }
+        //public Station Station { get; set; } = null!;
 
     }
 }

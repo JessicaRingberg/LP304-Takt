@@ -1,10 +1,9 @@
-﻿namespace LP304_Takt.DTO
+﻿namespace LP304_Takt.DTO.UpdateDTOs
 {
-    public record OrderCreateDto
+    public record OrderUpdateDto
     {
         public DateTime StartTime { get; init; }
         public DateTime EndTime { get; init; }
-        public int Quantity { get; init; }
         public double RunSetDec { get; init; }
         public double ChangeSetDec { get; init; }
         public int PartsProd { get; init; }

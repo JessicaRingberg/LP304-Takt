@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Security.Cryptography;
-using LP304_Takt.DTO;
+﻿using LP304_Takt.DTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -8,7 +6,6 @@ using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
 
 namespace LP304_Takt.Controllers
 {

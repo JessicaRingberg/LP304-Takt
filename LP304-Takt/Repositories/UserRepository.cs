@@ -24,12 +24,12 @@ namespace LP304_Takt.Repositories
             _configuration = configuration;
         }
 
-        public async Task<ServiceResponse<int>> RegisterUser(User user, string password, int companyId)
+        public async Task<UserResponse<int>> RegisterUser(User user, string password, int companyId)
         {
             var company = await _context.Companies.FindAsync(companyId);
             if (company is null)
             {
-                return new ServiceResponse<int>()
+                return new UserResponse<int>()
                 {
                     Success = false,
                     Message = "User must belong to a company"
@@ -38,7 +38,7 @@ namespace LP304_Takt.Repositories
 
             else if (await UserAlreadyExists(user.Email))
             {
-                return new ServiceResponse<int>()
+                return new UserResponse<int>()
                 {
                     Success = false,
                     Message = "Email already exists"
@@ -59,21 +59,20 @@ namespace LP304_Takt.Repositories
 
             EmailForVerification(user);
 
-            return new ServiceResponse<int> 
+            return new UserResponse<int> 
             { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
             
         }
 
-        public async Task<ServiceResponse<string>> Login(string email, string passWord)
+        public async Task<UserResponse<string>> Login(string email, string passWord)
         {
-            var response = new ServiceResponse<string>();
+            var response = new UserResponse<string>();
 
             var verifiedUser = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
             if (verifiedUser is null)
             {
                 response.Success = false;
                 response.Message = "User not found";
-
             }
             else if (!VerifyPasswordHash(passWord, verifiedUser.PasswordHash, verifiedUser.PasswordSalt))
             {
@@ -81,15 +80,22 @@ namespace LP304_Takt.Repositories
                 response.Message = "Password or email is incorrect";
             }
             else
-            {
-                response.Success = true;
-                response.Data = CreateToken(verifiedUser);
-                response.Message = $"Logged in: {verifiedUser.FirstName}";
-
+            {            
                 var refreshToken = GenerateRefreshToken();
                 verifiedUser.RefreshToken = refreshToken.Token;
                 verifiedUser.TokenCreated = refreshToken.Created;
                 verifiedUser.TokenExpires = refreshToken.Expires;
+
+                response.Success = true;
+                response.Data = CreateToken(verifiedUser);
+                response.Message = $"Logged in: {verifiedUser.FirstName} {verifiedUser.LastName}";
+                response.UserId = verifiedUser.Id;
+                var role = verifiedUser.Role;
+                response.Role = role.ToString();
+                response.Token = verifiedUser.RefreshToken;
+                response.Created = verifiedUser.TokenCreated;
+                response.Expires = verifiedUser.TokenExpires;
+               
                 await _context.SaveChangesAsync();
 
             }
@@ -98,9 +104,9 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task<ServiceResponse<string>> RefreshToken(string token)
+        public async Task<UserResponse<string>> RefreshToken(string token)
         {
-            var response = new ServiceResponse<string>();
+            var response = new UserResponse<string>();
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.RefreshToken == token);
 
@@ -122,19 +128,19 @@ namespace LP304_Takt.Repositories
                 user.TokenCreated = newRefresToken.Created;
                 user.TokenExpires = newRefresToken.Expires;
 
+
                 var newJwt = CreateToken(user);
                 response.Data = newJwt;
                 response.Success = true;
                 response.Message = $"New refresh token:{user.RefreshToken}";
-
                 await _context.SaveChangesAsync();
             }
             return response;
         }
 
-        public async Task<ServiceResponse<string>> VerifyEmail(string token)
+        public async Task<UserResponse<string>> VerifyEmail(string token)
         {
-            var response = new ServiceResponse<string>();
+            var response = new UserResponse<string>();
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
             if (user is null)
@@ -153,9 +159,9 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
-        public async Task<ServiceResponse<string>> ForgotPassword(string email)
+        public async Task<UserResponse<string>> ForgotPassword(string email)
         {
-            var response = new ServiceResponse<string>();
+            var response = new UserResponse<string>();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user is null)
             {
@@ -185,9 +191,9 @@ namespace LP304_Takt.Repositories
 
         }
 
-        public async Task<ServiceResponse<string>> ResetPassword(ResetPasswordRequest request)
+        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request)
         {
-            var response = new ServiceResponse<string>();
+            var response = new UserResponse<string>();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
             if(user is null || user.ResetTokenExpires < DateTime.Now)
             {
@@ -203,7 +209,7 @@ namespace LP304_Takt.Repositories
             user.ResetTokenExpires = null;
 
             await _context.SaveChangesAsync();
-            return new ServiceResponse<string> { Success = true, Message = "Password reset complete" };
+            return new UserResponse<string> { Success = true, Message = "Password reset complete" };
         }
 
 
@@ -228,9 +234,9 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task<ServiceResponse<string>> DeleteUser(int id)
+        public async Task<UserResponse<string>> DeleteUser(int id)
         {
-            var response = new ServiceResponse<string>();
+            var response = new UserResponse<string>();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user is null)
             {

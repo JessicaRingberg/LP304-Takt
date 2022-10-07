@@ -1,4 +1,4 @@
-﻿namespace LP304_Takt.DTO
+﻿namespace LP304_Takt.DTO.CreateDTO
 {
     public class EventStatusCreateDto
     {

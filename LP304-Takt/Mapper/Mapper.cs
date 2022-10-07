@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.Models;
 
 namespace LP304_Takt.Mapper
@@ -37,7 +38,15 @@ namespace LP304_Takt.Mapper
                 Stations = area.Stations.Select(s => s.AsDto()).ToList()
             };
         }
-
+        public static ArticleDto AsDto(this Article article)
+        {
+            return new ArticleDto
+            {
+                Id = article.Id,
+                Name = article.Name,
+                ArticleNumber = article.ArticleNumber
+            };
+        }
         public static CompanyDto AsDto(this Company company)
         {
             return new CompanyDto
@@ -85,7 +94,16 @@ namespace LP304_Takt.Mapper
             };
 
         }
-
+        public static OrderDetailsDto AsDto(this OrderDetails orderDetails)
+        {
+            return new OrderDetailsDto
+            {
+                Id = orderDetails.Id,
+                Quantity = orderDetails.Quantity,
+                Article = orderDetails.Article?.Name
+            };
+        }
+      
         public static OrderDto AsDto(this Order order)
         {
             return new OrderDto
@@ -93,7 +111,6 @@ namespace LP304_Takt.Mapper
                 Id = order.Id,
                 StartTime = order.StartTime,
                 EndTime = order.EndTime,
-                Quantity = order.Quantity,
                 RunSetDec = order.RunSetDec,
                 ChangeSetDec = order.ChangeSetDec,
                 PartsProd = order.PartsProd,
@@ -103,7 +120,7 @@ namespace LP304_Takt.Mapper
                 TaktSet = order.TaktSet,
                 LastPartProd = order.LastPartProd,
                 Takt = order.Takt,
-                StationId = order.StationId,
+                OrderDetails = order.OrderDetails.Select(o => o.AsDto()).ToList(),
                 Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };
@@ -159,7 +176,14 @@ namespace LP304_Takt.Mapper
                 Name = area.Name
             };
         }
-
+        public static Article AsEntity(this ArticleCreateDto article)
+        {
+            return new Article
+            {
+                Name = article.Name,
+                ArticleNumber = article.ArticleNumber
+            };
+        }
         public static Company AsEntity(this CompanyCreateDto company)
         {
             return new Company
@@ -198,6 +222,14 @@ namespace LP304_Takt.Mapper
             };
         }
 
+        public static OrderDetails AsEntity(this OrderDetailsCreateDto orderDetails)
+        {
+            return new OrderDetails
+            {
+
+                Quantity = orderDetails.Quantity
+            };
+        }
         public static Order AsEntity(this OrderCreateDto order)
         {
             return new Order
@@ -205,7 +237,6 @@ namespace LP304_Takt.Mapper
 
                 StartTime = order.StartTime,
                 EndTime = order.EndTime,
-                Quantity = order.Quantity,
                 RunSetDec = order.RunSetDec,
                 ChangeSetDec = order.ChangeSetDec,
                 PartsProd = order.PartsProd,

@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -21,21 +22,19 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int stationId)
+        public async Task<IActionResult> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
         {
-            await _orderService.Add(order.AsEntity(), stationId);
+            await _orderService.Add(order.AsEntity(), areaId);
 
             return Ok();
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<OrderDto>>> GetOrders()
         {
             return Ok((await _orderService.GetEntities()).Select(order => order.AsDto()));
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {
@@ -57,7 +56,7 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        [HttpPut]
         public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
         {
             await _orderService.UpdateEntity(order.AsUpdated(), orderId);

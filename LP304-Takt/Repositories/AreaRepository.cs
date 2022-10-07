@@ -21,7 +21,7 @@ namespace LP304_Takt.Repositories
             {
                 return;
             }
-
+            area.Queue = new Queue();
             area.CompanyId = companyId;
             await _context.Areas.AddAsync(area);
             await _context.SaveChangesAsync();
