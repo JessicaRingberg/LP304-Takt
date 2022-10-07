@@ -8,6 +8,6 @@ namespace LP304_Takt.DTO
         //public Article Article { get; init; } = null!;
         public int Id { get; init; }
         public int Quantity { get; init; }
-        public string? ArticleName { get; init; }
+        public string? Article { get; init; }
     }
 }

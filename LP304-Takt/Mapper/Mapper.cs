@@ -100,10 +100,10 @@ namespace LP304_Takt.Mapper
             {
                 Id = orderDetails.Id,
                 Quantity = orderDetails.Quantity,
-                ArticleName = orderDetails.Article?.Name
+                Article = orderDetails.Article?.Name
             };
         }
-
+      
         public static OrderDto AsDto(this Order order)
         {
             return new OrderDto

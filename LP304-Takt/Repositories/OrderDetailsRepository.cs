@@ -52,7 +52,6 @@ namespace LP304_Takt.Repositories
         {
             return await _context.OrderDetails
                 .Include(o => o.Article)
-                .Include(o => o.Order)
                 .ToListAsync();
         }
 
@@ -60,7 +59,6 @@ namespace LP304_Takt.Repositories
         {
             return await _context.OrderDetails
                 .Include(o => o.Article)
-                .Include(o => o.Order)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 

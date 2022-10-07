@@ -30,7 +30,7 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        [Authorize]
+
         [HttpGet]
         public async Task<ActionResult<List<AlarmDto>>> GetAlarms()
         {
