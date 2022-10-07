@@ -30,7 +30,7 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<OrderDetailsDto>>> GetOrderDetails()
+        public async Task<ActionResult<ICollection<OrderDetailsDto>>> GetOrderDetails()
         {
             return Ok(await _orderDetailsService.GetEntities());
         }

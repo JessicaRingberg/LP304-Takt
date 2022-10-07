@@ -35,7 +35,6 @@ namespace LP304_Takt.Controllers
             return Ok((await _orderService.GetEntities()).Select(order => order.AsDto()));
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {
