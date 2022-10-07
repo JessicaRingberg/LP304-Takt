@@ -30,8 +30,8 @@ namespace LP304_Takt.Repositories
                 return;
             }
 
-            orderDetails.Article = article;
-            orderDetails.Order = order;
+            orderDetails.ArticleId = articleId;
+            orderDetails.OrderId = orderId;
             await _context.OrderDetails.AddAsync(orderDetails);
             await _context.SaveChangesAsync();
         }
