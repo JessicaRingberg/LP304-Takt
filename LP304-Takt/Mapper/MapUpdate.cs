@@ -58,13 +58,13 @@ namespace LP304_Takt.Mapper
                 Name = eventStatus.Name
             };
         }
-        public static Order AsUpdated(this OrderUpdateDto station)
-        {
-            return new Order
-            {
-                Quantity = station.Quantity
-            };
-        }
+        //public static Order AsUpdated(this OrderUpdateDto station)
+        //{
+        //    return new Order
+        //    {
+        //        Quantity = station.Quantity
+        //    };
+        //}
         public static Station AsUpdated(this StationUpdateDto station)
         {
             return new Station

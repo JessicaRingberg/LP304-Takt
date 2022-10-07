@@ -28,5 +28,7 @@ namespace LP304_Takt.Models
         public DbSet<EventStatus> EventStatuses { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Queue> Queue { get; set; } = null!;
+        public DbSet<OrderDetails> OrderDetails { get; set; } = null!;
+        public DbSet<Article> Article { get; set; } = null!;
     }
 }
