@@ -74,6 +74,23 @@ namespace LP304_Takt.Mapper
    
             };
         }
+        public static Order AsUpdated(this OrderUpdateDto order)
+        {
+            return new Order
+            {
+                StartTime = order.StartTime,
+                EndTime = order.EndTime,
+                RunSetDec = order.RunSetDec,
+                RunSecSet = order.RunSecSet,
+                ChangeSecSet = order.ChangeSecSet,
+                ChangeSetDec = order.ChangeSetDec,
+                PartsProd = order.PartsProd,
+                LastPartProd = order.LastPartProd,
+                Backlog = order.Backlog,
+                TaktSet = order.TaktSet,
+                Takt = order.Takt
+            };
+        }
 
         public static Station AsUpdated(this StationUpdateDto station)
         {
