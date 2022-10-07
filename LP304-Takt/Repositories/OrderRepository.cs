@@ -69,29 +69,26 @@ namespace LP304_Takt.Repositories
             await _context.SaveChangesAsync(); 
         }
 
-        public Task UpdateEntity(Order entity, int id)
+        public async Task UpdateEntity(Order order, int orderId)
         {
-            throw new NotImplementedException();
+            var orderToUpdate = await _context.Orders.FindAsync(orderId);
+            if(orderToUpdate is null)
+            {
+                return;
+            }
+            orderToUpdate.ChangeSecSet = order.ChangeSecSet;
+            orderToUpdate.ChangeSetDec = order.ChangeSetDec;
+            orderToUpdate.Backlog = order.Backlog;
+            orderToUpdate.LastPartProd = order.LastPartProd;
+            orderToUpdate.PartsProd = order.PartsProd;
+            orderToUpdate.StartTime = order.StartTime;
+            orderToUpdate.Takt = order.Takt;
+            orderToUpdate.EndTime = order.EndTime;
+            orderToUpdate.RunSecSet = order.RunSecSet;
+            orderToUpdate.RunSetDec = order.RunSetDec;
+            orderToUpdate.TaktSet = order.TaktSet;
+            await _context.SaveChangesAsync();
         }
 
-        //public async Task UpdateEntity(Order order, int orderId)
-        //{
-        //    var orderToUpdate = await _context.Orders
-        //        .FindAsync(orderId);
-        //    if (orderToUpdate is null)
-        //    {
-        //        return;
-        //    }
-
-        //    MapOrder(orderToUpdate, order);
-
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //private static Order MapOrder(Order newOrder, Order oldOrder)
-        //{
-        //    newOrder.Quantity = oldOrder.Quantity;
-        //    return newOrder;
-        //}
     }
 }

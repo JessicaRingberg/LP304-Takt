@@ -61,9 +61,17 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public Task UpdateEntity(Article entity, int id)
+        public async Task UpdateEntity(Article article, int articleId)
         {
-            throw new NotImplementedException();
+            var articleToUpdate = await _context.Article
+                .FindAsync(articleId);
+            if(articleToUpdate is null)
+            {
+                return;
+            }
+            articleToUpdate.ArticleNumber = article.ArticleNumber;
+            articleToUpdate.Name = article.Name;
+            await _context.SaveChangesAsync();
         }
     }
 }
