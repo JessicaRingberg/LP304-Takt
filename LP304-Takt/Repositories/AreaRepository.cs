@@ -23,7 +23,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Area must have a company"
+                    Message = $"Area must belong to a company"
                 };
             }
             area.Queue = new Queue();

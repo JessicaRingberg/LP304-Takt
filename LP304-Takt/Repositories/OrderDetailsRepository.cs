@@ -24,7 +24,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Order details must be tied to a company"
+                    Message = $"Order details must be tied to an order"
                 };
             }
 

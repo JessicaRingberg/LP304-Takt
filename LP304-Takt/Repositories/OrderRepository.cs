@@ -17,32 +17,28 @@ namespace LP304_Takt.Repositories
         {
             var area = await _context.Areas.FindAsync(areaId);
 
-            if (area is not null)
-            {
-                order.AreaId = area.Id;
-                await _context.Orders.AddAsync(order);
-                await _context.SaveChangesAsync();
-                //var area = await _context.Areas.FirstOrDefaultAsync(a => a.Stations.Equals(station));
-                //if order start time is before or same time as end time && stationId equals station.Id
-                if (await _context.Orders.AnyAsync(o => o.EndTime.Equals(order.StartTime)))
-                {
-                    await _context.SaveChangesAsync();
-                }
-                return new ServiceResponse<int>()
-                {
-                    Success = true,
-                    Message = "Order added"
-                };
-               
-            }
-            else
+            if (area is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = "Order must have an Area."
+                    Message = "Order must belong to an Area."
                 };
+                               
             }
+            //if (area.Orders.Any(o => o.EndTime.Equals(order.StartTime)))
+            //{
+            //    area.Queue.
+            //}
+            order.AreaId = area.Id;
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+                     
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = "Order added"
+            };
         }
     
         public async Task<ICollection<Order>> GetEntities()

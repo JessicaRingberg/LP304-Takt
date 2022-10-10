@@ -25,7 +25,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Config must have an area"
+                    Message = $"Config must belong to an area"
                 };
             }
 

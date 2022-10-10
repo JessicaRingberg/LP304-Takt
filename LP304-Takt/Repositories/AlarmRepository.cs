@@ -24,7 +24,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Alarm must have an order!"
+                    Message = $"Alarm must belong to an order!"
                 };
             }
 

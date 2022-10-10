@@ -22,7 +22,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Station must have an area"
+                    Message = $"Station must belong to an Area"
                 };
             }
             station.AreaId = areaId;
