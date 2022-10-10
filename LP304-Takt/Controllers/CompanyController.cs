@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _companyService = companyService;
         }
 
-        [HttpPost, Authorize(Roles = nameof(Role.Admin))]
+        [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddCompany(CompanyCreateDto company)
         {
             var response = await _companyService.Add(company.AsEntity());
