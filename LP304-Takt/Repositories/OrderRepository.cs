@@ -15,7 +15,9 @@ namespace LP304_Takt.Repositories
         }
         public async Task<ServiceResponse<int>> Add(Order order, int areaId)
         {
-            var area = await _context.Areas.FindAsync(areaId);
+            var area = await _context.Areas
+                .Include(a => a.Orders)
+                .FirstOrDefaultAsync(a => a.Id == areaId);
 
             if (area is null)
             {
@@ -26,19 +28,36 @@ namespace LP304_Takt.Repositories
                 };
                                
             }
-            //if (area.Orders.Any(o => o.EndTime.Equals(order.StartTime)))
-            //{
-            //    area.Queue.
-            //}
+            var queue = await _context.Queue
+                .Include(q => q.Orders)
+                .FirstOrDefaultAsync(q => q.Id == areaId);
+            if(queue is null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = "Area is incomplete"
+                };
+            }
+            foreach (var item in area.Orders)
+            {
+                if (order.StartTime.Equals(item.EndTime))
+                {
+                    queue.Orders.Add(order);
+
+                }
+
+            }
+           
             order.AreaId = area.Id;
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
-                     
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = "Order added"
             };
+
         }
     
         public async Task<ICollection<Order>> GetEntities()

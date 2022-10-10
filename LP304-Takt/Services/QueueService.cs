@@ -1,4 +1,5 @@
-﻿using LP304_Takt.Interfaces.Services;
+﻿using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 
@@ -6,6 +7,13 @@ namespace LP304_Takt.Services
 {
     public class QueueService : IQueueService
     {
+        private readonly IQueueRepository _queueRepository;
+
+        public QueueService(IQueueRepository queueRepository)
+        {
+            _queueRepository = queueRepository;
+        }
+
         public Task<ServiceResponse<int>> Add(int id)
         {
             throw new NotImplementedException();
@@ -16,9 +24,9 @@ namespace LP304_Takt.Services
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Queue>> GetEntities()
+        public async Task<ICollection<Queue>> GetEntities()
         {
-            throw new NotImplementedException();
+            return await _queueRepository.GetEntities();
         }
 
         public Task<Queue?> GetEntity(int id)
