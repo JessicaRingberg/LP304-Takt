@@ -25,9 +25,12 @@ namespace LP304_Takt.Controllers
         [HttpPost]
         public async Task<IActionResult> AddConfig([FromBody] ConfigCreateDto config, [FromQuery] int areaId)
         {
-            await _configService.Add(config.AsEntity(), areaId);
-
-            return Ok();
+            var response = await _configService.Add(config.AsEntity(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [Authorize]

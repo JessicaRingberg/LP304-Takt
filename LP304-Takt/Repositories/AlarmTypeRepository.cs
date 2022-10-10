@@ -2,7 +2,6 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -46,14 +45,12 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<AlarmType>> GetEntities()
         {
             return await _context.AlarmTypes
-                .Include(a => a.Alarms)
                 .ToListAsync();
         }
 
         public async Task<AlarmType?> GetEntity(int id)
         {
             return await _context.AlarmTypes
-                .Include(a => a.Alarms)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 

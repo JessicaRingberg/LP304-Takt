@@ -21,23 +21,23 @@ namespace LP304_Takt.Controllers
             _eventStatusService = eventStatusService;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddEventStatus([FromBody] EventStatusCreateDto eventStatus)
         {
-            await _eventStatusService.Add(eventStatus.AsEntity());
-
-            return Ok();
+            var response = await _eventStatusService.Add(eventStatus.AsEntity());
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<EventStatusDto>>> GetEventStatuses()
         {
             return Ok((await _eventStatusService.GetEntities()).Select(e => e.AsDto()));
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<EventStatusDto>> GetEventStatus(int id)
         {

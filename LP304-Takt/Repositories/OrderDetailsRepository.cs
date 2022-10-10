@@ -1,8 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
-using LP304_Takt.Mapper;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace LP304_Takt.Repositories
 {
@@ -15,27 +14,38 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(OrderDetails orderDetails, int orderId, int articleId)
+        public async Task<ServiceResponse<int>> Add(OrderDetails orderDetails, int orderId, int articleId)
         {
             var order = await _context.Orders.FindAsync(orderId);
             var article = await _context.Article.FindAsync(articleId);
 
             if (order is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order details must be tied to an order"
+                };
             }
 
             if (article is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order details must contain valid articles"
+                };
             }
-
 
             orderDetails.ArticleId = articleId;
             orderDetails.OrderId = orderId;
-
             await _context.OrderDetails.AddAsync(orderDetails);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Order detail added"
+            };
         }
 
         public async Task DeleteEntity(int id)
@@ -54,7 +64,6 @@ namespace LP304_Takt.Repositories
         {
             return await _context.OrderDetails
                 .Include(o => o.Article)
-                //.Include(o => o.OrderId)
                 .ToListAsync();
         }
 

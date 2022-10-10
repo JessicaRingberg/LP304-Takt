@@ -5,7 +5,6 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -21,12 +20,15 @@ namespace LP304_Takt.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost, Authorize]
-        public async Task<IActionResult> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
-        {
-            await _orderService.Add(order.AsEntity(), areaId);
-
-            return Ok();
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<int>>> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
+        {           
+            var response = await _orderService.Add(order.AsEntity(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpGet]

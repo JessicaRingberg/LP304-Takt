@@ -1,6 +1,8 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -12,11 +14,25 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-        public async Task Add(EventStatus eventStatus)
+        public async Task<ServiceResponse<int>> Add(EventStatus eventStatus)
         {
+            var found = _context.EventStatuses.FirstOrDefaultAsync(e => e.Name == eventStatus.Name);
+            if(found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"EventStatus already exists!"
+                };
+            }
             await _context.EventStatuses.AddAsync(eventStatus);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"EventStatus added"
+            };
+
         }
 
         public async Task DeleteEntity(int id)
@@ -34,7 +50,6 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<EventStatus>> GetEntities()
         {
             return await _context.EventStatuses
-                .Include(e => e.Events)
                 .ToListAsync();
         }
 

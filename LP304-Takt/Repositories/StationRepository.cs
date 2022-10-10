@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
@@ -12,16 +13,26 @@ namespace LP304_Takt.Repositories
             _context = dataContext;
         }
 
-        public async Task Add(Station station, int areaId)
+        public async Task<ServiceResponse<int>> Add(Station station, int areaId)
         {
             var area = await _context.Areas.FindAsync(areaId);
 
-            if (area != null)
+            if (area is null)
             {
-                station.AreaId = areaId;
-                await _context.Stations.AddAsync(station);
-                await _context.SaveChangesAsync();
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Station must belong to an Area"
+                };
             }
+            station.AreaId = areaId;
+            await _context.Stations.AddAsync(station);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Station {station.Name} added"
+            };
         }
 
         public async Task DeleteEntity(int id)

@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Repositories
 {
@@ -11,7 +12,7 @@ namespace LP304_Takt.Repositories
         //{
         //    _context = context;
         //}
-        public Task Add(Queue queue, int id)
+        public Task<ServiceResponse<int>> Add(Queue queue, int id)
         {
             throw new NotImplementedException();
             //var order = await _context.Orders.FindAsync(id);

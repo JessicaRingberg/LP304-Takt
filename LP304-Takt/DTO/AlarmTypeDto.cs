@@ -6,6 +6,6 @@ namespace LP304_Takt.DTO
     {
         public int Id { get; init; }
         public string Name { get; init; } = string.Empty;
-        public ICollection<AlarmDto> Alarms { get; init; } = null!;
+        //public ICollection<AlarmDto> Alarms { get; init; } = null!;
     }
 }

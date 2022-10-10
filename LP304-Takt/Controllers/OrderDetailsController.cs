@@ -1,14 +1,8 @@
 ﻿using LP304_Takt.DTO;
 using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.DTO.UpdateDTO;
-using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
-using LP304_Takt.Models;
-using LP304_Takt.Services;
-using LP304_Takt.Shared;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -27,9 +21,12 @@ namespace LP304_Takt.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrderDetails([FromBody] OrderDetailsCreateDto orderDetails, [FromQuery] int orderId, [FromQuery] int articleId)
         {
-            await _orderDetailsService.Add(orderDetails.AsEntity(), orderId, articleId);
-
-            return Ok();
+            var response = await _orderDetailsService.Add(orderDetails.AsEntity(), orderId, articleId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpGet]

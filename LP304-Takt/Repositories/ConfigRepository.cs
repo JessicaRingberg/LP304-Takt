@@ -1,6 +1,8 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -14,16 +16,28 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Config config, int areaId)
+        public async Task<ServiceResponse<int>> Add(Config config, int areaId)
         {
             var area = await _context.Areas.FindAsync(areaId);
 
-            if (area != null)
+            if (area is null)
             {
-                config.AreaId = areaId;
-                await _context.Configs.AddAsync(config);
-                await _context.SaveChangesAsync();
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Config must belong to an area"
+                };
             }
+
+            config.AreaId = areaId;
+            await _context.Configs.AddAsync(config);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Config added!"
+            };
+
         }
 
         public async Task DeleteEntity(int id)

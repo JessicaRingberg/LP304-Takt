@@ -25,10 +25,13 @@ namespace LP304_Takt.Controllers
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
-        {//If company is null return 
-            await _areaService.Add(area.AsEntity(), companyId);
-
-            return Ok();
+        {
+            var response = await _areaService.Add(area.AsEntity(), companyId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [Authorize]

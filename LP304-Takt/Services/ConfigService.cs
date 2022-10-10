@@ -1,6 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
@@ -13,9 +14,9 @@ namespace LP304_Takt.Services
             _configRepository = configRepository;
         }
 
-        public async Task Add(Config config, int areaId)
+        public async Task<ServiceResponse<int>> Add(Config config, int areaId)
         {
-            await _configRepository.Add(config, areaId);
+            return await _configRepository.Add(config, areaId);
         }
 
         public async Task DeleteEntity(int id)
