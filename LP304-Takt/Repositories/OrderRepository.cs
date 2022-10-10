@@ -57,7 +57,7 @@ namespace LP304_Takt.Repositories
                 Success = true,
                 Message = "Order added"
             };
-            
+
         }
     
         public async Task<ICollection<Order>> GetEntities()

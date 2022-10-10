@@ -13,6 +13,7 @@ namespace LP304_Takt.Services
         {
             _queueRepository = queueRepository;
         }
+
         public Task<ServiceResponse<int>> Add(int id)
         {
             throw new NotImplementedException();
