@@ -1,11 +1,12 @@
 ﻿using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
     public class QueueService : IQueueService
     {
-        public Task Add(int id)
+        public Task<ServiceResponse<int>> Add(int id)
         {
             throw new NotImplementedException();
         }

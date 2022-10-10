@@ -1,6 +1,8 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -13,25 +15,38 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Event eEvent, int orderId, int eventStatusId)
+        public async Task<ServiceResponse<int>> Add(Event eEvent, int orderId, int eventStatusId)
         {
             var order = await _context.Orders.FindAsync(orderId);
             var eventStatus = await _context.EventStatuses.FindAsync(eventStatusId);
 
             if (order is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Event must belong to an order!"
+                };
             }
 
             if (eventStatus is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Event must have a status"
+                };
             }
 
             eEvent.EventStatusId = eventStatusId;
             eEvent.OrderId = orderId;
             await _context.Events.AddAsync(eEvent);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Event added"
+            };
         }
 
         public async Task DeleteEntity(int id)

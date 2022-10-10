@@ -1,10 +1,11 @@
 ﻿using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Interfaces.Services
 {
     public interface IAlarmService : IBaseService<Alarm>
     {
-        Task Add(Alarm alarm, int orderId, int alarmTypeId);
+        Task<ServiceResponse<int>> Add(Alarm alarm, int orderId, int alarmTypeId);
         
     }
 }

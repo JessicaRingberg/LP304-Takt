@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using LP304_Takt.DTO;
+﻿using LP304_Takt.DTO;
 using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
-using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -22,12 +19,15 @@ namespace LP304_Takt.Controllers
             _stationService = stationService;
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
         public async Task<IActionResult> AddStation([FromBody] StationCreateDto station, [FromQuery] int areaId)
         {
-            await _stationService.Add(station.AsEntity(), areaId);
-
-            return Ok();
+            var response = await _stationService.Add(station.AsEntity(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [Authorize]

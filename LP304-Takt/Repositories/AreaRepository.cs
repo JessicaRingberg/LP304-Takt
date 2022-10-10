@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
@@ -13,18 +14,27 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Area area, int companyId)
+        public async Task<ServiceResponse<int>> Add(Area area, int companyId)
         {
             var company = await _context.Companies.FindAsync(companyId);
 
             if (company is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area must have a company"
+                };
             }
             area.Queue = new Queue();
             area.CompanyId = companyId;
             await _context.Areas.AddAsync(area);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Area {area.Name} added"
+            };
         }
 
         public async Task DeleteEntity(int id)

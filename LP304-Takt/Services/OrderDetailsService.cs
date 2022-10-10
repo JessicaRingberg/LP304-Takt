@@ -1,6 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
@@ -13,9 +14,9 @@ namespace LP304_Takt.Services
             _orderDetailsRepository = orderDetailsRepository;
         }
 
-        public async Task Add(OrderDetails orderDetails, int orderId, int articleId)
+        public async Task<ServiceResponse<int>> Add(OrderDetails orderDetails, int orderId, int articleId)
         {
-            await _orderDetailsRepository.Add(orderDetails, orderId, articleId);
+            return await _orderDetailsRepository.Add(orderDetails, orderId, articleId);
         }
 
         public async Task DeleteEntity(int id)

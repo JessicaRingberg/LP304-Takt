@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _alarmTypeService = alarmTypeService;
         }
 
-        [Authorize]
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddAlarmType(AlarmTypeCreateDto alarmType)
         {
@@ -40,7 +40,7 @@ namespace LP304_Takt.Controllers
             return Ok((await _alarmTypeService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        [Authorize]
+
         [HttpGet("{id}")]
         public async Task<ActionResult<AlarmTypeDto>> GetAlarmType(int id)
         {

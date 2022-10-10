@@ -21,13 +21,16 @@ namespace LP304_Takt.Controllers
             _alarmService = alarmService;
         }
 
-        [Authorize]
+
         [HttpPost]
         public async Task<IActionResult> AddAlarm([FromBody] AlarmCreateDto alarm, [FromQuery] int orderId, [FromQuery] int alarmTypeId)
         {
-            await _alarmService.Add(alarm.AsEntity(), orderId, alarmTypeId);
-
-            return Ok();
+            var response = await _alarmService.Add(alarm.AsEntity(), orderId, alarmTypeId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
 
@@ -37,7 +40,7 @@ namespace LP304_Takt.Controllers
             return Ok((await _alarmService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        [Authorize]
+
         [HttpGet("{id}")]
         public async Task<ActionResult<AlarmDto>> GetAlarm(int id)
         {
