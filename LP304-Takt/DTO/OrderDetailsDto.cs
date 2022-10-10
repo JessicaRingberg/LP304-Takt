@@ -9,5 +9,6 @@ namespace LP304_Takt.DTO
         public int Id { get; init; }
         public int Quantity { get; init; }
         public string? Article { get; init; }
+        public int OrderId { get; init; }
     }
 }

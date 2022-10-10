@@ -100,7 +100,9 @@ namespace LP304_Takt.Mapper
             {
                 Id = orderDetails.Id,
                 Quantity = orderDetails.Quantity,
-                Article = orderDetails.Article?.Name
+                Article = orderDetails.Article?.Name,
+                OrderId = orderDetails.OrderId
+               
             };
         }
       
