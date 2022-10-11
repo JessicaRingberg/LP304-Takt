@@ -41,10 +41,9 @@ namespace LP304_Takt.Repositories
             }
             foreach (var item in area.Orders)
             {
-                if (order.StartTime.Equals(item.EndTime))
+                if (order.StartTime <= item.EndTime)
                 {
                     queue.Orders?.Add(order);
-
                 }
 
             }
