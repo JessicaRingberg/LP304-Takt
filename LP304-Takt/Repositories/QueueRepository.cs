@@ -39,20 +39,34 @@ namespace LP304_Takt.Repositories
 
 
         }
-        public Task<ServiceResponse<int>> UpdateQueue(Queue queue, int areaId)
+        public async Task<ServiceResponse<int>> DeleteOrderFromQueue(int queueId, int orderId)
         {
-            throw new NotImplementedException();
-            ////if (area.Orders.Any(o => o.Takt.Equals(order.Takt)))
-            ////{
-            ////    area.Queue?.Orders?.Add(order);
+            var queueToUpdate = await _context.Queue
+                .Include(q => q.Orders)
+                .FirstOrDefaultAsync(q => q.Id == queueId);
+            if (queueToUpdate is null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Queue with id {queueId} was not found"
+                };
+            }
+  
+            foreach (var order in queueToUpdate.Orders)
+            {
+                if (order.Id.Equals(orderId))
+                {
+                    queueToUpdate.Orders.Remove(order);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Queue with id {queueId} updated"
+            };
 
-            ////    await _context.SaveChangesAsync();
-            ////}
-            //return new ServiceResponse<int>()
-            //{
-            //    Success = true,
-            //    Message = "Order added"
-            //};
         }
 
     }

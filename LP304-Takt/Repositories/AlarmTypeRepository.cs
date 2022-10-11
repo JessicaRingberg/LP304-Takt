@@ -28,7 +28,12 @@ namespace LP304_Takt.Repositories
             }
             await _context.AlarmTypes.AddAsync(alarmType);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int> { Data = alarmType.Id, Success = true, Message = $"AlarmType named {alarmType.Name} added." };
+            return new ServiceResponse<int> 
+            { 
+                Data = alarmType.Id, 
+                Success = true, 
+                Message = $"AlarmType named {alarmType.Name} added." 
+            };
         }
 
         public async Task<ServiceResponse<int>> DeleteEntity(int id)

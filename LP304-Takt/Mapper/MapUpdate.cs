@@ -92,6 +92,13 @@ namespace LP304_Takt.Mapper
             };
         }
 
+        //public static Queue AsUpdated(this QueueDto queue)
+        //{
+        //    return new Queue
+        //    {
+        //        Orders = queue.Orders.
+        //    };
+        //}
         public static Station AsUpdated(this StationUpdateDto station)
         {
             return new Station

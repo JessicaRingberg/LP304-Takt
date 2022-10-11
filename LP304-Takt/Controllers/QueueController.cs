@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.UpdateDTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
@@ -38,6 +39,16 @@ namespace LP304_Takt.Controllers
             }
 
             return Ok(queue.AsDto());
+        }
+        [HttpPut("{queueId}")]
+        public async Task<IActionResult> DeleteOrderFromQueue(int queueId, [FromQuery] int orderId)
+        {
+            var response = await _queueService.DeleteOrderFromQueue(queueId, orderId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }
