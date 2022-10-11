@@ -1,10 +1,8 @@
-﻿
+﻿using LP304_Takt.Models;
 
-using LP304_Takt.Models;
-
-namespace LP304_Takt.DTO
+namespace LP304_Takt.DTO.ReadDto
 {
-    public record UserDto 
+    public record UserDto
     {
         public int Id { get; init; }
         public string FirstName { get; init; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿using LP304_Takt.DTO;
+﻿using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;

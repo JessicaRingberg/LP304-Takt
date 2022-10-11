@@ -1,6 +1,6 @@
 ﻿using LP304_Takt.Models;
 
-namespace LP304_Takt.DTO
+namespace LP304_Takt.DTO.ReadDto
 {
     public record OrderDetailsDto
     {

@@ -1,4 +1,4 @@
-﻿namespace LP304_Takt.DTO
+﻿namespace LP304_Takt.DTO.ReadDto
 {
     public record AlarmDto
     {
@@ -9,5 +9,5 @@
         public string Reason { get; init; } = string.Empty;
         public string? AlarmType { get; init; }
 
-}
+    }
 }
