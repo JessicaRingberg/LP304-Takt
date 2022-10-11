@@ -127,6 +127,14 @@ namespace LP304_Takt.Mapper
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };
         }
+        public static QueueDto AsDto(this Queue queue)
+        {
+            return new QueueDto
+            {
+                Id = queue.Id,
+                Orders = queue.Orders.Select(o => o.AsDto()).ToList()
+            };
+        }
 
         public static StationDto AsDto(this Station station)
         {

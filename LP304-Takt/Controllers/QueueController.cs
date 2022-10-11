@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.DTO;
 using LP304_Takt.Interfaces.Services;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Services;
 using Microsoft.AspNetCore.Http;
@@ -19,10 +20,24 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<Queue>>> GetQueue()
+        public async Task<ActionResult<ICollection<QueueDto>>> GetQueues()
 
         {
-            return Ok(await _queueService.GetEntities());
+            return Ok((await _queueService.GetEntities()).Select(q => q.AsDto()));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<QueueDto>> GetOneQueue(int id)
+
+        {
+            var queue = await _queueService.GetEntity(id);
+
+            if (queue is null)
+            {
+                return NotFound($"Queue with id {id} was not found.");
+            }
+
+            return Ok(queue.AsDto());
         }
     }
 }

@@ -14,19 +14,6 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public Task<ServiceResponse<int>> Add(Queue queue, int id)
-        {
-            throw new NotImplementedException();
-            //var order = await _context.Orders.FindAsync(id);
-            //if(order is null)
-            //{
-            //    return;
-            //}
-            //queue.OrderId = id;
-            //_context.Queue.Add(queue);
-            //await _context.SaveChangesAsync();
-        }
-
         public Task DeleteEntity(int id)
         {
             throw new NotImplementedException();
@@ -39,9 +26,11 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public Task<Queue?> GetEntity(int id)
+        public async Task<Queue?> GetEntity(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Queue
+               .Include(q => q.Orders)
+               .FirstOrDefaultAsync(q => q.Id == id);
         }
 
         public async Task UpdateEntity(Queue entity, int areaId)

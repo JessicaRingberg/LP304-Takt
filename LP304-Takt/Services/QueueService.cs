@@ -14,11 +14,6 @@ namespace LP304_Takt.Services
             _queueRepository = queueRepository;
         }
 
-        public Task<ServiceResponse<int>> Add(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task DeleteEntity(int id)
         {
             throw new NotImplementedException();
@@ -29,9 +24,9 @@ namespace LP304_Takt.Services
             return await _queueRepository.GetEntities();
         }
 
-        public Task<Queue?> GetEntity(int id)
+        public async Task<Queue?> GetEntity(int id)
         {
-            throw new NotImplementedException();
+            return await _queueRepository.GetEntity(id);
         }
 
         public Task UpdateEntity(Queue entity, int id)

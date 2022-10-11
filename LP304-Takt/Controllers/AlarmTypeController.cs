@@ -54,7 +54,7 @@ namespace LP304_Takt.Controllers
             return Ok(alarmType.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAlarmType(int id)
         {
             await _alarmTypeService.DeleteEntity(id);
