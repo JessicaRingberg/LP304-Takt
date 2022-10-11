@@ -1,4 +1,5 @@
-﻿using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO;
+using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.Models;
 
@@ -127,12 +128,19 @@ namespace LP304_Takt.Mapper
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };
         }
+        public static OrderInQueueDto AsQueueDto(this Order order)
+        {
+            return new OrderInQueueDto
+            {
+                Id = order.Id,
+            };
+        }
         public static QueueDto AsDto(this Queue queue)
         {
             return new QueueDto
             {
                 Id = queue.Id,
-                Orders = queue.Orders.Select(o => o.AsDto()).ToList()
+                Orders = queue.Orders.Select(o => o.AsQueueDto()).ToList()
             };
         }
 
