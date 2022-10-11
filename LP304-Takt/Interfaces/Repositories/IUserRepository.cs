@@ -1,10 +1,11 @@
 ﻿using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using NuGet.Protocol.Plugins;
+using System.Threading.Tasks;
 
 namespace LP304_Takt.Interfaces.Repositories
 {
-    public interface IUserRepository : IBaseRepository<User>
+    public interface IUserRepository
     {
         Task<Company?> GetCompanyByUser(int userId);
         Task<bool> UserAlreadyExists(string userName);
@@ -14,6 +15,9 @@ namespace LP304_Takt.Interfaces.Repositories
         Task<UserResponse<string>> ForgotPassword(string email);
         Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request);
         Task<UserResponse<string>> DeleteUser(int id);
+        Task<UserResponse<int>> UpdateUser(User user, int id);
         Task<UserResponse<string>> RefreshToken(string token);
+        Task<ICollection<User>> GetAllUsers();
+        Task<User?> GetUserById(int id);
     }
 }

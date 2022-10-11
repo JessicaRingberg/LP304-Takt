@@ -35,16 +35,25 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var station = await _context.Stations
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (station is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Station with id: {id} was not found"
+                };
             }
             _context.Stations.Remove(station);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Station with id: {id} deleted"
+            };
         }
 
         public async Task<ICollection<Station>> GetEntities()
@@ -59,18 +68,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public async Task UpdateEntity(Station station, int stationId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Station station, int stationId)
         {
             var stationToUpdate = await _context.Stations
                 .FindAsync(stationId);
             if (stationToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Station with id: {stationId} was not found"
+                };
             }
 
             MapStation(stationToUpdate, station);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Station with id: {stationId} updated"
+            };
         }
 
         private static Station MapStation(Station newStation, Station oldStation)

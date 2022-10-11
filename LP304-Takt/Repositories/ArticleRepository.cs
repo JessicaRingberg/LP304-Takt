@@ -36,16 +36,25 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var article = await _context.Article
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (article is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Article with id: {id} was not found"
+                };
             }
             _context.Article.Remove(article);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Article with id: {article.Id} deleted"
+            };
         }
 
         public async Task<ICollection<Article>> GetEntities()
@@ -60,17 +69,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateEntity(Article article, int articleId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Article article, int articleId)
         {
             var articleToUpdate = await _context.Article
                 .FindAsync(articleId);
             if(articleToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Article with id: {articleId} was not found"
+                };
             }
             articleToUpdate.ArticleNumber = article.ArticleNumber;
             articleToUpdate.Name = article.Name;
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Article with id: {article.Id} deleted"
+            };
         }
     }
 }

@@ -82,24 +82,37 @@ namespace LP304_Takt.Repositories
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var order = await _context.Orders
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (order is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order with id: {id} was not found"
+                };
             }
             _context.Orders.Remove(order);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Order with id: {id} deleted"
+            };
         }
 
-        public async Task UpdateEntity(Order order, int orderId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Order order, int orderId)
         {
             var orderToUpdate = await _context.Orders.FindAsync(orderId);
             if(orderToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order with id: {orderId} was not found"
+                };
             }
             orderToUpdate.ChangeSecSet = order.ChangeSecSet;
             orderToUpdate.ChangeSetDec = order.ChangeSetDec;
@@ -113,6 +126,11 @@ namespace LP304_Takt.Repositories
             orderToUpdate.RunSetDec = order.RunSetDec;
             orderToUpdate.TaktSet = order.TaktSet;
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Order with id: {orderId} updated"
+            };
         }
 
     }

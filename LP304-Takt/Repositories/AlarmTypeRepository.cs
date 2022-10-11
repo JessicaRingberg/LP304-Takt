@@ -2,6 +2,7 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LP304_Takt.Repositories
 {
@@ -30,16 +31,25 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int> { Data = alarmType.Id, Success = true, Message = $"AlarmType named {alarmType.Name} added." };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var alarmType = await _context.AlarmTypes
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (alarmType is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"AlarmType with id: {id} was not found"
+                };
             }
             _context.AlarmTypes.Remove(alarmType);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"AlarmType {alarmType.Name} deleted"
+            };
         }
 
         public async Task<ICollection<AlarmType>> GetEntities()
@@ -54,18 +64,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateEntity(AlarmType alarmType, int alarmTypeId)
+        public async Task<ServiceResponse<int>> UpdateEntity(AlarmType alarmType, int alarmTypeId)
         {
             var alarmTypeToUpdate = await _context.AlarmTypes
                 .FindAsync(alarmTypeId);
             if (alarmTypeToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"AlarmType with id {alarmTypeId} was not found"
+                };
             }
 
             MapAlarmType(alarmTypeToUpdate, alarmType);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"AlarmType {alarmType.Name} updated"
+            };
         }
 
         private static AlarmType MapAlarmType(AlarmType newAlarmType, AlarmType oldAlarmType)

@@ -57,16 +57,23 @@ namespace LP304_Takt.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAlarmType(int id)
         {
-            await _alarmTypeService.DeleteEntity(id);
-            return Ok();
+            var response = await _alarmTypeService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateAlarmType([FromBody] AlarmTypeUpdateDto alarmType, [FromQuery] int alarmTypeId)
         {
-            await _alarmTypeService.UpdateEntity(alarmType.AsUpdated(), alarmTypeId);
-
-            return Ok();
+            var response = await _alarmTypeService.UpdateEntity(alarmType.AsUpdated(), alarmTypeId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

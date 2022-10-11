@@ -40,16 +40,25 @@ namespace LP304_Takt.Repositories
 
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var config = await _context.Configs
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (config is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Config with id: {id} was not  found"
+                };
             }
             _context.Configs.Remove(config);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Config with id: {id} deleted"
+            };
         }
 
         public async Task<ICollection<Config>> GetEntities()
@@ -66,18 +75,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task UpdateEntity(Config config, int configId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Config config, int configId)
         {
             var configToUpdate = await _context.Configs
                 .FindAsync(configId);
             if (configToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Config with id: {configId} was not found"
+                };
             }
 
             MapConfig(configToUpdate, config);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Config with id: {configId} updated"
+            };
         }
 
         private static Config MapConfig(Config newConfig, Config oldConfig)

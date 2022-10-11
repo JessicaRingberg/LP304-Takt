@@ -36,16 +36,25 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var company = await _context.Companies
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (company is null)
-            {// message here
-                return;
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Company with id: {id} was not found"
+                };
             }
             _context.Companies.Remove(company);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Company {company.Name} deleted"
+            };
         }
 
         public async Task<ICollection<Company>> GetEntities()
@@ -72,19 +81,26 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task UpdateEntity(Company company, int companyId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Company company, int companyId)
         {
             var companyToUpdate = await _context.Companies
                 .FindAsync(companyId);
             if (companyToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Company with {companyId} was not found"
+                };
             }
             companyToUpdate.Name = company.Name;
-
             MapCompany(companyToUpdate, company);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Company {company.Name} updated"
+            };
         }
 
 

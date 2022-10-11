@@ -58,16 +58,23 @@ namespace LP304_Takt.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArea(int id)
         {
-            await _areaService.DeleteEntity(id);
-            return Ok();
+            var response = await _areaService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {
-            await _areaService.UpdateEntity(area.AsUpdated(), areaId);
-
-            return Ok();
+            var response = await _areaService.UpdateEntity(area.AsUpdated(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

@@ -4,7 +4,7 @@ using LP304_Takt.Shared;
 
 namespace LP304_Takt.Interfaces.Services
 {
-    public interface IUserService : IBaseService<User>
+    public interface IUserService
     {
         Task<Company?> GetCompanyByUser(int userId);
         Task<UserResponse<int>> RegisterUser(User user, string password, int companyId);
@@ -13,6 +13,9 @@ namespace LP304_Takt.Interfaces.Services
         Task<UserResponse<string>> ForgotPassword(string email);
         Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request);
         Task<UserResponse<string>> DeleteUser(int id);
+        Task<UserResponse<int>> UpdateUser(User user, int id);
         Task<UserResponse<string>> RefreshToken(string token);
+        Task<ICollection<User>> GetAllUsers();
+        Task<User?> GetUserById(int id);
     }
 }

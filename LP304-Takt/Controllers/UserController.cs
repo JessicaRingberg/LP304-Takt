@@ -94,14 +94,14 @@ namespace LP304_Takt.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
-            return Ok((await _userService.GetEntities()).Select(user => user.AsDto()));
+            return Ok((await _userService.GetAllUsers()).Select(user => user.AsDto()));
         }
 
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var user = await _userService.GetEntity(id);
+            var user = await _userService.GetUserById(id);
             
             if (user is null)
             {
@@ -139,7 +139,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
-            await _userService.UpdateEntity(user.AsUpdated(), userId);
+            await _userService.UpdateUser(user.AsUpdated(), userId);
 
             return Ok();
         }

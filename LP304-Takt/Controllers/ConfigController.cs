@@ -57,16 +57,23 @@ namespace LP304_Takt.Controllers
         [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteConfig(int id)
         {
-            await _configService.DeleteEntity(id);
-            return Ok();
+            var response = await _configService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateConfig([FromBody] ConfigUpdateDto config, [FromQuery] int configId)
         {
-            await _configService.UpdateEntity(config.AsUpdated(), configId);
-
-            return Ok();
+            var response = await _configService.UpdateEntity(config.AsUpdated(), configId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

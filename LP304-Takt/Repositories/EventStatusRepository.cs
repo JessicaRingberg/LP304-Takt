@@ -35,16 +35,25 @@ namespace LP304_Takt.Repositories
 
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var eventStatus = await _context.EventStatuses
                 .FirstOrDefaultAsync(e => e.Id == id);
             if (eventStatus is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Eventstatus with id: {id} was not found"
+                };
             }
             _context.EventStatuses.Remove(eventStatus);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Eventstatus with id: {id} deleted"
+            };
         }
 
         public async Task<ICollection<EventStatus>> GetEntities()
@@ -60,18 +69,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task UpdateEntity(EventStatus eventStatus, int eventStatusId)
+        public async Task<ServiceResponse<int>> UpdateEntity(EventStatus eventStatus, int eventStatusId)
         {
             var eventStatusToUpdate = await _context.EventStatuses
                 .FindAsync(eventStatusId);
             if (eventStatusToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Eventstatus with id: {eventStatusId} was not found"
+                };
             }
 
             MapEventStatus(eventStatusToUpdate, eventStatus);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Eventstatus with id: {eventStatusId} updated"
+            };
         }
 
         private static EventStatus MapEventStatus(EventStatus newEventStatus, EventStatus oldEventStatus)

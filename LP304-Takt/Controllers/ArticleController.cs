@@ -49,16 +49,23 @@ namespace LP304_Takt.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
-            await _articleService.DeleteEntity(id);
-            return Ok();
+            var response = await _articleService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateArticle([FromBody] ArticleUpdateDto article, [FromQuery] int articleId)
         {
-            await _articleService.UpdateEntity(article.AsUpdated(), articleId);
-
-            return Ok();
+            var response = await _articleService.UpdateEntity(article.AsUpdated(), articleId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

@@ -25,29 +25,19 @@ namespace LP304_Takt.Services
         }
 
 
-        public async Task<ICollection<User>> GetEntities()
+        public async Task<ICollection<User>> GetAllUsers()
         {
-            return await _userRepository.GetEntities();
+            return await _userRepository.GetAllUsers();
         }
 
-        public async Task<User?> GetEntity(int id)
+        public async Task<User?> GetUserById(int id)
         {
-            return await _userRepository.GetEntity(id);
+            return await _userRepository.GetUserById(id);
         }
 
         public async Task<Company?> GetCompanyByUser(int userId)
         {
             return await _userRepository.GetCompanyByUser(userId);
-        }
-
-        public async Task DeleteEntity(int id)
-        {
-            await _userRepository.DeleteEntity(id);
-        }
-
-        public async Task UpdateEntity(User user, int userId)
-        {
-           await _userRepository.UpdateEntity(user, userId);
         }
 
         public async Task<UserResponse<string>> ForgotPassword(string email)
@@ -73,6 +63,11 @@ namespace LP304_Takt.Services
         public async Task<UserResponse<string>> RefreshToken(string token)
         {
             return await _userRepository.RefreshToken(token);
+        }
+
+        public async Task<UserResponse<int>> UpdateUser(User user, int id)
+        {
+            return await _userRepository.UpdateUser(user, id);
         }
     }
 }

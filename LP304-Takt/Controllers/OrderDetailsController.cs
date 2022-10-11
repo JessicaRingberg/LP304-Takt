@@ -50,16 +50,23 @@ namespace LP304_Takt.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
-            await _orderDetailsService.DeleteEntity(id);
-            return Ok();
+            var response = await _orderDetailsService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateOrderDetails([FromBody] OrderDetailsUpdateDto orderDetails, [FromQuery] int orderDetailsId)
         {
-            await _orderDetailsService.UpdateEntity(orderDetails.AsUpdated(), orderDetailsId);
-
-            return Ok();
+            var response = await _orderDetailsService.UpdateEntity(orderDetails.AsUpdated(), orderDetailsId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

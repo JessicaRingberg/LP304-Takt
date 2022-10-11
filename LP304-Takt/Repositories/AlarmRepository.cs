@@ -48,16 +48,26 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var alarm = await _context.Alarms
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (alarm is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Alarm with id {id} was not found"
+                };
             }
+
             _context.Alarms.Remove(alarm);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Alarm with id {alarm.Id} deleted"
+            };
         }
 
         public async Task<ICollection<Alarm>> GetEntities()
@@ -74,18 +84,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task UpdateEntity(Alarm alarm, int alarmId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Alarm alarm, int alarmId)
         { 
             var alarmToUpdate = await _context.Alarms
                 .FindAsync(alarmId);
             if (alarmToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Alarm with id {alarmId} was not found"
+                };
             }
 
             MapAlarm(alarmToUpdate, alarm);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Alarm with id {alarm.Id} updated"
+            };
         }
 
         private static Alarm MapAlarm(Alarm newAlarm, Alarm oldAlarm)

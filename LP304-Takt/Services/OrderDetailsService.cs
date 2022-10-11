@@ -19,9 +19,9 @@ namespace LP304_Takt.Services
             return await _orderDetailsRepository.Add(orderDetails, orderId, articleId);
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
-            await _orderDetailsRepository.DeleteEntity(id);
+            return await _orderDetailsRepository.DeleteEntity(id);
         }
 
         public async Task<ICollection<OrderDetails>> GetEntities()
@@ -34,9 +34,9 @@ namespace LP304_Takt.Services
             return await _orderDetailsRepository.GetEntity(id);
         }
 
-        public async Task UpdateEntity(OrderDetails orderDetails, int orderDetailsId)
+        public async Task<ServiceResponse<int>> UpdateEntity(OrderDetails orderDetails, int orderDetailsId)
         {
-            await _orderDetailsRepository.UpdateEntity(orderDetails, orderDetailsId);
+            return await _orderDetailsRepository.UpdateEntity(orderDetails, orderDetailsId);
         }
     }
 }

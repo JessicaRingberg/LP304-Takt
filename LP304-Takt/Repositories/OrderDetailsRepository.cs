@@ -48,16 +48,25 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var orderDetails = await _context.OrderDetails
                .FirstOrDefaultAsync(o => o.Id == id);
             if (orderDetails is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order detail with id: {id} was not found"
+                };
             }
             _context.OrderDetails.Remove(orderDetails);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Order detail with id: {id} deleted from the order"
+            };
         }
 
         public async Task<ICollection<OrderDetails>> GetEntities()
@@ -74,17 +83,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task UpdateEntity(OrderDetails orderDetails, int orderDetailsId)
+        public async Task<ServiceResponse<int>> UpdateEntity(OrderDetails orderDetails, int orderDetailsId)
         {
             var orderDetailsToUpdate = await _context.OrderDetails
                 .FindAsync(orderDetailsId);
             if(orderDetailsToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order detail with id: {orderDetailsId} was not found"
+                };
             }
             orderDetailsToUpdate.Quantity = orderDetails.Quantity;
             orderDetailsToUpdate.Article = orderDetails.Article;
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Order detail with id: {orderDetailsId} was updated to the order"
+            };
         }
     }
 }

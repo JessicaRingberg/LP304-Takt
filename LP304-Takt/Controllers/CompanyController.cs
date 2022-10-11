@@ -61,17 +61,23 @@ namespace LP304_Takt.Controllers
         [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> DeleteCompany(int id)
         {
-            await _companyService.DeleteEntity(id);
-            return Ok();
+            var response = await _companyService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut, Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateCompany([FromBody] CompanyUpdateDto company, [FromQuery] int companyId)
         {
-            await _companyService.UpdateEntity(company.AsUpdated(), companyId);
-
-
-            return Ok();
+            var response = await _companyService.UpdateEntity(company.AsUpdated(), companyId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
     }

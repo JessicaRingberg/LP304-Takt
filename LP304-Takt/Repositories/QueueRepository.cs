@@ -14,7 +14,7 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public Task DeleteEntity(int id)
+        public Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             throw new NotImplementedException();
         }
@@ -33,13 +33,13 @@ namespace LP304_Takt.Repositories
                .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public async Task UpdateEntity(Queue entity, int areaId)
+        public Task<ServiceResponse<int>> UpdateEntity(Queue entity, int areaId)
         {
-            var queue = await _context.Queue.FindAsync(areaId);
+            throw new NotImplementedException();
 
-           
+
         }
-        public Task UpdateQueue(int orderId, int areaId)
+        public Task<ServiceResponse<int>> UpdateQueue(Queue queue, int areaId)
         {
             throw new NotImplementedException();
             ////if (area.Orders.Any(o => o.Takt.Equals(order.Takt)))

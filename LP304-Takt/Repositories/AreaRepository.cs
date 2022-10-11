@@ -37,16 +37,25 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var area = await _context.Areas
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (area is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area wit id: {id} was not found"
+                };
             }
             _context.Areas.Remove(area);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Area with id: {area.Id} deleted"
+            };
         }
 
         public async Task<ICollection<Area>> GetEntities()
@@ -64,18 +73,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateEntity(Area area, int areaId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Area area, int areaId)
         {
             var areaToUpdate = await _context.Areas
                 .FindAsync(areaId);
             if (areaToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area with id: {areaId} was not found"
+                };
             }
 
             MapArea(areaToUpdate, area);
-
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Area with id: {area.Id} updated"
+            };
         }
 
         private static Area MapArea(Area newArea, Area oldArea)

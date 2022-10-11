@@ -213,14 +213,14 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task<User?> GetEntity(int id)
+        public async Task<User?> GetUserById(int id)
         {
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
 
-        public async Task<ICollection<User>> GetEntities()
+        public async Task<ICollection<User>> GetAllUsers()
         {
             return await _context.Users
                 .ToListAsync();
@@ -261,19 +261,28 @@ namespace LP304_Takt.Repositories
 
    
 
-        public async Task UpdateEntity(User user, int userId)
+        public async Task<UserResponse<int>> UpdateUser(User user, int userId)
         {
 
             var userToUpdate = await _context.Users
                 .FindAsync(userId);
             if (userToUpdate is null)
             {
-                return;
+                return new UserResponse<int>()
+                {
+                    Success = false,
+                    Message = $"User with id: {userId} was not found"
+                };
             }
 
             MapUser(userToUpdate, user);
 
             await _context.SaveChangesAsync();
+            return new UserResponse<int>()
+            {
+                Success = true,
+                Message = $"User with id: {userId} updated"
+            };
         }
 
         private static User MapUser(User newUser, User oldUser)
@@ -388,9 +397,5 @@ namespace LP304_Takt.Repositories
             return refreshToken;
         }
 
-        public Task DeleteEntity(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

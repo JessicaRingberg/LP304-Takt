@@ -61,9 +61,12 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
         {
-            await _orderService.UpdateEntity(order.AsUpdated(), orderId);
-
-            return Ok();
+            var response = await _orderService.UpdateEntity(order.AsUpdated(), orderId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }
