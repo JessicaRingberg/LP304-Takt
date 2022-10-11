@@ -51,11 +51,15 @@ namespace LP304_Takt.Controllers
         }
 
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        [HttpDelete]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            await _orderService.DeleteEntity(id);
-            return Ok();
+            var response = await _orderService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut]

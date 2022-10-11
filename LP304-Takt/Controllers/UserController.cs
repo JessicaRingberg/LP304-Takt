@@ -139,7 +139,7 @@ namespace LP304_Takt.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
-            await _userService.UpdateUser(user.AsUpdated(), userId);
+            var response = await _userService.UpdateUser(user.AsUpdated(), userId);
 
             return Ok();
         }
