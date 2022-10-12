@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using MailKit.Net.Smtp;
@@ -63,7 +64,7 @@ namespace LP304_Takt.Repositories
             EmailForVerification(user);
 
             return new UserResponse<int> 
-            { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
+            {Success = true, Message = $"{user.VerificationToken}" };
             
         }
 
@@ -89,15 +90,10 @@ namespace LP304_Takt.Repositories
                 verifiedUser.TokenCreated = refreshToken.Created;
                 verifiedUser.TokenExpires = refreshToken.Expires;
 
+                response.User = verifiedUser.AsDto();
+                response.RefreshToken = refreshToken;
                 response.Success = true;
-                response.Data = CreateToken(verifiedUser);
-                response.Message = $"Logged in: {verifiedUser.FirstName} {verifiedUser.LastName}";
-                response.UserId = verifiedUser.Id;
-                var role = verifiedUser.Role;
-                response.Role = role.ToString();
-                response.Token = verifiedUser.RefreshToken;
-                response.Created = verifiedUser.TokenCreated;
-                response.Expires = verifiedUser.TokenExpires;
+                response.JWT = CreateToken(verifiedUser);
                
                 await _context.SaveChangesAsync();
 
@@ -133,7 +129,9 @@ namespace LP304_Takt.Repositories
 
                 var newJwt = CreateToken(user);
                 await _context.SaveChangesAsync();
-                response.Data = newJwt;
+                response.RefreshToken = newRefresToken;
+                response.User = user.AsDto();
+                response.JWT = newJwt;
                 response.Success = true;
                 response.Message = $"New refresh token:{user.RefreshToken}";
                 
@@ -180,7 +178,6 @@ namespace LP304_Takt.Repositories
             {
                 user.PasswordResetToken = CreateRandomToken();
                 user.ResetTokenExpires = DateTime.Now.AddDays(1);
-                response.Data = user.PasswordResetToken;
                 await _context.SaveChangesAsync();
                 EmailToResetPassword(user);
 

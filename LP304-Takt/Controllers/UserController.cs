@@ -45,8 +45,8 @@ namespace LP304_Takt.Controllers
                 return BadRequest(response);
             }
      
-            SetRefreshToken(response.Token);
-            return Ok(response.Data);
+            SetRefreshToken(response.RefreshToken.Token);
+            return Ok(response);
         }
 
         [HttpPost("forgot-password")]
@@ -87,14 +87,14 @@ namespace LP304_Takt.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
             var response = await _userService.RefreshToken(refreshToken);
-            SetRefreshToken(response.Token);
-            Console.WriteLine(response.Token);
+            SetRefreshToken(response.RefreshToken.Token);
+            
             if (!response.Success)
             {
-                return BadRequest(response.Message);
+                return BadRequest(response);
             }
             
-            return Ok(response.Data);
+            return Ok(response);
         }
 
         [Authorize]
