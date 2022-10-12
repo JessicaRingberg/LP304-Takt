@@ -62,7 +62,9 @@ namespace LP304_Takt.Mapper
         {
             return new CompanyByUserDto
             {
-                Name = user.Company.Name,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Company = user.Company.Name
             };
         }
 

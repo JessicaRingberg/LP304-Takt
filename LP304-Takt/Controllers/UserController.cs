@@ -6,6 +6,7 @@ using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -43,8 +44,9 @@ namespace LP304_Takt.Controllers
             {
                 return BadRequest(response);
             }
-
-            return Ok(response);
+     
+            SetRefreshToken(response.Token);
+            return Ok(response.Data);
         }
 
         [HttpPost("forgot-password")]
@@ -81,14 +83,25 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken(string token)
+        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken()
         {
-            var response = await _userService.RefreshToken(token);
+            var refreshToken = Request.Cookies["refreshToken"];
+            var response = await _userService.RefreshToken(refreshToken);
+            SetRefreshToken(response.Token);
+            Console.WriteLine(response.Token);
             if (!response.Success)
             {
-                return BadRequest(response);
+                return BadRequest(response.Message);
             }
-            return Ok(response);
+            
+            return Ok(response.Data);
+        }
+
+        [Authorize]
+        [HttpGet("isAuth")]
+        public ActionResult IsAuth()
+        {
+            return Ok();
         }
 
         [Authorize(Roles = nameof(Role.Admin))]
@@ -144,15 +157,16 @@ namespace LP304_Takt.Controllers
 
             return Ok();
         }
-        //private void SetRefreshToken(string newRefreshToken)
-        //{
-        //    var cookieOptions = new CookieOptions
-        //    {
-        //        HttpOnly = true,
-        //        Expires = DateTime.Now.AddDays(7)
-        //    };
-        //    Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
 
-        //}
+        private void SetRefreshToken(string newRefreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
+
+        }
     }
 }
