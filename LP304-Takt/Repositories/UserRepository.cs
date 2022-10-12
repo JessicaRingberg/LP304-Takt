@@ -178,12 +178,12 @@ namespace LP304_Takt.Repositories
                 user.PasswordResetToken = CreateRandomToken();
                 user.ResetTokenExpires = DateTime.Now.AddDays(1);
                 response.Data = user.PasswordResetToken;
-
+                await _context.SaveChangesAsync();
                 EmailToResetPassword(user);
 
                 response.Message = $"Email to reset password has been sent to {user.Email}";
                 response.Success = true;
-                await _context.SaveChangesAsync();
+                
 
             }
    
@@ -191,10 +191,10 @@ namespace LP304_Takt.Repositories
 
         }
 
-        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request)
+        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string token)
         {
             var response = new UserResponse<string>();
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == token);
             if(user is null || user.ResetTokenExpires < DateTime.Now)
             {
                 response.Success = false;

@@ -45,9 +45,9 @@ namespace LP304_Takt.Services
             return await _userRepository.ForgotPassword(email);
         }
 
-        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request)
+        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string token)
         {
-            return await _userRepository.ResetPassword(request);
+            return await _userRepository.ResetPassword(request, token);
         }
 
         public async Task<UserResponse<string>> VerifyEmail(string token)

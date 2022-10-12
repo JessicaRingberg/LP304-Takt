@@ -58,9 +58,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<ActionResult<ServiceResponse<string>>> ResetPassword(ResetPasswordRequest request)
+        public async Task<ActionResult<ServiceResponse<string>>> ResetPassword(ResetPasswordRequest request, [FromQuery] string token)
         {
-            var response = await _userService.ResetPassword(request);
+            var response = await _userService.ResetPassword(request, token);
             if (!response.Success)
             {
                 return BadRequest(response);
