@@ -7,7 +7,7 @@ namespace LP304_Takt.Interfaces.Repositories
 {
     public interface IUserRepository
     {
-        Task<Company?> GetCompanyByUser(int userId);
+        Task<User?> GetCompanyByUser(int userId);
         Task<bool> UserAlreadyExists(string userName);
         Task<UserResponse<int>> RegisterUser(User user, string email, int companyId);
         Task<UserResponse<string>> VerifyEmail(string token);

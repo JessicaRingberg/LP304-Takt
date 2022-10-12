@@ -35,7 +35,7 @@ namespace LP304_Takt.Services
             return await _userRepository.GetUserById(id);
         }
 
-        public async Task<Company?> GetCompanyByUser(int userId)
+        public async Task<User?> GetCompanyByUser(int userId)
         {
             return await _userRepository.GetCompanyByUser(userId);
         }

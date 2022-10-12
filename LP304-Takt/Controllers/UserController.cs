@@ -1,4 +1,5 @@
 ﻿using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.ReadDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -111,16 +112,16 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
-        [HttpGet("{userId}/companies")]
-        public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
+       
+        [HttpGet("companies/{userId}")]
+        public async Task<ActionResult<CompanyByUserDto>> GetCompanyByUser(int userId)
         {
             var company = await _userService.GetCompanyByUser(userId);
             if (company is null)
             {
                 return NotFound("Not found");
             }
-            return Ok(company.AsDto());
+            return Ok(company.AsUserCompanyDto());
         }
 
         [Authorize(Roles = nameof(Role.Admin))]

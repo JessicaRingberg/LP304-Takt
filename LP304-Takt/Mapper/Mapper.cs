@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.ReadDTO;
 using LP304_Takt.Models;
 
 namespace LP304_Takt.Mapper
@@ -55,6 +56,13 @@ namespace LP304_Takt.Mapper
                 Name = company.Name,
                 Users = company.Users.Select(u => u.AsDto()).ToList(),
                 Areas = company.Areas.Select(a => a.AsDto()).ToList()
+            };
+        }
+        public static CompanyByUserDto AsUserCompanyDto(this User user)
+        {
+            return new CompanyByUserDto
+            {
+                Name = user.Company.Name,
             };
         }
 

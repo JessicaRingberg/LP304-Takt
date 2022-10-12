@@ -2,12 +2,15 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using MailKit.Net.Smtp;
+using MailKit.Search;
 using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 using MimeKit;
 using MimeKit.Text;
 using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
@@ -227,10 +230,12 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task<Company?> GetCompanyByUser(int userId)
+        public async Task<User?> GetCompanyByUser(int id)
         {
-            var user = await _context.Users.FindAsync(userId);
-            return user?.Company;
+            var user = await _context.Users
+                .Include(u=> u.Company)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            return user;
         }
 
 

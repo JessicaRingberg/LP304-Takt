@@ -6,7 +6,7 @@ namespace LP304_Takt.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<Company?> GetCompanyByUser(int userId);
+        Task<User?> GetCompanyByUser(int userId);
         Task<UserResponse<int>> RegisterUser(User user, string password, int companyId);
         Task<UserResponse<string>> VerifyEmail(string token);
         Task<UserResponse<string>> LoginUser(string email, string password);
