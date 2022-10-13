@@ -22,7 +22,8 @@ namespace LP304_Takt.Controllers
         {
             _areaService = areaService;
         }
-  
+
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
         {
@@ -34,7 +35,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AreaDto>>> GetAreas()
         {
@@ -55,6 +56,7 @@ namespace LP304_Takt.Controllers
             return Ok(area.AsDto());
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArea(int id)
         {
@@ -66,7 +68,8 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpPut]
         public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {
             var response = await _areaService.UpdateEntity(area.AsUpdated(), areaId);

@@ -21,6 +21,7 @@ namespace LP304_Takt.Controllers
             _eventStatusService = eventStatusService;
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> AddEventStatus([FromBody] EventStatusCreateDto eventStatus)
         {
@@ -32,12 +33,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<EventStatusDto>>> GetEventStatuses()
         {
             return Ok((await _eventStatusService.GetEntities()).Select(e => e.AsDto()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<EventStatusDto>> GetEventStatus(int id)
         {
@@ -51,7 +54,8 @@ namespace LP304_Takt.Controllers
             return Ok(eventStatus.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEventStatus(int id)
         {
             var response = await _eventStatusService.DeleteEntity(id);
@@ -62,7 +66,8 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpPut]
         public async Task<IActionResult> UpdateEventStatus([FromBody] EventStatusUpdateDto eventStatus, [FromQuery] int eventStatusId)
         {
             var response = await _eventStatusService.UpdateEntity(eventStatus.AsUpdated(), eventStatusId);

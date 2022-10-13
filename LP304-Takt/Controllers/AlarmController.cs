@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _alarmService = alarmService;
         }
 
-
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> AddAlarm([FromBody] AlarmCreateDto alarm, [FromQuery] int orderId, [FromQuery] int alarmTypeId)
         {
@@ -33,14 +33,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AlarmDto>>> GetAlarms()
         {
             return Ok((await _alarmService.GetEntities()).Select(a => a.AsDto()));
         }
 
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AlarmDto>> GetAlarm(int id)
         {
@@ -54,7 +54,8 @@ namespace LP304_Takt.Controllers
             return Ok(alarm.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             var response = await _alarmService.DeleteEntity(id);
@@ -65,7 +66,8 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpPut]
         public async Task<IActionResult> UpdateAlarm([FromBody] AlarmUpdateDto alarm, [FromQuery] int alarmId)
         {
             var response = await _alarmService.UpdateEntity(alarm.AsUpdated(), alarmId);

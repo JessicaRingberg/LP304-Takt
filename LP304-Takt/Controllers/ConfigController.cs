@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _configService = configService;
         }
 
-        [Authorize]
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> AddConfig([FromBody] ConfigCreateDto config, [FromQuery] int areaId)
         {
@@ -54,7 +54,8 @@ namespace LP304_Takt.Controllers
             return Ok(config.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConfig(int id)
         {
             var response = await _configService.DeleteEntity(id);
@@ -65,7 +66,8 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpPut]
         public async Task<IActionResult> UpdateConfig([FromBody] ConfigUpdateDto config, [FromQuery] int configId)
         {
             var response = await _configService.UpdateEntity(config.AsUpdated(), configId);

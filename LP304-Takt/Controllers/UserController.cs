@@ -7,7 +7,6 @@ using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -83,6 +82,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost("refresh-token")]
         public async Task<ActionResult<ServiceResponse<string>>> RefreshToken()
         {
@@ -126,7 +126,7 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
-       
+        [Authorize(Roles = nameof(Role.SuperUser))]
         [HttpGet("companies/{userId}")]
         public async Task<ActionResult<CompanyByUserDto>> GetCompanyByUser(int userId)
         {
@@ -162,6 +162,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)
         {

@@ -3,6 +3,8 @@ using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -18,6 +20,7 @@ namespace LP304_Takt.Controllers
             _articleService = articleService;
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> AddArticle([FromBody] ArticleCreateDto article)
         {
@@ -29,12 +32,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<ArticleDto>>> GetArticles()
         {
             return Ok((await _articleService.GetEntities()).Select(a => a.AsDto()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
@@ -46,6 +51,7 @@ namespace LP304_Takt.Controllers
             return Ok(article.AsDto());
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
@@ -57,6 +63,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPut]
         public async Task<IActionResult> UpdateArticle([FromBody] ArticleUpdateDto article, [FromQuery] int articleId)
         {

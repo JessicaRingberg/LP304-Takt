@@ -3,6 +3,8 @@ using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -18,6 +20,7 @@ namespace LP304_Takt.Controllers
             _orderDetailsService = orderDetailsService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddOrderDetails([FromBody] OrderDetailsCreateDto orderDetails, [FromQuery] int orderId, [FromQuery] int articleId)
         {
@@ -29,6 +32,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<ICollection<OrderDetailsDto>>> GetOrderDetails()
 
@@ -36,6 +40,7 @@ namespace LP304_Takt.Controllers
             return Ok((await _orderDetailsService.GetEntities()).Select(orderDetails => orderDetails.AsDto()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDetailsDto>> GetOrderDetail(int id)
         {
@@ -47,6 +52,7 @@ namespace LP304_Takt.Controllers
             return Ok(orderDetail.AsDto());
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
@@ -58,6 +64,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPut]
         public async Task<IActionResult> UpdateOrderDetails([FromBody] OrderDetailsUpdateDto orderDetails, [FromQuery] int orderDetailsId)
         {

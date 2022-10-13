@@ -20,6 +20,7 @@ namespace LP304_Takt.Controllers
             _stationService = stationService;
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> AddStation([FromBody] StationCreateDto station, [FromQuery] int areaId)
         {
@@ -52,7 +53,8 @@ namespace LP304_Takt.Controllers
             return Ok(station.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStation(int id)
         {
             var response = await _stationService.DeleteEntity(id);
@@ -63,7 +65,8 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpPut]
         public async Task<IActionResult> UpdateStation([FromBody] StationUpdateDto station, [FromQuery] int stationId)
         {
             var response = await _stationService.UpdateEntity(station.AsUpdated(), stationId);

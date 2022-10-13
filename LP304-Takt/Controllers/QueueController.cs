@@ -4,6 +4,8 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Services;
+using LP304_Takt.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +22,7 @@ namespace LP304_Takt.Controllers
             _queueService = queueService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<ICollection<QueueDto>>> GetAllQueues()
 
@@ -27,6 +30,7 @@ namespace LP304_Takt.Controllers
             return Ok((await _queueService.GetAllQueues()).Select(q => q.AsDto()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<QueueDto>> GetOneQueue(int id)
 
@@ -41,6 +45,7 @@ namespace LP304_Takt.Controllers
             return Ok(queue.AsDto());
         }
 
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPut("{queueId}")]
         public async Task<IActionResult> DeleteOrderFromQueue(int queueId, [FromQuery] int orderId)
         {

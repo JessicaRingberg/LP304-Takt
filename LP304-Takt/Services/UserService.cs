@@ -71,7 +71,7 @@ namespace LP304_Takt.Services
         }
         public async Task<UserResponse<int>> UpdateUserRole(User user, int id)
         {
-            return await _userRepository.UpdateUser(user, id);
+            return await _userRepository.UpdateUserRole(user, id);
         }
     }
 }
