@@ -29,8 +29,7 @@ namespace LP304_Takt.Models
         public ICollection<OrderDetails>? OrderDetails { get; set; }
         public ICollection<Event>? Events { get; set; }
         public ICollection<Alarm>? Alarms { get; set; }
-        //public int StationId { get; set; }
-        //public Station Station { get; set; } = null!;
+
 
     }
 }

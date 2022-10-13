@@ -94,7 +94,6 @@ namespace LP304_Takt.Repositories
                 };
             }
             companyToUpdate.Name = company.Name;
-            MapCompany(companyToUpdate, company);
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
@@ -103,11 +102,5 @@ namespace LP304_Takt.Repositories
             };
         }
 
-
-        private static Company MapCompany(Company newComp, Company oldComp)
-        {
-            newComp.Name = oldComp.Name;
-            return newComp;
-        }
     }
 }

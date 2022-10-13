@@ -33,7 +33,6 @@ namespace LP304_Takt.Services
             return await _alarmRepository.GetEntity(id);
         }
 
-
         public async Task<ServiceResponse<int>> UpdateEntity(Alarm alarm, int alarmId)
         {
             return await _alarmRepository.UpdateEntity(alarm, alarmId);

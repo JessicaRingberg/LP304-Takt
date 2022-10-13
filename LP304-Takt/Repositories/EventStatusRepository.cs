@@ -2,7 +2,6 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -82,19 +81,13 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            MapEventStatus(eventStatusToUpdate, eventStatus);
+            eventStatusToUpdate.Name = eventStatus.Name;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = $"Eventstatus with id: {eventStatusId} updated"
             };
-        }
-
-        private static EventStatus MapEventStatus(EventStatus newEventStatus, EventStatus oldEventStatus)
-        {
-            newEventStatus.Name = oldEventStatus.Name;
-            return newEventStatus;
         }
     }
 }

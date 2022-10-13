@@ -2,7 +2,6 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -106,19 +105,13 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            MapAlarm(alarmToUpdate, alarm);
+            alarmToUpdate.Reason = alarm.Reason;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = $"Alarm with id {alarm.Id} updated"
             };
-        }
-
-        private static Alarm MapAlarm(Alarm newAlarm, Alarm oldAlarm)
-        {
-            newAlarm.Reason = oldAlarm.Reason;
-            return newAlarm;
         }
 
     }

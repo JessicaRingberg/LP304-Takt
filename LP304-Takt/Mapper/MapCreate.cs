@@ -104,7 +104,6 @@ namespace LP304_Takt.Mapper
             };
         }
 
-
         public static Station AsEntity(this StationCreateDto station)
         {
             return new Station

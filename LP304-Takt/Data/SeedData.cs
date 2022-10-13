@@ -20,7 +20,7 @@ namespace LP304_Takt.Data
                 Role = Role.Admin,
                 PasswordSalt = hmac.Key,
                 PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)),
-                VerificationToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(64)),
+                //VerificationToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(64)),
                 VerifiedAt = DateTime.Now
             };
             context.Database.Migrate();

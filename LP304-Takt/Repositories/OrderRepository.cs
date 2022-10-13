@@ -112,23 +112,31 @@ namespace LP304_Takt.Repositories
                     Message = $"Order with id: {orderId} was not found"
                 };
             }
-            orderToUpdate.ChangeSecSet = order.ChangeSecSet;
-            orderToUpdate.ChangeSetDec = order.ChangeSetDec;
-            orderToUpdate.Backlog = order.Backlog;
-            orderToUpdate.LastPartProd = order.LastPartProd;
-            orderToUpdate.PartsProd = order.PartsProd;
-            orderToUpdate.StartTime = order.StartTime;
-            orderToUpdate.Takt = order.Takt;
-            orderToUpdate.EndTime = order.EndTime;
-            orderToUpdate.RunSecSet = order.RunSecSet;
-            orderToUpdate.RunSetDec = order.RunSetDec;
-            orderToUpdate.TaktSet = order.TaktSet;
+
+            MapOrder(orderToUpdate, order);
+
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = $"Order with id: {orderId} updated"
             };
+        }
+
+        private static Order MapOrder(Order newOrder, Order oldOrder)
+        {
+            newOrder.ChangeSecSet = oldOrder.ChangeSecSet;
+            newOrder.ChangeSetDec = oldOrder.ChangeSetDec;
+            newOrder.Backlog = oldOrder.Backlog;
+            newOrder.LastPartProd = oldOrder.LastPartProd;
+            newOrder.PartsProd = oldOrder.PartsProd;
+            newOrder.StartTime = oldOrder.StartTime;
+            newOrder.Takt = oldOrder.Takt;
+            newOrder.EndTime = oldOrder.EndTime;
+            newOrder.RunSecSet = oldOrder.RunSecSet;
+            newOrder.RunSetDec = oldOrder.RunSetDec;
+            newOrder.TaktSet = oldOrder.TaktSet;
+            return newOrder;
         }
 
     }

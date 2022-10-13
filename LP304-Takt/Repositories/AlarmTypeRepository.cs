@@ -2,7 +2,6 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace LP304_Takt.Repositories
 {
@@ -82,19 +81,13 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            MapAlarmType(alarmTypeToUpdate, alarmType);
+            alarmTypeToUpdate.Name = alarmType.Name;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = $"AlarmType {alarmType.Name} updated"
             };
-        }
-
-        private static AlarmType MapAlarmType(AlarmType newAlarmType, AlarmType oldAlarmType)
-        {
-            newAlarmType.Name = oldAlarmType.Name;
-            return newAlarmType;
         }
     }
 }

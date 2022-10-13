@@ -91,19 +91,13 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            MapStation(stationToUpdate, station);
+            stationToUpdate.Name = station.Name;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = $"Station with id: {stationId} updated"
             };
-        }
-
-        private static Station MapStation(Station newStation, Station oldStation)
-        {
-            newStation.Name = oldStation.Name;
-            return newStation;
         }
     }
 }

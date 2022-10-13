@@ -13,32 +13,20 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-
-        public Task<ServiceResponse<int>> DeleteEntity(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ICollection<Queue>> GetEntities()
+        public async Task<ICollection<Queue>> GetAllQueues()
         {
             return await _context.Queue
                 .Include(q => q.Orders)
                 .ToListAsync();
         }
 
-        public async Task<Queue?> GetEntity(int id)
+        public async Task<Queue?> GetOneQueue(int id)
         {
             return await _context.Queue
                .Include(q => q.Orders)
                .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public Task<ServiceResponse<int>> UpdateEntity(Queue entity, int areaId)
-        {
-            throw new NotImplementedException();
-
-
-        }
         public async Task<ServiceResponse<int>> DeleteOrderFromQueue(int queueId, int orderId)
         {
             var queueToUpdate = await _context.Queue

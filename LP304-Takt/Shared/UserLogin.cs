@@ -5,8 +5,8 @@ namespace LP304_Takt.Shared
     public class UserLogin
     {
         [Required]
-        public string Email { get; set; } = string.Empty;
+        public string Email { get; set; } = null!;
         [Required]
-        public string Password { get; set; } = string.Empty;
+        public string Password { get; set; } = null!;
     }
 }

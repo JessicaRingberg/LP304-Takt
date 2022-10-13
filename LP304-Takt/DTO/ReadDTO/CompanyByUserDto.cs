@@ -2,8 +2,8 @@
 {
     public record CompanyByUserDto
     {
-        public string FirstName { get; init; } = string.Empty;
-        public string LastName { get; init; } = string.Empty;
+        public string FirstName { get; init; } = null!;
+        public string LastName { get; init; } = null!;
         public string? Company { get; init; }
     }
 }

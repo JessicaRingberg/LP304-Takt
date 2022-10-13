@@ -4,14 +4,10 @@ namespace LP304_Takt.Shared
 {
     public class UserResponse<T>
     {
-       // public T? Data { get; set; }
-
         public bool Success { get; set; } = false;
-
-        public string Message { get; set; } = string.Empty;
-        ////public int UserId { get; set; }
-        public string JWT { get; set; }
-        public UserDto User { get; set; }
-        public RefreshToken RefreshToken { get; set; }
+        public string Message { get; set; } = null!;
+        public string JWT { get; set; } = null!;
+        public UserDto User { get; set; } = null!;
+        public RefreshToken RefreshToken { get; set; } = null!;
     }
 }

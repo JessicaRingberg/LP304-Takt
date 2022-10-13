@@ -2,7 +2,6 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -105,19 +104,14 @@ namespace LP304_Takt.Repositories
                     Message = $"Event with id: {eventId} was not found"
                 };
             }
-            MapEvent(eventToUpdate, eEvent);
+
+            eventToUpdate.Reason = eEvent.Reason;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = $"Event with id: {eventId} updated"
             };
-        }
-
-        private static Event MapEvent(Event newEvent, Event oldEvent)
-        {
-            newEvent.Reason = oldEvent.Reason;
-            return newEvent;
         }
     }
 }

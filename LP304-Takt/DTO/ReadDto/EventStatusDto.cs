@@ -7,6 +7,5 @@ namespace LP304_Takt.DTO.ReadDto
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        //public ICollection<EventDto> Events { get; set; } = null!;
     }
 }

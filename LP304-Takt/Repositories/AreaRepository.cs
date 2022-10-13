@@ -96,7 +96,7 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            MapArea(areaToUpdate, area);
+            areaToUpdate.Name = area.Name;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
@@ -104,13 +104,6 @@ namespace LP304_Takt.Repositories
                 Message = $"Area with id: {area.Id} updated"
             };
         }
-
-        private static Area MapArea(Area newArea, Area oldArea)
-        {
-            newArea.Name = oldArea.Name;
-            return newArea;
-        }
-
 
     }
 }

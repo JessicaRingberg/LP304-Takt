@@ -26,7 +26,6 @@ namespace LP304_Takt.Mapper
             {
                 Id = alarmType.Id,
                 Name = alarmType.Name
-                //Alarms = alarmType.Alarms.Select(a => a.AsDto()).ToList()
             };
         }
 
@@ -76,8 +75,7 @@ namespace LP304_Takt.Mapper
                 LightsOn = config.LightsOn,
                 SoundOn = config.SoundOn,
                 FilterTime = config.FilterTime,
-                MacBidisp = config.MacBidisp
-             
+                MacBidisp = config.MacBidisp            
             };
         }
 
@@ -100,7 +98,6 @@ namespace LP304_Takt.Mapper
             {
                 Id = eventStatus.Id,
                 Name = eventStatus.Name
-                //Events = eventStatus.Events.Select(e => e.AsDto()).ToList()
             };
 
         }
@@ -111,8 +108,7 @@ namespace LP304_Takt.Mapper
                 Id = orderDetails.Id,
                 Quantity = orderDetails.Quantity,
                 Article = orderDetails.Article?.Name,
-                OrderId = orderDetails.OrderId
-               
+                OrderId = orderDetails.OrderId    
             };
         }
       

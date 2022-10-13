@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.ReadDTO;
+using LP304_Takt.DTO.UpdateDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -154,8 +155,22 @@ namespace LP304_Takt.Controllers
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
             var response = await _userService.UpdateUser(user.AsUpdated(), userId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
 
-            return Ok();
+        [HttpPatch]
+        public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)
+        {
+            var response = await _userService.UpdateUserRole(user.UpdatedRole(), userId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         private void SetRefreshToken(string newRefreshToken)

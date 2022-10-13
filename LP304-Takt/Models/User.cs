@@ -12,8 +12,8 @@ namespace LP304_Takt.Models
         public string LastName { get; set; } = string.Empty;
         [Required]
         public string Email { get; set; } = string.Empty;
-        public byte[] PasswordHash { get; set; } = null!;
-        public byte[] PasswordSalt { get; set; } = null!;
+        public byte[]? PasswordHash { get; set; }
+        public byte[]? PasswordSalt { get; set; }
         public string? PasswordResetToken { get; set; }
         public DateTime? ResetTokenExpires { get; set; }
         public string? VerificationToken { get; set; }

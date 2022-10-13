@@ -14,29 +14,19 @@ namespace LP304_Takt.Services
             _queueRepository = queueRepository;
         }
 
-        public Task<ServiceResponse<int>> DeleteEntity(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ServiceResponse<int>> DeleteOrderFromQueue(int areaId, int orderId)
         {
             return await _queueRepository.DeleteOrderFromQueue(areaId, orderId);
         }
 
-        public async Task<ICollection<Queue>> GetEntities()
+        public async Task<ICollection<Queue>> GetAllQueues()
         {
-            return await _queueRepository.GetEntities();
+            return await _queueRepository.GetAllQueues();
         }
 
-        public async Task<Queue?> GetEntity(int id)
+        public async Task<Queue?> GetOneQueue(int id)
         {
-            return await _queueRepository.GetEntity(id);
-        }
-
-        public async Task<ServiceResponse<int>> UpdateEntity(Queue entity, int id)
-        {
-            return await _queueRepository.UpdateEntity(entity, id);
+            return await _queueRepository.GetOneQueue(id);
         }
     }
 }

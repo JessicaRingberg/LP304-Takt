@@ -2,6 +2,6 @@
 {
     public record EventStatusUpdateDto
     {
-        public string Name { get; init; } = string.Empty;
+        public string Name { get; init; } = null!;
     }
 }

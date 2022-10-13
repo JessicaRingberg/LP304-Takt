@@ -21,17 +21,17 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<QueueDto>>> GetQueues()
+        public async Task<ActionResult<ICollection<QueueDto>>> GetAllQueues()
 
         {
-            return Ok((await _queueService.GetEntities()).Select(q => q.AsDto()));
+            return Ok((await _queueService.GetAllQueues()).Select(q => q.AsDto()));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<QueueDto>> GetOneQueue(int id)
 
         {
-            var queue = await _queueService.GetEntity(id);
+            var queue = await _queueService.GetOneQueue(id);
 
             if (queue is null)
             {
@@ -40,6 +40,7 @@ namespace LP304_Takt.Controllers
 
             return Ok(queue.AsDto());
         }
+
         [HttpPut("{queueId}")]
         public async Task<IActionResult> DeleteOrderFromQueue(int queueId, [FromQuery] int orderId)
         {

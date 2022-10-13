@@ -3,15 +3,12 @@ using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using MailKit.Net.Smtp;
-using MailKit.Search;
 using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using MimeKit;
 using MimeKit.Text;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
@@ -93,7 +90,7 @@ namespace LP304_Takt.Repositories
                 response.User = verifiedUser.AsDto();
                 response.RefreshToken = refreshToken;
                 response.Success = true;
-                response.JWT = CreateToken(verifiedUser);
+                response.JWT = CreateJwtToken(verifiedUser);
                
                 await _context.SaveChangesAsync();
 
@@ -127,7 +124,7 @@ namespace LP304_Takt.Repositories
                 user.TokenExpires = newRefresToken.Expires;
 
 
-                var newJwt = CreateToken(user);
+                var newJwt = CreateJwtToken(user);
                 await _context.SaveChangesAsync();
                 response.RefreshToken = newRefresToken;
                 response.User = user.AsDto();
@@ -152,6 +149,7 @@ namespace LP304_Takt.Repositories
             else
             {
                 user.VerifiedAt = DateTime.Now;
+                user.VerificationToken = null;
                 await _context.SaveChangesAsync();
                 response.Success = true;
                 response.Message = "Email verified";
@@ -182,13 +180,11 @@ namespace LP304_Takt.Repositories
                 EmailToResetPassword(user);
 
                 response.Message = $"Email to reset password has been sent to {user.Email}";
-                response.Success = true;
-                
+                response.Success = true;  
 
             }
    
             return response; 
-
         }
 
         public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string token)
@@ -203,7 +199,7 @@ namespace LP304_Takt.Repositories
 
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user!.PasswordHash = passwordHash;
+            user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.PasswordResetToken = null;
             user.ResetTokenExpires = null;
@@ -219,13 +215,11 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-
         public async Task<ICollection<User>> GetAllUsers()
         {
             return await _context.Users
                 .ToListAsync();
         }
-
 
         public async Task<User?> GetCompanyByUser(int id)
         {
@@ -234,7 +228,6 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(u => u.Id == id);
             return user;
         }
-
 
         public async Task<UserResponse<string>> DeleteUser(int id)
         {
@@ -261,7 +254,30 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
-   
+
+        public async Task<UserResponse<int>> UpdateUserRole(User user, int userId)
+        {
+
+            var userToUpdate = await _context.Users
+                .FindAsync(userId);
+            if (userToUpdate is null)
+            {
+                return new UserResponse<int>()
+                {
+                    Success = false,
+                    Message = $"User with id: {userId} was not found"
+                };
+            }
+
+            userToUpdate.Role = user.Role;
+
+            await _context.SaveChangesAsync();
+            return new UserResponse<int>()
+            {
+                Success = true,
+                Message = $"User with id: {userId} updated"
+            };
+        }
 
         public async Task<UserResponse<int>> UpdateUser(User user, int userId)
         {
@@ -294,14 +310,11 @@ namespace LP304_Takt.Repositories
             newUser.LastName = oldUser.LastName;
             newUser.Email = oldUser.Email;
             return newUser;
-        }
-
-       
+        }   
 
 
 
-
-        private string CreateToken(User user)
+        private string CreateJwtToken(User user)
         {
 
             List<Claim> claims = new()
@@ -325,6 +338,23 @@ namespace LP304_Takt.Repositories
             return jwt;
         }
 
+        private static RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.Now.AddDays(7),
+                Created = DateTime.Now
+            };
+            return refreshToken;
+        }
+
+        private static string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using var hmac = new HMACSHA512();
@@ -332,12 +362,14 @@ namespace LP304_Takt.Repositories
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
+
         private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using var hmac = new HMACSHA512(passwordSalt);
             var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             return computedHash.SequenceEqual(passwordHash);
         }
+
 
         public async Task<bool> UserAlreadyExists(string email)
         {
@@ -348,16 +380,13 @@ namespace LP304_Takt.Repositories
             return false;
         }
 
-        private static string CreateRandomToken()
-        {
-            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-        }
+
 
         private static void EmailToResetPassword(User user)
         {
             var message = new MimeMessage();
-            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));//user.Email
-            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));//user.Email
+            message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.Subject = "Password reset";
             //Something like this:
             var url = "https://localhost:7112/api/User/Reset-Password?token=";
@@ -366,37 +395,28 @@ namespace LP304_Takt.Repositories
             Smtp(message);
         }
 
+
         private static void EmailForVerification(User user)
         {
             var message = new MimeMessage();
-            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));//user.Email
-            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
+            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));//user.Email
+            message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.Subject = "Email verification";
             var url = "https://localhost:7112/api/User/verify?token=";
             message.Body = new TextPart(TextFormat.Html)
             { Text = $"<a href=\"{url}{user.VerificationToken}\">Verify email</a>" };
             Smtp(message);
         }
+
+
         private static void Smtp(MimeMessage email)
         {
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
+            smtp.Authenticate("jerome.toy9@ethereal.email", "VYSqnWcNmUu8WznP4C");
             smtp.Send(email);
 
             smtp.Disconnect(true);
-        }
-
-
-        private static RefreshToken GenerateRefreshToken()
-        {
-            var refreshToken = new RefreshToken
-            {
-                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddDays(7),
-                Created = DateTime.Now
-            };
-            return refreshToken;
         }
 
         

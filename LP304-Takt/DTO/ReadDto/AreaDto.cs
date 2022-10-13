@@ -3,7 +3,7 @@
     public record AreaDto
     {
         public int Id { get; init; }
-        public string Name { get; init; } = string.Empty;
+        public string Name { get; init; } = null!;
         public ICollection<StationDto> Stations { get; init; } = null!;
     }
 }

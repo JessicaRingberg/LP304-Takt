@@ -19,5 +19,6 @@ namespace LP304_Takt.Interfaces.Repositories
         Task<UserResponse<string>> RefreshToken(string token);
         Task<ICollection<User>> GetAllUsers();
         Task<User?> GetUserById(int id);
+        Task<UserResponse<int>> UpdateUserRole(User user, int userId);
     }
 }

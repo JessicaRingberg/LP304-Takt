@@ -2,7 +2,6 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -96,19 +95,13 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            MapConfig(configToUpdate, config);
+            configToUpdate.MacBidisp = config.MacBidisp;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,
                 Message = $"Config with id: {configId} updated"
             };
-        }
-
-        private static Config MapConfig(Config newConfig, Config oldConfig)
-        {
-            newConfig.MacBidisp = oldConfig.MacBidisp;
-            return newConfig;
         }
     }
 }
