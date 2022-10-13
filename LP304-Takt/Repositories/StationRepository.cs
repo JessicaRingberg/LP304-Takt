@@ -16,6 +16,16 @@ namespace LP304_Takt.Repositories
         public async Task<ServiceResponse<int>> Add(Station station, int areaId)
         {
             var area = await _context.Areas.FindAsync(areaId);
+            var found = await _context.Stations
+                .FirstOrDefaultAsync(s => s.Name.Equals(station.Name) && s.Id.Equals(areaId));
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"This area already has a station with name {station.Name}!"
+                };
+            }
 
             if (area is null)
             {

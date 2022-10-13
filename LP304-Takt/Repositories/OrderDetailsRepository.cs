@@ -18,8 +18,17 @@ namespace LP304_Takt.Repositories
         {
             var order = await _context.Orders.FindAsync(orderId);
             var article = await _context.Article.FindAsync(articleId);
+            var found = await _context.OrderDetails.FirstOrDefaultAsync(c => c.ArticleId == orderDetails.ArticleId);
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"This order detail already contains this article: {orderDetails.Article}!"
+                };
+            }
 
-            if (order is null)
+            else if (order is null)
             {
                 return new ServiceResponse<int>()
                 {
@@ -28,7 +37,7 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            if (article is null)
+            else if (article is null)
             {
                 return new ServiceResponse<int>()
                 {
@@ -36,7 +45,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Order details must contain valid articles"
                 };
             }
-
+            else
             orderDetails.ArticleId = articleId;
             orderDetails.OrderId = orderId;
             await _context.OrderDetails.AddAsync(orderDetails);

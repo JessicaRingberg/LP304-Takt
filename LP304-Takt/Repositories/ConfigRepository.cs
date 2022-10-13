@@ -19,7 +19,15 @@ namespace LP304_Takt.Repositories
         public async Task<ServiceResponse<int>> Add(Config config, int areaId)
         {
             var area = await _context.Areas.FindAsync(areaId);
-
+            var found = await _context.Configs.FirstOrDefaultAsync(c => c.AreaId.Equals(areaId));
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area {area.Name} already has a config!"
+                };
+            }
             if (area is null)
             {
                 return new ServiceResponse<int>()

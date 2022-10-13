@@ -18,8 +18,17 @@ namespace LP304_Takt.Repositories
         {
             var order = await _context.Orders.FindAsync(orderId);
             var alarmType = await _context.AlarmTypes.FindAsync(alarmTypeId);
-
-            if (order is null)
+            var found = await _context.Alarms.FirstOrDefaultAsync(c => c.Reason == alarm.Reason);
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Alarm with reason {alarm.Reason} already exists!"
+                };
+            }
+           
+            else if (order is null)
             {
                 return new ServiceResponse<int>()
                 {
@@ -28,7 +37,7 @@ namespace LP304_Takt.Repositories
                 };
             }
 
-            if (alarmType is null)
+            else if (alarmType is null)
             {
                 return new ServiceResponse<int>()
                 {
@@ -36,7 +45,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Alarm must have a type!"
                 };
             }
-
+            else
             alarm.AlarmTypeId = alarmTypeId;
             alarm.OrderId = orderId;
             await _context.Alarms.AddAsync(alarm);

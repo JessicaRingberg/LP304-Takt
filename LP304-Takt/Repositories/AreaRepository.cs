@@ -16,9 +16,18 @@ namespace LP304_Takt.Repositories
 
         public async Task<ServiceResponse<int>> Add(Area area, int companyId)
         {
+            var found = await _context.Areas.FirstOrDefaultAsync(c => c.Name == area.Name);
             var company = await _context.Companies.FindAsync(companyId);
-
-            if (company is null)
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area with name {area.Name} already exists!"
+                };
+            }
+            
+            else if (company is null)
             {
                 return new ServiceResponse<int>()
                 {
@@ -26,6 +35,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Area must belong to a company"
                 };
             }
+            else
             area.Queue = new Queue();
             area.CompanyId = companyId;
             await _context.Areas.AddAsync(area);
