@@ -6,6 +6,7 @@ namespace LP304_Takt.Interfaces.Services
     public interface IAreaService : IBaseService<Area>
     {
         Task<ServiceResponse<int>> Add(Area area, int companyId);
-        
+        Task<Area?> GetEventsFromArea(int id);
+
     }
 }

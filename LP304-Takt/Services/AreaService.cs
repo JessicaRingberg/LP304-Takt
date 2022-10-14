@@ -34,6 +34,11 @@ namespace LP304_Takt.Services
             return await _areaRepository.GetEntity(id);
         }
 
+        public async Task<Area?> GetEventsFromArea(int id)
+        {
+            return await _areaRepository.GetEventsFromArea(id);
+        }
+
         public async Task<ServiceResponse<int>> UpdateEntity(Area area, int areaId)
         {
             return await _areaRepository.UpdateEntity(area, areaId);

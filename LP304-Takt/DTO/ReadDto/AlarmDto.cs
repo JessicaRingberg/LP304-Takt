@@ -7,7 +7,7 @@
         public DateTime EndTime { get; init; }
         public int Duration { get; init; }
         public string Reason { get; init; } = null!;
-        public string? AlarmType { get; init; }
+        public AlarmTypeDto? AlarmType { get; init; }
 
     }
 }

@@ -65,7 +65,9 @@ namespace LP304_Takt.Repositories
                 .Include(o => o.OrderDetails)
                 .ThenInclude(o => o.Article)
                 .Include(o => o.Alarms)
+                .ThenInclude(a => a.AlarmType)
                 .Include(o => o.Events)
+                .ThenInclude(e => e.EventStatus)
                 .ToListAsync();
         }
 
@@ -75,7 +77,9 @@ namespace LP304_Takt.Repositories
                 .Include(o => o.OrderDetails)
                 .ThenInclude(o => o.Article)
                 .Include(o => o.Alarms)
+                .ThenInclude(a => a.AlarmType)
                 .Include(o => o.Events)
+                .ThenInclude(e => e.EventStatus)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
         }

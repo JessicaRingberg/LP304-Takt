@@ -20,7 +20,7 @@ namespace LP304_Takt.Controllers
             _orderService = orderService;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
         {           
@@ -32,14 +32,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<OrderDto>>> GetOrders()
         {
             return Ok((await _orderService.GetEntities()).Select(order => order.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {
@@ -54,7 +54,7 @@ namespace LP304_Takt.Controllers
         }
 
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -66,7 +66,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPut]
         public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
         {

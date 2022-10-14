@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.ReadDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -23,7 +24,7 @@ namespace LP304_Takt.Controllers
             _areaService = areaService;
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
         {
@@ -35,14 +36,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AreaDto>>> GetAreas()
         {
             return Ok((await _areaService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AreaDto>> GetArea(int id)
         {
@@ -56,7 +57,20 @@ namespace LP304_Takt.Controllers
             return Ok(area.AsDto());
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpGet("{id}/events")]
+        public async Task<ActionResult<AreaEventsDto>> GetEventsToArea(int id)
+        {
+            var area = await _areaService.GetEventsFromArea(id);
+
+            if (area is null)
+            {
+                return NotFound($"Area with id: {id} was not found");
+            }
+
+            return Ok(area.AsAreaEventDto());
+        }
+
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArea(int id)
         {
@@ -68,7 +82,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPut]
         public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {

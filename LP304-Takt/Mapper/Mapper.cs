@@ -16,7 +16,7 @@ namespace LP304_Takt.Mapper
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
                 Reason = alarm.Reason,
-                AlarmType = alarm.AlarmType?.Name
+                AlarmType = alarm.AlarmType.AsDto()
             };
         }
 
@@ -38,6 +38,23 @@ namespace LP304_Takt.Mapper
                 Stations = area.Stations.Select(s => s.AsDto()).ToList()
             };
         }
+        public static AreaEventsDto AsAreaEventDto(this Area area)
+        {
+            return new AreaEventsDto
+            {
+                Id = area.Id,
+                Name = area.Name,
+                Orders = area.Orders.Select(o => o.AsOrderEventDto()).ToList()
+            };
+        }
+        public static OrderEventsDto AsOrderEventDto(this Order order)
+        {
+            return new OrderEventsDto
+            {
+                Events = order.Events.Select(o => o.AsDto()).ToList()
+            };
+        }
+
         public static ArticleDto AsDto(this Article article)
         {
             return new ArticleDto
@@ -88,7 +105,7 @@ namespace LP304_Takt.Mapper
                 EndTime = eEvent.EndTime,
                 Duration = eEvent.Duration,
                 Reason = eEvent.Reason,
-                EventStatus = eEvent.EventStatus?.Name
+                EventStatus = eEvent.EventStatus.AsDto()
             };
         }
 

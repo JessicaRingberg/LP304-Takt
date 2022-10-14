@@ -18,22 +18,12 @@ namespace LP304_Takt.Repositories
         {
             var order = await _context.Orders.FindAsync(orderId);
             var eventStatus = await _context.EventStatuses.FindAsync(eventStatusId);
-            var found = await _context.Events.FirstOrDefaultAsync(c => c.Reason == eEvent.Reason);
-            if (found is not null)
+            if (order is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Event with reason {eEvent.Reason} already exists!"
-                };
-            }
-
-            else if (order is null)
-            {
-                return new ServiceResponse<int>()
-                {
-                    Success = false,
-                    Message = $"Event must belong to an order!"
+                    Message = $"No order with {orderId} was found!"
                 };
             }
 
@@ -42,9 +32,10 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Event must have a status"
+                    Message = $"No eventstatus with id {eventStatusId} was found!"
                 };
             }
+
             else
             eEvent.EventStatusId = eventStatusId;
             eEvent.OrderId = orderId;

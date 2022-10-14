@@ -22,7 +22,7 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
@@ -82,7 +82,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("refresh-token")]
         public async Task<ActionResult<ServiceResponse<string>>> RefreshToken()
         {
@@ -98,21 +98,21 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("isAuth")]
         public ActionResult IsAuth()
         {
             return Ok();
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
             return Ok((await _userService.GetAllUsers()).Select(user => user.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
@@ -126,7 +126,7 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
-        [Authorize(Roles = nameof(Role.SuperUser))]
+        //[Authorize(Roles = nameof(Role.SuperUser))]
         [HttpGet("companies/{userId}")]
         public async Task<ActionResult<CompanyByUserDto>> GetCompanyByUser(int userId)
         {
@@ -138,7 +138,7 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsUserCompanyDto());
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<string>>> DeleteUser(int id)
         {
@@ -150,7 +150,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
@@ -162,7 +162,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)
         {

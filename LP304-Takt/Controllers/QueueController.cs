@@ -22,7 +22,7 @@ namespace LP304_Takt.Controllers
             _queueService = queueService;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<ICollection<QueueDto>>> GetAllQueues()
 
@@ -30,7 +30,7 @@ namespace LP304_Takt.Controllers
             return Ok((await _queueService.GetAllQueues()).Select(q => q.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<QueueDto>> GetOneQueue(int id)
 
@@ -45,7 +45,7 @@ namespace LP304_Takt.Controllers
             return Ok(queue.AsDto());
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPut("{queueId}")]
         public async Task<IActionResult> DeleteOrderFromQueue(int queueId, [FromQuery] int orderId)
         {

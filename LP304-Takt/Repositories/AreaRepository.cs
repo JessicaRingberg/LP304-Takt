@@ -82,6 +82,14 @@ namespace LP304_Takt.Repositories
                 .Include(a => a.Stations)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
+        public async Task<Area?> GetEventsFromArea(int id)
+        {
+            return await _context.Areas
+                .Include(s => s.Orders)
+                .ThenInclude(o => o.Events)
+                .ThenInclude(e => e.EventStatus)
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
 
         public async Task<ServiceResponse<int>> UpdateEntity(Area area, int areaId)
         {

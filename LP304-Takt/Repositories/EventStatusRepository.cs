@@ -2,6 +2,7 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Repositories
 {
@@ -15,7 +16,7 @@ namespace LP304_Takt.Repositories
         }
         public async Task<ServiceResponse<int>> Add(EventStatus eventStatus)
         {
-            var found = _context.EventStatuses.FirstOrDefaultAsync(e => e.Name == eventStatus.Name);
+            var found = await _context.EventStatuses.FirstOrDefaultAsync(e => e.Name == eventStatus.Name);
             if(found is not null)
             {
                 return new ServiceResponse<int>()

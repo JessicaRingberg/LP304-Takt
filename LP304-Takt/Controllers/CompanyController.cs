@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _companyService = companyService;
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddCompany(CompanyCreateDto company)
         {
@@ -33,14 +33,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
             return Ok((await _companyService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
@@ -53,7 +53,7 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsDto());
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{companyId}/users")]
         public async Task<ActionResult<List<UserDto>>> GetUserByCompany(int companyId)
         {
@@ -61,7 +61,7 @@ namespace LP304_Takt.Controllers
             return Ok(users);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
@@ -73,7 +73,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateCompany([FromBody] CompanyUpdateDto company, [FromQuery] int companyId)
         {
