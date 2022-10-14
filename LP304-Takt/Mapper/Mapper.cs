@@ -38,22 +38,6 @@ namespace LP304_Takt.Mapper
                 Stations = area.Stations.Select(s => s.AsDto()).ToList()
             };
         }
-        public static AreaEventsDto AsAreaEventDto(this Area area)
-        {
-            return new AreaEventsDto
-            {
-                Id = area.Id,
-                Name = area.Name,
-                Orders = area.Orders.Select(o => o.AsOrderEventDto()).ToList()
-            };
-        }
-        public static OrderEventsDto AsOrderEventDto(this Order order)
-        {
-            return new OrderEventsDto
-            {
-                Events = order.Events.Select(o => o.AsDto()).ToList()
-            };
-        }
 
         public static ArticleDto AsDto(this Article article)
         {

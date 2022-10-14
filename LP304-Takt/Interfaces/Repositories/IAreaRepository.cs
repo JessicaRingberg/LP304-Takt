@@ -6,7 +6,7 @@ namespace LP304_Takt.Interfaces.Repositories
     public interface IAreaRepository : IBaseRepository<Area>
     {
         Task<ServiceResponse<int>> Add(Area area, int companyId);
-        Task<Area?> GetEventsFromArea(int id);
+        Task<ICollection<Event?>> GetEventsFromArea(int areaId);
 
 
     }

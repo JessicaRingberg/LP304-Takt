@@ -58,16 +58,16 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpGet("{id}/events")]
-        public async Task<ActionResult<AreaEventsDto>> GetEventsToArea(int id)
+        public async Task<ActionResult<Event>> GetEventsByArea(int id)
         {
-            var area = await _areaService.GetEventsFromArea(id);
+            var events = (await _areaService.GetEventsByArea(id)).Select(e => e.AsDto());
 
-            if (area is null)
+            if (events is null)
             {
                 return NotFound($"Area with id: {id} was not found");
             }
 
-            return Ok(area.AsAreaEventDto());
+            return Ok(events);
         }
 
         //[Authorize(Roles = nameof(Role.Admin))]
