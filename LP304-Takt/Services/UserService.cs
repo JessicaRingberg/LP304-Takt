@@ -24,7 +24,6 @@ namespace LP304_Takt.Services
             return await _userRepository.Login(email, password);
         }
 
-
         public async Task<ICollection<User>> GetAllUsers()
         {
             return await _userRepository.GetAllUsers();
@@ -69,6 +68,7 @@ namespace LP304_Takt.Services
         {
             return await _userRepository.UpdateUser(user, id);
         }
+
         public async Task<UserResponse<int>> UpdateUserRole(User user, int id)
         {
             return await _userRepository.UpdateUserRole(user, id);

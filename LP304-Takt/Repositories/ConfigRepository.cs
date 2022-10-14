@@ -19,20 +19,20 @@ namespace LP304_Takt.Repositories
         {
             var area = await _context.Areas.FindAsync(areaId);
             var found = await _context.Configs.FirstOrDefaultAsync(c => c.AreaId.Equals(areaId));
-            if (found is not null)
-            {
-                return new ServiceResponse<int>()
-                {
-                    Success = false,
-                    Message = $"Area {area.Name} already has a config!"
-                };
-            }
             if (area is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
                     Message = $"Config must belong to an area"
+                };
+            }
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area {area.Name} already has a config!"
                 };
             }
 

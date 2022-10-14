@@ -118,15 +118,15 @@ namespace LP304_Takt.Repositories
             else
             {
 
-                var newRefresToken = GenerateRefreshToken();
-                user.RefreshToken = newRefresToken.Token;
-                user.TokenCreated = newRefresToken.Created;
-                user.TokenExpires = newRefresToken.Expires;
+                var newRefreshToken = GenerateRefreshToken();
+                user.RefreshToken = newRefreshToken.Token;
+                user.TokenCreated = newRefreshToken.Created;
+                user.TokenExpires = newRefreshToken.Expires;
 
 
                 var newJwt = CreateJwtToken(user);
                 await _context.SaveChangesAsync();
-                response.RefreshToken = newRefresToken;
+                response.RefreshToken = newRefreshToken;
                 response.User = user.AsDto();
                 response.JWT = newJwt;
                 response.Success = true;

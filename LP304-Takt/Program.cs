@@ -42,7 +42,6 @@ builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddTransient<IArticleService, ArticleService>();
 builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
 builder.Services.AddTransient<IOrderDetailsService, OrderDetailsService>();
-
 builder.Services.AddScoped<IQueueRepository, QueueRepository>();
 builder.Services.AddTransient<IQueueService, QueueService>();
 

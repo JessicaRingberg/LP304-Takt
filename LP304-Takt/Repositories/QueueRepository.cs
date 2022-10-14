@@ -40,7 +40,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Queue with id {queueId} was not found"
                 };
             }
-  
+ 
             foreach (var order in queueToUpdate.Orders)
             {
                 if (order.Id.Equals(orderId))
