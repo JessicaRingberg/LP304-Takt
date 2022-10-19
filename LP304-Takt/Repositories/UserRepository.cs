@@ -5,6 +5,7 @@ using LP304_Takt.Shared;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 using MimeKit.Text;
@@ -386,36 +387,48 @@ namespace LP304_Takt.Repositories
 
         private static void EmailToResetPassword(User user)
         {
+            var url = "https://localhost:7112/api/User/Reset-Password?token=";
+            var filePath = @"Templates/ResetPassword.html";
+            StreamReader stream = new StreamReader(filePath);
+            string emailContent = stream.ReadToEnd();
+            stream.Close();
+
+            emailContent = emailContent.Replace("[user.FirstName]", user.FirstName);
+            emailContent = emailContent.Replace("[resetTokenUrl]", url + user.PasswordResetToken);
+
             var message = new MimeMessage();
             message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
-            message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
+            message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email")); 
             message.Subject = "Password reset";
-            //Something like this:
-            var url = "https://localhost:7112/api/User/Reset-Password?token=";
+
             message.Body = new TextPart(TextFormat.Html)
-            { Text =
-            $"<p>Hej {user.FirstName},</p><p>Detta mail har skickats eftersom du begärt att återställa ditt lösenord.</br>"+
-             "Har du inte begärt att återställa ditt lösenord bortse då från detta mail.</p>"+
-            $"<button><a href=\"{url}{user.PasswordResetToken}\">Återställ lösenord</a></button>"+
-             "<p>Eller kopiera länken nedan och klistra in i din webbläsare</p>"+
-             $"<a href=\"{url}{user.PasswordResetToken}\">{url}{user.PasswordResetToken}</a>"};
+            { 
+                Text = emailContent
+            };
             Smtp(message);
         }
 
 
         private static void EmailForVerification(User user)
         {
+            var url = "https://localhost:7112/api/User/verify?token=";
+            var filePath = @"Templates/VerifyEmail.html";
+            StreamReader stream = new StreamReader(filePath);
+            string emailContent = stream.ReadToEnd();
+            stream.Close();
+
+            emailContent = emailContent.Replace("[user.FirstName]", user.FirstName);
+            emailContent = emailContent.Replace("[verifyTokenUrl]", url + user.VerificationToken);
+
             var message = new MimeMessage();
             message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.Subject = "Email verification";
-            var url = "https://localhost:7112/api/User/verify?token=";
+
             message.Body = new TextPart(TextFormat.Html)
-            { Text =
-            $"<p>Hej {user.FirstName},</p><p>Vänligen verifiera ditt konto.</p>" +
-            $"<button><a href=\"{url}{user.VerificationToken}\">Verifiera email</a></button>" +
-            "<p>Eller kopiera länken nedan och klistra in i din webbläsare</p>"+
-            $"<a href=\"{url}{user.VerificationToken}\">{url}{user.VerificationToken}</a>"};
+            { 
+                Text = emailContent 
+            };
             Smtp(message);
         }
 
