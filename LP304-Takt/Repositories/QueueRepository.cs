@@ -2,6 +2,7 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LP304_Takt.Repositories
 {
@@ -40,14 +41,12 @@ namespace LP304_Takt.Repositories
                     Message = $"Queue with id {queueId} was not found"
                 };
             }
- 
-            foreach (var order in queueToUpdate.Orders)
+
+            foreach (var order in queueToUpdate.Orders.Where(order => order.Id.Equals(orderId)))
             {
-                if (order.Id.Equals(orderId))
-                {
-                    queueToUpdate.Orders.Remove(order);
-                }
+                queueToUpdate.Orders.Remove(order);
             }
+
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {

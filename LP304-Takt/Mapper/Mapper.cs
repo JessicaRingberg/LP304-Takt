@@ -35,7 +35,7 @@ namespace LP304_Takt.Mapper
             {
                 Id = area.Id,
                 Name = area.Name,
-                Stations = area.Stations.Select(s => s.AsDto()).ToList()
+                Stations = area.Stations.Select(s => s.AsDto()).ToList(),
             };
         }
 
@@ -76,7 +76,8 @@ namespace LP304_Takt.Mapper
                 LightsOn = config.LightsOn,
                 SoundOn = config.SoundOn,
                 FilterTime = config.FilterTime,
-                MacBidisp = config.MacBidisp            
+                MacBidisp = config.MacBidisp,
+                AreaId = config.AreaId
             };
         }
 

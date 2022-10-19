@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 using MimeKit.Text;
+using Org.BouncyCastle.Utilities.Encoders;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -117,7 +119,6 @@ namespace LP304_Takt.Repositories
             }
             else
             {
-
                 var newRefreshToken = GenerateRefreshToken();
                 user.RefreshToken = newRefreshToken.Token;
                 user.TokenCreated = newRefreshToken.Created;
@@ -265,7 +266,7 @@ namespace LP304_Takt.Repositories
                 return new UserResponse<int>()
                 {
                     Success = false,
-                    Message = $"User with id: {userId} was not found"
+                    Message = $"User with id {userId} was not found"
                 };
             }
 
@@ -275,7 +276,7 @@ namespace LP304_Takt.Repositories
             return new UserResponse<int>()
             {
                 Success = true,
-                Message = $"User with id: {userId} updated"
+                Message = $"User with id {userId} updated"
             };
         }
 
@@ -289,7 +290,7 @@ namespace LP304_Takt.Repositories
                 return new UserResponse<int>()
                 {
                     Success = false,
-                    Message = $"User with id: {userId} was not found"
+                    Message = $"User with id {userId} was not found"
                 };
             }
 
@@ -299,7 +300,8 @@ namespace LP304_Takt.Repositories
             return new UserResponse<int>()
             {
                 Success = true,
-                Message = $"User with id: {userId} updated"
+                Message = $"User with id {userId} updated",
+                User = userToUpdate.AsDto()
             };
         }
 
@@ -385,13 +387,18 @@ namespace LP304_Takt.Repositories
         private static void EmailToResetPassword(User user)
         {
             var message = new MimeMessage();
-            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));//user.Email
+            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.Subject = "Password reset";
             //Something like this:
             var url = "https://localhost:7112/api/User/Reset-Password?token=";
             message.Body = new TextPart(TextFormat.Html)
-            { Text = $"<a href=\"{url}{user.PasswordResetToken}\">Reset password</a>" };
+            { Text =
+            $"<p>Hej {user.FirstName},</p><p>Detta mail har skickats eftersom du begärt att återställa ditt lösenord.</br>"+
+             "Har du inte begärt att återställa ditt lösenord bortse då från detta mail.</p>"+
+            $"<button><a href=\"{url}{user.PasswordResetToken}\">Återställ lösenord</a></button>"+
+             "<p>Eller kopiera länken nedan och klistra in i din webbläsare</p>"+
+             $"<a href=\"{url}{user.PasswordResetToken}\">{url}{user.PasswordResetToken}</a>"};
             Smtp(message);
         }
 
@@ -399,12 +406,16 @@ namespace LP304_Takt.Repositories
         private static void EmailForVerification(User user)
         {
             var message = new MimeMessage();
-            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));//user.Email
+            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
             message.Subject = "Email verification";
             var url = "https://localhost:7112/api/User/verify?token=";
             message.Body = new TextPart(TextFormat.Html)
-            { Text = $"<a href=\"{url}{user.VerificationToken}\">Verify email</a>" };
+            { Text =
+            $"<p>Hej {user.FirstName},</p><p>Vänligen verifiera ditt konto.</p>" +
+            $"<button><a href=\"{url}{user.VerificationToken}\">Verifiera email</a></button>" +
+            "<p>Eller kopiera länken nedan och klistra in i din webbläsare</p>"+
+            $"<a href=\"{url}{user.VerificationToken}\">{url}{user.VerificationToken}</a>"};
             Smtp(message);
         }
 

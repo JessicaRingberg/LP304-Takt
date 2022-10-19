@@ -9,5 +9,6 @@ namespace LP304_Takt.DTO.ReadDto
         public bool SoundOn { get; init; }
         public int FilterTime { get; init; }
         public string MacBidisp { get; init; } = null!;
+        public int AreaId { get; init; }
     }
 }
