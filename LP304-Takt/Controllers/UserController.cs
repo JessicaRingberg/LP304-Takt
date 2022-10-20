@@ -22,7 +22,7 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
@@ -105,14 +105,14 @@ namespace LP304_Takt.Controllers
             return Ok();
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
             return Ok((await _userService.GetAllUsers()).Select(user => user.AsDto()));
         }
 
-        //[Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
@@ -126,7 +126,7 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
-        //[Authorize(Roles = nameof(Role.SuperUser))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet("companies/{userId}")]
         public async Task<ActionResult<CompanyByUserDto>> GetCompanyByUser(int userId)
         {
@@ -138,7 +138,7 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsUserCompanyDto());
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<string>>> DeleteUser(int id)
         {
@@ -150,7 +150,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
@@ -162,6 +162,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut("assignArea/{userId}")]
         public async Task<IActionResult> AddAreaToUser(int userId, int areaId)
         {
@@ -173,7 +174,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)
         {

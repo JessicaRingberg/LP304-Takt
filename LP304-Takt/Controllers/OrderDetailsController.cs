@@ -52,7 +52,7 @@ namespace LP304_Takt.Controllers
             return Ok(orderDetail.AsDto());
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
@@ -64,7 +64,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateOrderDetails([FromBody] OrderDetailsUpdateDto orderDetails, [FromQuery] int orderDetailsId)
         {

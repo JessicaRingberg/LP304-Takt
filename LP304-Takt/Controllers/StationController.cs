@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _stationService = stationService;
         }
 
-        [Authorized(Role.Admin, Role.SuperUser)]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddStation([FromBody] StationCreateDto station, [FromQuery] int areaId)
         {
@@ -33,16 +33,16 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<StationDto>>> GetStations()
         {
             return Ok((await _stationService.GetEntities()).Select(s => s.AsDto()));
         }
 
-        //[Authorize]
+        //[Authorized(Role.SuperUser)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<StationDto>> GetCompany(int id)
+        public async Task<ActionResult<StationDto>> GetOneStation(int id)
         {
             var station = await _stationService.GetEntity(id);
 
@@ -54,7 +54,7 @@ namespace LP304_Takt.Controllers
             return Ok(station.AsDto());
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.SuperUser, Role.User)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStation(int id)
         {
@@ -66,7 +66,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateStation([FromBody] StationUpdateDto station, [FromQuery] int stationId)
         {

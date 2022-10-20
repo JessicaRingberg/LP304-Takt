@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _companyService = companyService;
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddCompany(CompanyCreateDto company)
         {

@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _configService = configService;
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddConfig([FromBody] ConfigCreateDto config, [FromQuery] int areaId)
         {
@@ -54,7 +54,7 @@ namespace LP304_Takt.Controllers
             return Ok(config.AsDto());
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConfig(int id)
         {

@@ -45,7 +45,7 @@ namespace LP304_Takt.Controllers
             return Ok(queue.AsDto());
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut("{queueId}")]
         public async Task<IActionResult> DeleteOrderFromQueue(int queueId, [FromQuery] int orderId)
         {

@@ -24,7 +24,7 @@ namespace LP304_Takt.Controllers
             _areaService = areaService;
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
         {
@@ -57,6 +57,7 @@ namespace LP304_Takt.Controllers
             return Ok(area.AsDto());
         }
 
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet("{id}/events")]
         public async Task<ActionResult<Event>> GetEventsByArea(int id)
         {
@@ -70,7 +71,7 @@ namespace LP304_Takt.Controllers
             return Ok(events);
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArea(int id)
         {
@@ -82,7 +83,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {
