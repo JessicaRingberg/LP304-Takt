@@ -162,6 +162,17 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        [HttpPut("assignArea/{userId}")]
+        public async Task<IActionResult> AddAreaToUser(int userId, int areaId)
+        {
+            var response = await _userService.AddAreaToUser(userId, userId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
         //[Authorize(Roles = nameof(Role.Admin))]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)

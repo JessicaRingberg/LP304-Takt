@@ -16,6 +16,7 @@ namespace LP304_Takt.Interfaces.Repositories
         Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string token);
         Task<UserResponse<string>> DeleteUser(int id);
         Task<UserResponse<int>> UpdateUser(User user, int id);
+        Task<UserResponse<string>> AddAreaToUser(int userId, int areaId);
         Task<UserResponse<string>> RefreshToken(string token);
         Task<ICollection<User>> GetAllUsers();
         Task<User?> GetUserById(int id);

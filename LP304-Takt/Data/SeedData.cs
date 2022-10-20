@@ -1,5 +1,4 @@
 ﻿using LP304_Takt.Models;
-using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;

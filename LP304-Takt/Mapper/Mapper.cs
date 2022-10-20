@@ -170,6 +170,7 @@ namespace LP304_Takt.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+                Area = user.Area?.Name,
                 Role = user.Role.ToString()
             };
         }

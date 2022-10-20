@@ -220,6 +220,7 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<User>> GetAllUsers()
         {
             return await _context.Users
+                .Include(u => u.Area)
                 .ToListAsync();
         }
 
@@ -294,6 +295,7 @@ namespace LP304_Takt.Repositories
                     Message = $"User with id {userId} was not found"
                 };
             }
+            
 
             MapUser(userToUpdate, user);
 
@@ -308,7 +310,6 @@ namespace LP304_Takt.Repositories
 
         private static User MapUser(User newUser, User oldUser)
         {
-
             newUser.FirstName = oldUser.FirstName;
             newUser.LastName = oldUser.LastName;
             newUser.Email = oldUser.Email;
@@ -443,6 +444,35 @@ namespace LP304_Takt.Repositories
             smtp.Disconnect(true);
         }
 
-        
+        public async Task<UserResponse<string>> AddAreaToUser(int userId, int areaId)
+        {
+            var area = await _context.Areas.FirstOrDefaultAsync(a => a.Id == areaId);
+            if (area is null)
+            {
+                return new UserResponse<string>()
+                {
+                    Success = false,
+                    Message = $"Area was not found"
+                };
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(user is null)
+            {
+                return new UserResponse<string>()
+                {
+                    Success = false,
+                    Message = $"User was not found"
+                };
+            }
+
+            user.Area = area;
+            await _context.SaveChangesAsync();
+            return new UserResponse<string>()
+            {
+                Success = true,
+                Message = $"User with id {userId} updated",
+                User = user.AsDto()
+            };
+        }
     }
 }
