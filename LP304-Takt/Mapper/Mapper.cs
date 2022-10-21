@@ -164,6 +164,7 @@ namespace LP304_Takt.Mapper
 
         public static UserDto AsDto(this User user)
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
             return new UserDto
             {
                 Id = user.Id,
@@ -173,6 +174,7 @@ namespace LP304_Takt.Mapper
                 Area = user.Area?.Name,
                 Role = user.Role.ToString()
             };
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
 
         
