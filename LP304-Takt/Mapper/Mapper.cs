@@ -172,7 +172,7 @@ namespace LP304_Takt.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Area = user.Area?.Id.ToString(),
+                Area = user.Area?.Id,
                 Role = user.Role.ToString()
             };
 #pragma warning restore CS8601 // Possible null reference assignment.

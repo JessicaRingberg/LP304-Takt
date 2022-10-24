@@ -9,7 +9,7 @@ namespace LP304_Takt.DTO.ReadDto
         public string LastName { get; init; } = null!;
         public string Email { get; init; } = null!;
         public string Role { get; init; } = null!;
-        public string? Area { get; init; }
+        public int? Area { get; init; }
 
     }
 
