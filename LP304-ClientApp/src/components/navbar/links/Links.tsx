@@ -4,12 +4,14 @@ import home from '../../../assets/icons/home.png'
 import settings from '../../../assets/icons/settings.png'
 import arrow from '../../../assets/icons/down-filled-triangular-arrow.png'
 import { useState } from "react";
+import { useAuthContext } from "../../../hooks/db/useAuthContext";
 
 interface Props {
     handleMenuClose?: () => void;
 }
 
 const Links: React.FC<Props> = ({ handleMenuClose }) => {
+    const { state } = useAuthContext()
     const [showSubSettings, setShowSubSettings] = useState(false);
 
     const handleSubSettingsOpen = (e: any) => {
@@ -43,15 +45,15 @@ const Links: React.FC<Props> = ({ handleMenuClose }) => {
                     <li>
                         <NavLink to="/settings/companies" onClick={handleMenuClose} >General</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/settings/companies" onClick={handleMenuClose} >Companies</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/settings/companies" onClick={handleMenuClose} >Areas</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/settings/companies" onClick={handleMenuClose} >Users</NavLink>
-                    </li>
+                    {state.user?.role === "Admin" &&
+                        <div className="admin-pages">
+                            <li>
+                                <NavLink to="/settings/companies" onClick={handleMenuClose} >Companies</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/settings/companies" onClick={handleMenuClose} >Users</NavLink>
+                            </li>
+                        </div>}
                     <li>
                         <NavLink to="/settings/mqtt" onClick={handleMenuClose} >MQTT</NavLink>
                     </li>

@@ -1,0 +1,14 @@
+.company-content {
+    display: grid;
+    gap: 10%;
+    grid-template-columns: 50% 40%;
+}
+
+.add-company {
+    width: auto;
+    padding: 10px;
+}
+
+.loading-container {
+    justify-content: center;
+}

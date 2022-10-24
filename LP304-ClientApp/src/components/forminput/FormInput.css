@@ -5,9 +5,9 @@
 }
 
 input{
-    padding: 15px;
+    padding: 10px 15px;
     margin: 10px 0;
-    border-radius: 5px;
+    border-radius: 3px;
     border: 1px solid gray;
 }
 
@@ -81,14 +81,14 @@ input:invalid[focused = "true"] ~ span{
 }
 
 @media screen and (min-width: 600px) {
-    .formInput {
+    /* .formInput {
         min-width: 250px;
-    }
+    } */
 }
 
 @media screen and (min-width: 800px) {
-    .formInput {
+    /* .formInput {
         min-width: 400px;
-    }
+    } */
 }
 

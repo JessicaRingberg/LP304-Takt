@@ -26,3 +26,15 @@
     display: flex;
     gap: 15px;
 }
+
+@media screen and (min-width: 600px) {
+
+    .mqtt-connect-content form {
+        padding: 30px 60px;
+        flex-direction: row;
+        width: 400px;
+        gap: 60px;
+        border-radius: 10px;
+    }
+
+}

@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import MqttStatus from "../../models/mqtt/MqttStatus";
 import MqttHost from "../../models/mqtt/MqttHost";
+import MqttPayload from "../../models/mqtt/MqttPayload";
 
-const UseFetch = (mqttHost: MqttHost) => {
-
-    
+const useMqttConnection = (mqttHost: MqttHost) => {
     var mqtt = require('mqtt/dist/mqtt')
 
     const [client, setClient] = useState<any>();
-    const [isSub, setIsSub] = useState<boolean>(false);
     const [mqttStatus, setMqttStatus] = useState<MqttStatus>();
+    const [mqttPayload, setMqttPayload] = useState<MqttPayload>();
 
     const mqttConnect = () => {
-        console.log(mqttHost)
         setMqttStatus({ status: 'Connecting' });
         setClient(mqtt.connect('ws://' + mqttHost.host +  ":" + mqttHost.port ));
     };
@@ -30,7 +28,6 @@ const UseFetch = (mqttHost: MqttHost) => {
           const { topic, qos, payload } = context;
           client.publish(topic, payload, { qos }, (error: any) => {
             if (error) {
-              console.log('Publish error: ', error);
             }
           });
         }
@@ -41,10 +38,8 @@ const UseFetch = (mqttHost: MqttHost) => {
           const { topic, qos } = subscription;
           client.subscribe(topic, { qos }, (error: any) => {
             if (error) {
-              console.log('Subscribe to topics error', error)
               return
             }
-            setIsSub(true)
           });
         }
       };
@@ -54,10 +49,8 @@ const UseFetch = (mqttHost: MqttHost) => {
           const { topic } = subscription;
           client.unsubscribe(topic, (error: any) => {
             if (error) {
-              console.log('Unsubscribe error', error)
               return
             }
-            setIsSub(false);
           });
         }
       };
@@ -82,12 +75,12 @@ const UseFetch = (mqttHost: MqttHost) => {
             });
             client.on('message', (topic: string, message: string) => {
                 const payload = { topic, message: message.toString() };
-                setMqttStatus({ status: "message", payload: payload })
+                setMqttPayload(payload)
             });
         }
     }, [client]);
 
-    return { mqttStatus, mqttConnect, mqttDisconnect, mqttPublish, mqttSub, mqttUnSub, isSub}
+    return { mqttStatus, mqttPayload , mqttConnect, mqttDisconnect, mqttPublish, mqttSub, mqttUnSub}
 }
 
-export default UseFetch;
+export default useMqttConnection;

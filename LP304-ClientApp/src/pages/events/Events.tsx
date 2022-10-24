@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from '../../components/eventtable/Table';
 import LoadingSpinner from '../../components/loadingspinner/LoadingSpinner';
-import UseFetch from '../../hooks/db/UseFetch';
-import "./Events.css"
+import useFetch from '../../hooks/db/useFetch';
+import "./Events.css";
 
 const Events: React.FC = () => {
-  const { data: events, isPending, error } = UseFetch('https://localhost:7112/api/Event')
-  
+  const { fetchEntity, data: events, isPending, error } = useFetch()
+
+  useEffect(() => {
+    fetchEntity('https://localhost:7112/api/Event')
+  }, [fetchEntity])
+
   return (
     <main>
       <div className="main-content">
@@ -19,7 +23,7 @@ const Events: React.FC = () => {
             {error && <p> {error} </p>}
             {isPending && <LoadingSpinner />}
           </section>
-          {events && <Table events={events}/>}
+          {events && <Table events={events} />}
         </div>
       </div>
     </main>

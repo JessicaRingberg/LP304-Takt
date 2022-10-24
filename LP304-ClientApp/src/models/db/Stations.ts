@@ -1,4 +1,7 @@
 export default interface Station {
     id: number,
-    name: string
+    name: string,
+    andon: boolean,
+    finished: boolean,
+    active: boolean
 }

@@ -1,9 +1,14 @@
+import { useEffect } from 'react'
 import Table from "../../components/eventtable/Table";
 import LoadingSpinner from "../../components/loadingspinner/LoadingSpinner";
-import UseFetch from "../../hooks/db/UseFetch";
+import useFetch from "../../hooks/db/useFetch";
 
 function Alarms() {
-    const { data: events, isPending, error } = UseFetch('https://localhost:7112/api/Alarm')
+    const { fetchEntity, data: events, isPending, error } = useFetch()
+
+    useEffect(() => {
+        fetchEntity('https://localhost:7112/api/Alarm')
+    }, [fetchEntity])
 
     return (
         <main>

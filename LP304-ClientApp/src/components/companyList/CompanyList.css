@@ -1,20 +1,27 @@
 .company-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     justify-content: center;
-    padding: 30px 60px 30px 60px;
 }
 
 .company-list ul {
-    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
     border-radius: 5px;
     background-color: white;
-    box-shadow: rgba(214, 214, 214, 0.507) 0px 3px 3px 2px  ;
+    height: fit-content;
+    border-left: 1px solid rgb(224, 224, 224);
+    border-right: 1px solid rgb(224, 224, 224);
+    border-bottom: 2px solid rgb(224, 224, 224);
 }
 
-.company-list li h2 {
-    font-weight: 500;
-    margin: 0;
+.company-list li h3 {
+    margin: 10px 0;
+    text-align: left;
+    font-weight: 400;
+    color: black;
 }

@@ -6,12 +6,13 @@ import { useState } from 'react';
 import Links from './links/Links';
 import { NavLink } from 'react-router-dom';
 import UserInfo from '../userinfoarea/UserInfo';
-
+import { useAuthContext } from '../../hooks/db/useAuthContext';
 
 const NavBar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [showUserInfo, setShowUserInfo] = useState(false)
-    
+    const user= {id: 1, firstName: 'Jonas', lastName: 'Fredriksson', email: 'kofisk@hotmail.com', role: 'Admin'}
+    const { state } = useAuthContext()
 
     const style = {
         display: 'flex'
@@ -31,6 +32,7 @@ const NavBar: React.FC = () => {
 
     return (
         <header>
+
             <nav className="navbar">
                 <NavLink to={"/"}><img src={logo} className="app-logo" alt="logo" /></NavLink>
                 
@@ -51,8 +53,8 @@ const NavBar: React.FC = () => {
                     </div>
                     <div className="user-info" onClick={handleUserOpen}>
                         <img src={account} className="account-icon" alt="account" />
-                        <p>Jonas</p>
-                        <UserInfo showUserInfo={showUserInfo} setShowUserInfo={setShowUserInfo} />
+                        <p>{state.user?.firstName}</p>
+                        <UserInfo showUserInfo={showUserInfo} setShowUserInfo={setShowUserInfo} user={user} />
                     </div>
                     <img src={menu} onClick={handleMenuOpen} className="burger-menu-icon" alt="Menu" />
                 </div>

@@ -1,5 +1,5 @@
 export default interface  MqttPayload{
     topic: string,
-    message: string
+    message: any
     payload?: Object | string
 }
