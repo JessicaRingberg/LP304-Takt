@@ -1,6 +1,7 @@
 ﻿using System.Collections;
-using LP304_Takt.DTO;
 using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.ReadDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -22,23 +23,27 @@ namespace LP304_Takt.Controllers
         {
             _areaService = areaService;
         }
-        [Authorize]
+
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddArea([FromBody] AreaCreateDto area, [FromQuery] int companyId)
-        {//If company is null return 
-            await _areaService.Add(area.AsEntity(), companyId);
-
-            return Ok();
+        {
+            var response = await _areaService.Add(area.AsEntity(), companyId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AreaDto>>> GetAreas()
         {
             return Ok((await _areaService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AreaDto>> GetArea(int id)
         {
@@ -52,19 +57,42 @@ namespace LP304_Takt.Controllers
             return Ok(area.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
-        public async Task<IActionResult> DeleteArea(int id)
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpGet("{id}/events")]
+        public async Task<ActionResult<Event>> GetEventsByArea(int id)
         {
-            await _areaService.DeleteEntity(id);
-            return Ok();
+            var events = (await _areaService.GetEventsByArea(id)).Select(e => e.AsDto());
+
+            if (events is null)
+            {
+                return NotFound($"Area with id: {id} was not found");
+            }
+
+            return Ok(events);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteArea(int id)
+        {
+            var response = await _areaService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPut]
         public async Task<IActionResult> UpdateArea([FromBody] AreaUpdateDto area, [FromQuery] int areaId)
         {
-            await _areaService.UpdateEntity(area.AsUpdated(), areaId);
-
-            return Ok();
+            var response = await _areaService.UpdateEntity(area.AsUpdated(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

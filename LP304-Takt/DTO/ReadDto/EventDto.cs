@@ -1,4 +1,4 @@
-﻿namespace LP304_Takt.DTO
+﻿namespace LP304_Takt.DTO.ReadDto
 {
     public record EventDto
     {
@@ -6,8 +6,8 @@
         public DateTime StartTime { get; init; }
         public DateTime EndTime { get; init; }
         public int Duration { get; init; }
-        public string Reason { get; init; } = string.Empty;
-        public string? EventStatus { get; init; }
+        public string Reason { get; init; } = null!;
+        public EventStatusDto? EventStatus { get; init; }
 
 
     }

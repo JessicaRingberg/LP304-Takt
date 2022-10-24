@@ -1,12 +1,16 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 using MimeKit.Text;
+using Org.BouncyCastle.Utilities.Encoders;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -60,7 +64,7 @@ namespace LP304_Takt.Repositories
             EmailForVerification(user);
 
             return new UserResponse<int> 
-            { Data = user.Id, Success = true, Message = $"{user.VerificationToken}" };
+            {Success = true, Message = $"{user.VerificationToken}" };
             
         }
 
@@ -86,15 +90,10 @@ namespace LP304_Takt.Repositories
                 verifiedUser.TokenCreated = refreshToken.Created;
                 verifiedUser.TokenExpires = refreshToken.Expires;
 
+                response.User = verifiedUser.AsDto();
+                response.RefreshToken = refreshToken;
                 response.Success = true;
-                response.Data = CreateToken(verifiedUser);
-                response.Message = $"Logged in: {verifiedUser.FirstName} {verifiedUser.LastName}";
-                response.UserId = verifiedUser.Id;
-                var role = verifiedUser.Role;
-                response.Role = role.ToString();
-                response.Token = verifiedUser.RefreshToken;
-                response.Created = verifiedUser.TokenCreated;
-                response.Expires = verifiedUser.TokenExpires;
+                response.JWT = CreateJwtToken(verifiedUser);
                
                 await _context.SaveChangesAsync();
 
@@ -102,8 +101,7 @@ namespace LP304_Takt.Repositories
            
             return response;
         }
-
-
+      
         public async Task<UserResponse<string>> RefreshToken(string token)
         {
             var response = new UserResponse<string>();
@@ -122,18 +120,20 @@ namespace LP304_Takt.Repositories
             }
             else
             {
+                var newRefreshToken = GenerateRefreshToken();
+                user.RefreshToken = newRefreshToken.Token;
+                user.TokenCreated = newRefreshToken.Created;
+                user.TokenExpires = newRefreshToken.Expires;
 
-                var newRefresToken = GenerateRefreshToken();
-                user.RefreshToken = newRefresToken.Token;
-                user.TokenCreated = newRefresToken.Created;
-                user.TokenExpires = newRefresToken.Expires;
 
-
-                var newJwt = CreateToken(user);
-                response.Data = newJwt;
+                var newJwt = CreateJwtToken(user);
+                await _context.SaveChangesAsync();
+                response.RefreshToken = newRefreshToken;
+                response.User = user.AsDto();
+                response.JWT = newJwt;
                 response.Success = true;
                 response.Message = $"New refresh token:{user.RefreshToken}";
-                await _context.SaveChangesAsync();
+                
             }
             return response;
         }
@@ -151,6 +151,7 @@ namespace LP304_Takt.Repositories
             else
             {
                 user.VerifiedAt = DateTime.Now;
+                user.VerificationToken = null;
                 await _context.SaveChangesAsync();
                 response.Success = true;
                 response.Message = "Email verified";
@@ -177,24 +178,21 @@ namespace LP304_Takt.Repositories
             {
                 user.PasswordResetToken = CreateRandomToken();
                 user.ResetTokenExpires = DateTime.Now.AddDays(1);
-                response.Data = user.PasswordResetToken;
-
+                await _context.SaveChangesAsync();
                 EmailToResetPassword(user);
 
                 response.Message = $"Email to reset password has been sent to {user.Email}";
-                response.Success = true;
-                await _context.SaveChangesAsync();
+                response.Success = true;  
 
             }
    
             return response; 
-
         }
 
-        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request)
+        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string token)
         {
             var response = new UserResponse<string>();
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == token);
             if(user is null || user.ResetTokenExpires < DateTime.Now)
             {
                 response.Success = false;
@@ -203,7 +201,7 @@ namespace LP304_Takt.Repositories
 
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user!.PasswordHash = passwordHash;
+            user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.PasswordResetToken = null;
             user.ResetTokenExpires = null;
@@ -213,26 +211,26 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task<User?> GetEntity(int id)
+        public async Task<User?> GetUserById(int id)
         {
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-
-        public async Task<ICollection<User>> GetEntities()
+        public async Task<ICollection<User>> GetAllUsers()
         {
             return await _context.Users
+                .Include(u => u.Area)
                 .ToListAsync();
         }
 
-
-        public async Task<Company?> GetCompanyByUser(int userId)
+        public async Task<User?> GetCompanyByUser(int id)
         {
-            var user = await _context.Users.FindAsync(userId);
-            return user?.Company;
+            var user = await _context.Users
+                .Include(u=> u.Company)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            return user;
         }
-
 
         public async Task<UserResponse<string>> DeleteUser(int id)
         {
@@ -259,38 +257,68 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
-   
 
-        public async Task UpdateEntity(User user, int userId)
+        public async Task<UserResponse<int>> UpdateUserRole(User user, int userId)
         {
 
             var userToUpdate = await _context.Users
                 .FindAsync(userId);
             if (userToUpdate is null)
             {
-                return;
+                return new UserResponse<int>()
+                {
+                    Success = false,
+                    Message = $"User with id {userId} was not found"
+                };
             }
+
+            userToUpdate.Role = user.Role;
+
+            await _context.SaveChangesAsync();
+            return new UserResponse<int>()
+            {
+                Success = true,
+                Message = $"User with id {userId} updated"
+            };
+        }
+
+        public async Task<UserResponse<int>> UpdateUser(User user, int userId)
+        {
+
+            var userToUpdate = await _context.Users
+                .FindAsync(userId);
+            if (userToUpdate is null)
+            {
+                return new UserResponse<int>()
+                {
+                    Success = false,
+                    Message = $"User with id {userId} was not found"
+                };
+            }
+            
 
             MapUser(userToUpdate, user);
 
             await _context.SaveChangesAsync();
+            return new UserResponse<int>()
+            {
+                Success = true,
+                Message = $"User with id {userId} updated",
+                User = userToUpdate.AsDto()
+            };
         }
 
         private static User MapUser(User newUser, User oldUser)
         {
-
             newUser.FirstName = oldUser.FirstName;
             newUser.LastName = oldUser.LastName;
             newUser.Email = oldUser.Email;
             return newUser;
-        }
-
-       
+        }   
 
 
 
-
-        private string CreateToken(User user)
+        private string CreateJwtToken(User user)
         {
 
             List<Claim> claims = new()
@@ -314,69 +342,6 @@ namespace LP304_Takt.Repositories
             return jwt;
         }
 
-        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using var hmac = new HMACSHA512();
-            passwordSalt = hmac.Key;
-            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        }
-
-        private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using var hmac = new HMACSHA512(passwordSalt);
-            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            return computedHash.SequenceEqual(passwordHash);
-        }
-
-        public async Task<bool> UserAlreadyExists(string email)
-        {
-            if (await _context.Users.AnyAsync(user => user.Email.Equals(email)))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private static string CreateRandomToken()
-        {
-            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-        }
-
-        private static void EmailToResetPassword(User user)
-        {
-            var message = new MimeMessage();
-            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));//user.Email
-            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
-            message.Subject = "Password reset";
-            //Something like this:
-            var url = "https://localhost:7112/api/User/Reset-Password?token=";
-            message.Body = new TextPart(TextFormat.Html)
-            { Text = $"<a href=\"{url}{user.PasswordResetToken}\">Reset password</a>" };
-            Smtp(message);
-        }
-
-        private static void EmailForVerification(User user)
-        {
-            var message = new MimeMessage();
-            message.To.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));//user.Email
-            message.From.Add(MailboxAddress.Parse("dayne.renner@ethereal.email"));
-            message.Subject = "Email verification";
-            var url = "https://localhost:7112/api/User/verify?token=";
-            message.Body = new TextPart(TextFormat.Html)
-            { Text = $"<a href=\"{url}{user.VerificationToken}\">Verify email</a>" };
-            Smtp(message);
-        }
-        private static void Smtp(MimeMessage email)
-        {
-            using var smtp = new SmtpClient();
-            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("dayne.renner@ethereal.email", "EGQ6HC9nprSc1g77h9");
-            smtp.Send(email);
-
-            smtp.Disconnect(true);
-        }
-
-
         private static RefreshToken GenerateRefreshToken()
         {
             var refreshToken = new RefreshToken
@@ -388,9 +353,126 @@ namespace LP304_Takt.Repositories
             return refreshToken;
         }
 
-        public Task DeleteEntity(int id)
+        private static string CreateRandomToken()
         {
-            throw new NotImplementedException();
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using var hmac = new HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        }
+
+
+        private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using var hmac = new HMACSHA512(passwordSalt);
+            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            return computedHash.SequenceEqual(passwordHash);
+        }
+
+
+        public async Task<bool> UserAlreadyExists(string email)
+        {
+            if (await _context.Users.AnyAsync(user => user.Email.Equals(email)))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        private static void EmailToResetPassword(User user)
+        {
+            var url = "https://localhost:7112/api/User/Reset-Password?token=";
+            var filePath = @"Templates/ResetPassword.html";
+            StreamReader stream = new StreamReader(filePath);
+            string emailContent = stream.ReadToEnd();
+            stream.Close();
+
+            emailContent = emailContent.Replace("[user.FirstName]", user.FirstName);
+            emailContent = emailContent.Replace("[resetTokenUrl]", url + user.PasswordResetToken);
+
+            var message = new MimeMessage();
+            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
+            message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email")); 
+            message.Subject = "Password reset";
+
+            message.Body = new TextPart(TextFormat.Html)
+            { 
+                Text = emailContent
+            };
+            Smtp(message);
+        }
+
+
+        private static void EmailForVerification(User user)
+        {
+            var url = "https://localhost:7112/api/User/verify?token=";
+            var filePath = @"Templates/VerifyEmail.html";
+            StreamReader stream = new StreamReader(filePath);
+            string emailContent = stream.ReadToEnd();
+            stream.Close();
+
+            emailContent = emailContent.Replace("[user.FirstName]", user.FirstName);
+            emailContent = emailContent.Replace("[verifyTokenUrl]", url + user.VerificationToken);
+
+            var message = new MimeMessage();
+            message.To.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
+            message.From.Add(MailboxAddress.Parse("jerome.toy9@ethereal.email"));
+            message.Subject = "Email verification";
+
+            message.Body = new TextPart(TextFormat.Html)
+            { 
+                Text = emailContent 
+            };
+            Smtp(message);
+        }
+
+
+        private static void Smtp(MimeMessage email)
+        {
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("jerome.toy9@ethereal.email", "VYSqnWcNmUu8WznP4C");
+            smtp.Send(email);
+
+            smtp.Disconnect(true);
+        }
+
+        public async Task<UserResponse<string>> AddAreaToUser(int userId, int areaId)
+        {
+            var area = await _context.Areas.FirstOrDefaultAsync(a => a.Id == areaId);
+            if (area is null)
+            {
+                return new UserResponse<string>()
+                {
+                    Success = false,
+                    Message = $"Area was not found"
+                };
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(user is null)
+            {
+                return new UserResponse<string>()
+                {
+                    Success = false,
+                    Message = $"User was not found"
+                };
+            }
+
+            user.Area = area;
+            await _context.SaveChangesAsync();
+            return new UserResponse<string>()
+            {
+                Success = true,
+                Message = $"User with id {userId} updated",
+                User = user.AsDto()
+            };
         }
     }
 }

@@ -70,8 +70,7 @@ namespace LP304_Takt.Mapper
         {
             return new OrderDetails
             {
-                Quantity = orderDetails.Quantity
-   
+                Quantity = orderDetails.Quantity   
             };
         }
         public static Order AsUpdated(this OrderUpdateDto order)
@@ -100,7 +99,6 @@ namespace LP304_Takt.Mapper
             };
         }
 
-
         public static User AsUpdated(this UserUpdateDto user)
         {
             return new User
@@ -108,6 +106,13 @@ namespace LP304_Takt.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email
+            };
+        }
+        public static User UpdatedRole(this UpdateUserRoleDto user)
+        {
+            return new User
+            {
+                Role = user.Role
             };
         }
 

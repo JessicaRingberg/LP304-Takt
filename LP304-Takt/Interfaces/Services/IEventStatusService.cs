@@ -1,10 +1,11 @@
 ﻿using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Interfaces.Services
 {
     public interface IEventStatusService : IBaseService<EventStatus>
     {
-        Task Add(EventStatus eventStatus);
+        Task<ServiceResponse<int>> Add(EventStatus eventStatus);
        
     }
 }

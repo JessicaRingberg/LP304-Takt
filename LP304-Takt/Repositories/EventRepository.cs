@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
@@ -13,37 +14,59 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Event eEvent, int orderId, int eventStatusId)
+        public async Task<ServiceResponse<int>> Add(Event eEvent, int orderId, int eventStatusId)
         {
             var order = await _context.Orders.FindAsync(orderId);
             var eventStatus = await _context.EventStatuses.FindAsync(eventStatusId);
-
             if (order is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"No order with {orderId} was found!"
+                };
             }
 
-            if (eventStatus is null)
+            else if (eventStatus is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"No eventstatus with id {eventStatusId} was found!"
+                };
             }
 
+            else
             eEvent.EventStatusId = eventStatusId;
             eEvent.OrderId = orderId;
             await _context.Events.AddAsync(eEvent);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Event added"
+            };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var eEvent = await _context.Events
                 .FirstOrDefaultAsync(e => e.Id == id);
             if (eEvent is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Event with id: {id} was not found"
+                };
             }
             _context.Events.Remove(eEvent);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Event with id: {id} deleted"
+            };
         }
 
         public async Task<ICollection<Event>> GetEntities()
@@ -60,24 +83,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task UpdateEntity(Event eEvent, int eventId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Event eEvent, int eventId)
         {
             var eventToUpdate = await _context.Events
                 .FindAsync(eventId);
             if (eventToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = true,
+                    Message = $"Event with id: {eventId} was not found"
+                };
             }
 
-            MapEvent(eventToUpdate, eEvent);
-
+            eventToUpdate.Reason = eEvent.Reason;
             await _context.SaveChangesAsync();
-        }
-
-        private static Event MapEvent(Event newEvent, Event oldEvent)
-        {
-            newEvent.Reason = oldEvent.Reason;
-            return newEvent;
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Event with id: {eventId} updated"
+            };
         }
     }
 }

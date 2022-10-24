@@ -1,11 +1,10 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -21,20 +20,26 @@ namespace LP304_Takt.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost, Authorize]
-        public async Task<IActionResult> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
-        {
-            await _orderService.Add(order.AsEntity(), areaId);
-
-            return Ok();
+        //[Authorize]
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<int>>> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
+        {           
+            var response = await _orderService.Add(order.AsEntity(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<OrderDto>>> GetOrders()
         {
             return Ok((await _orderService.GetEntities()).Select(order => order.AsDto()));
         }
 
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {
@@ -49,19 +54,28 @@ namespace LP304_Takt.Controllers
         }
 
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpDelete]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            await _orderService.DeleteEntity(id);
-            return Ok();
+            var response = await _orderService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDto order, [FromQuery] int orderId)
         {
-            await _orderService.UpdateEntity(order.AsUpdated(), orderId);
-
-            return Ok();
+            var response = await _orderService.UpdateEntity(order.AsUpdated(), orderId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

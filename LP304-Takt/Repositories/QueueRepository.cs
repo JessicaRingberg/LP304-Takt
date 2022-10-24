@@ -1,47 +1,60 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LP304_Takt.Repositories
 {
     public class QueueRepository : IQueueRepository
     {
-        //private readonly DataContext _context;
+        private readonly DataContext _context;
 
-        //public QueueRepository(DataContext context)
-        //{
-        //    _context = context;
-        //}
-        public Task Add(Queue queue, int id)
+        public QueueRepository(DataContext context)
         {
-            throw new NotImplementedException();
-            //var order = await _context.Orders.FindAsync(id);
-            //if(order is null)
-            //{
-            //    return;
-            //}
-            //queue.OrderId = id;
-            //_context.Queue.Add(queue);
-            //await _context.SaveChangesAsync();
+            _context = context;
+        }
+        public async Task<ICollection<Queue>> GetAllQueues()
+        {
+            return await _context.Queue
+                .Include(q => q.Orders)
+                .ToListAsync();
         }
 
-        public Task DeleteEntity(int id)
+        public async Task<Queue?> GetOneQueue(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Queue
+               .Include(q => q.Orders)
+               .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public Task<ICollection<Queue>> GetEntities()
+        public async Task<ServiceResponse<int>> DeleteOrderFromQueue(int queueId, int orderId)
         {
-            throw new NotImplementedException();
+            var queueToUpdate = await _context.Queue
+                .Include(q => q.Orders)
+                .FirstOrDefaultAsync(q => q.Id == queueId);
+            if (queueToUpdate is null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Queue with id {queueId} was not found"
+                };
+            }
+
+            foreach (var order in queueToUpdate.Orders.Where(order => order.Id.Equals(orderId)))
+            {
+                queueToUpdate.Orders.Remove(order);
+            }
+
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Queue with id {queueId} updated"
+            };
+
         }
 
-        public Task<Queue?> GetEntity(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateEntity(Queue entity, int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -356,6 +356,9 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AreaId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
@@ -372,14 +375,12 @@ namespace LP304_Takt.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PasswordResetToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("RefreshToken")
@@ -389,7 +390,7 @@ namespace LP304_Takt.Migrations
                     b.Property<DateTime?>("ResetTokenExpires")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Role")
+                    b.Property<int?>("Role")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TokenCreated")
@@ -405,6 +406,8 @@ namespace LP304_Takt.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
 
                     b.HasIndex("CompanyId");
 
@@ -499,7 +502,7 @@ namespace LP304_Takt.Migrations
                         .IsRequired();
 
                     b.HasOne("LP304_Takt.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -520,9 +523,15 @@ namespace LP304_Takt.Migrations
 
             modelBuilder.Entity("LP304_Takt.Models.User", b =>
                 {
+                    b.HasOne("LP304_Takt.Models.Area", "Area")
+                        .WithMany()
+                        .HasForeignKey("AreaId");
+
                     b.HasOne("LP304_Takt.Models.Company", "Company")
                         .WithMany("Users")
                         .HasForeignKey("CompanyId");
+
+                    b.Navigation("Area");
 
                     b.Navigation("Company");
                 });
@@ -558,6 +567,8 @@ namespace LP304_Takt.Migrations
                     b.Navigation("Alarms");
 
                     b.Navigation("Events");
+
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Queue", b =>

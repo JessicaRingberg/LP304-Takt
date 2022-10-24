@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
@@ -13,30 +14,58 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Area area, int companyId)
+        public async Task<ServiceResponse<int>> Add(Area area, int companyId)
         {
+            var found = await _context.Areas.FirstOrDefaultAsync(c => c.Name == area.Name);
             var company = await _context.Companies.FindAsync(companyId);
-
-            if (company is null)
+            if (found is not null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area with name {area.Name} already exists!"
+                };
             }
+            
+            else if (company is null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area must belong to a company"
+                };
+            }
+            else
             area.Queue = new Queue();
             area.CompanyId = companyId;
             await _context.Areas.AddAsync(area);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Area {area.Name} added"
+            };
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var area = await _context.Areas
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (area is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area wit id: {id} was not found"
+                };
             }
             _context.Areas.Remove(area);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Area with id: {area.Id} deleted"
+            };
         }
 
         public async Task<ICollection<Area>> GetEntities()
@@ -54,26 +83,34 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateEntity(Area area, int areaId)
+        public async Task<ICollection<Event?>> GetEventsFromArea(int areaId)
+        {
+            return await _context.Events
+                .Include(e => e.EventStatus)
+                .Where(e => e.Order.AreaId == areaId).ToListAsync();
+        }
+
+        public async Task<ServiceResponse<int>> UpdateEntity(Area area, int areaId)
         {
             var areaToUpdate = await _context.Areas
                 .FindAsync(areaId);
             if (areaToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area with id: {areaId} was not found"
+                };
             }
 
-            MapArea(areaToUpdate, area);
-
+            areaToUpdate.Name = area.Name;
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Area with id: {area.Id} updated"
+            };
         }
-
-        private static Area MapArea(Area newArea, Area oldArea)
-        {
-            newArea.Name = oldArea.Name;
-            return newArea;
-        }
-
 
     }
 }

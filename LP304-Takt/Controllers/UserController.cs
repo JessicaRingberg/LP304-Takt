@@ -1,4 +1,6 @@
-﻿using LP304_Takt.DTO;
+﻿using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.ReadDTO;
+using LP304_Takt.DTO.UpdateDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -20,7 +22,7 @@ namespace LP304_Takt.Controllers
             _userService = userService;
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
         {
@@ -42,7 +44,8 @@ namespace LP304_Takt.Controllers
             {
                 return BadRequest(response);
             }
-
+     
+            SetRefreshToken(response.RefreshToken.Token);
             return Ok(response);
         }
 
@@ -58,9 +61,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<ActionResult<ServiceResponse<string>>> ResetPassword(ResetPasswordRequest request)
+        public async Task<ActionResult<ServiceResponse<string>>> ResetPassword(ResetPasswordRequest request, [FromQuery] string token)
         {
-            var response = await _userService.ResetPassword(request);
+            var response = await _userService.ResetPassword(request, token);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -79,29 +82,41 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        //[Authorize]
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken(string token)
+        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken()
         {
-            var response = await _userService.RefreshToken(token);
+            var refreshToken = Request.Cookies["refreshToken"];
+            var response = await _userService.RefreshToken(refreshToken);
+            SetRefreshToken(response.RefreshToken.Token);
+            
             if (!response.Success)
             {
                 return BadRequest(response);
             }
+            
             return Ok(response);
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize]
+        [HttpGet("isAuth")]
+        public ActionResult IsAuth()
+        {
+            return Ok();
+        }
+
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
-            return Ok((await _userService.GetEntities()).Select(user => user.AsDto()));
+            return Ok((await _userService.GetAllUsers()).Select(user => user.AsDto()));
         }
 
-        [Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var user = await _userService.GetEntity(id);
+            var user = await _userService.GetUserById(id);
             
             if (user is null)
             {
@@ -111,19 +126,19 @@ namespace LP304_Takt.Controllers
             return Ok(user.AsDto());
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
-        [HttpGet("{userId}/companies")]
-        public async Task<ActionResult<CompanyDto>> GetUserByCompany(int userId)
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpGet("companies/{userId}")]
+        public async Task<ActionResult<CompanyByUserDto>> GetCompanyByUser(int userId)
         {
             var company = await _userService.GetCompanyByUser(userId);
             if (company is null)
             {
                 return NotFound("Not found");
             }
-            return Ok(company.AsDto());
+            return Ok(company.AsUserCompanyDto());
         }
 
-        [Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<string>>> DeleteUser(int id)
         {
@@ -135,23 +150,51 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto user, [FromQuery] int userId)
         {
-            await _userService.UpdateEntity(user.AsUpdated(), userId);
-
-            return Ok();
+            var response = await _userService.UpdateUser(user.AsUpdated(), userId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
-        //private void SetRefreshToken(string newRefreshToken)
-        //{
-        //    var cookieOptions = new CookieOptions
-        //    {
-        //        HttpOnly = true,
-        //        Expires = DateTime.Now.AddDays(7)
-        //    };
-        //    Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
 
-        //}
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPut("assignArea/{userId}")]
+        public async Task<IActionResult> AddAreaToUser(int userId, int areaId)
+        {
+            var response = await _userService.AddAreaToUser(userId, userId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPatch]
+        public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)
+        {
+            var response = await _userService.UpdateUserRole(user.UpdatedRole(), userId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        private void SetRefreshToken(string newRefreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
+
+        }
     }
 }

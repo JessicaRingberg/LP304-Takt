@@ -1,5 +1,5 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -21,7 +21,7 @@ namespace LP304_Takt.Controllers
             _alarmTypeService = alarmTypeService;
         }
 
-        [Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddAlarmType(AlarmTypeCreateDto alarmType)
         {
@@ -33,14 +33,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AlarmTypeDto>>> GetAlarmTypes()
         {
             return Ok((await _alarmTypeService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AlarmTypeDto>> GetAlarmType(int id)
         {
@@ -54,19 +54,28 @@ namespace LP304_Takt.Controllers
             return Ok(alarmType.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAlarmType(int id)
         {
-            await _alarmTypeService.DeleteEntity(id);
-            return Ok();
+            var response = await _alarmTypeService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateAlarmType([FromBody] AlarmTypeUpdateDto alarmType, [FromQuery] int alarmTypeId)
         {
-            await _alarmTypeService.UpdateEntity(alarmType.AsUpdated(), alarmTypeId);
-
-            return Ok();
+            var response = await _alarmTypeService.UpdateEntity(alarmType.AsUpdated(), alarmTypeId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

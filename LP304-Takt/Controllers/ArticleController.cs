@@ -1,16 +1,11 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTO;
-using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
-using LP304_Takt.Models;
-using LP304_Takt.Services;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LP304_Takt.Controllers
 {
@@ -25,6 +20,7 @@ namespace LP304_Takt.Controllers
             _articleService = articleService;
         }
 
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddArticle([FromBody] ArticleCreateDto article)
         {
@@ -36,12 +32,14 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<ArticleDto>>> GetArticles()
         {
             return Ok((await _articleService.GetEntities()).Select(a => a.AsDto()));
         }
 
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
@@ -53,19 +51,28 @@ namespace LP304_Takt.Controllers
             return Ok(article.AsDto());
         }
 
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
-            await _articleService.DeleteEntity(id);
-            return Ok();
+            var response = await _articleService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateArticle([FromBody] ArticleUpdateDto article, [FromQuery] int articleId)
         {
-            await _articleService.UpdateEntity(article.AsUpdated(), articleId);
-
-            return Ok();
+            var response = await _articleService.UpdateEntity(article.AsUpdated(), articleId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

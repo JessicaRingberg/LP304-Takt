@@ -1,5 +1,5 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -21,23 +21,26 @@ namespace LP304_Takt.Controllers
             _configService = configService;
         }
 
-        [Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddConfig([FromBody] ConfigCreateDto config, [FromQuery] int areaId)
         {
-            await _configService.Add(config.AsEntity(), areaId);
-
-            return Ok();
+            var response = await _configService.Add(config.AsEntity(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<ConfigDto>>> GetConfigs()
         {
             return Ok((await _configService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ConfigDto>> GetConfig(int id)
         {
@@ -51,19 +54,28 @@ namespace LP304_Takt.Controllers
             return Ok(config.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConfig(int id)
         {
-            await _configService.DeleteEntity(id);
-            return Ok();
+            var response = await _configService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize(Roles = nameof(Role.Admin))]
+        [HttpPut]
         public async Task<IActionResult> UpdateConfig([FromBody] ConfigUpdateDto config, [FromQuery] int configId)
         {
-            await _configService.UpdateEntity(config.AsUpdated(), configId);
-
-            return Ok();
+            var response = await _configService.UpdateEntity(config.AsUpdated(), configId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

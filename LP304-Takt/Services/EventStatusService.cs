@@ -1,6 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
@@ -12,14 +13,14 @@ namespace LP304_Takt.Services
         {
             _eventStatusRepository = eventStatusRepository;
         }
-        public async Task Add(EventStatus eventStatus)
+        public async Task<ServiceResponse<int>> Add(EventStatus eventStatus)
         {
-            await _eventStatusRepository.Add(eventStatus);
+            return await _eventStatusRepository.Add(eventStatus);
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
-            await _eventStatusRepository.DeleteEntity(id);
+            return await _eventStatusRepository.DeleteEntity(id);
         }
 
         public async Task<ICollection<EventStatus>> GetEntities()
@@ -32,9 +33,9 @@ namespace LP304_Takt.Services
             return await _eventStatusRepository.GetEntity(id);
         }
 
-        public async Task UpdateEntity(EventStatus eventStatus, int eventStatusId)
+        public async Task<ServiceResponse<int>> UpdateEntity(EventStatus eventStatus, int eventStatusId)
         {
-            await _eventStatusRepository.UpdateEntity(eventStatus, eventStatusId);
+            return await _eventStatusRepository.UpdateEntity(eventStatus, eventStatusId);
         }
     }
 }

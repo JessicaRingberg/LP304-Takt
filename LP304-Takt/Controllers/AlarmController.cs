@@ -1,5 +1,5 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -21,23 +21,26 @@ namespace LP304_Takt.Controllers
             _alarmService = alarmService;
         }
 
-        [Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddAlarm([FromBody] AlarmCreateDto alarm, [FromQuery] int orderId, [FromQuery] int alarmTypeId)
         {
-            await _alarmService.Add(alarm.AsEntity(), orderId, alarmTypeId);
-
-            return Ok();
+            var response = await _alarmService.Add(alarm.AsEntity(), orderId, alarmTypeId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AlarmDto>>> GetAlarms()
         {
             return Ok((await _alarmService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AlarmDto>> GetAlarm(int id)
         {
@@ -51,19 +54,28 @@ namespace LP304_Takt.Controllers
             return Ok(alarm.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
-            await _alarmService.DeleteEntity(id);
-            return Ok();
+            var response = await _alarmService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPut]
         public async Task<IActionResult> UpdateAlarm([FromBody] AlarmUpdateDto alarm, [FromQuery] int alarmId)
         {
-            await _alarmService.UpdateEntity(alarm.AsUpdated(), alarmId);
-
-            return Ok();
+            var response = await _alarmService.UpdateEntity(alarm.AsUpdated(), alarmId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

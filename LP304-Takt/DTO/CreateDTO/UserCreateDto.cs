@@ -2,9 +2,9 @@
 {
     public record UserCreateDto
     {
-        public string FirstName { get; init; } = string.Empty;
-        public string LastName { get; init; } = string.Empty;
-        public string Email { get; init; } = string.Empty;
-        public string Password { get; init; } = string.Empty;
+        public string FirstName { get; init; } = null!;
+        public string LastName { get; init; } = null!;
+        public string Email { get; init; } = null!;
+        //public string Password { get; init; } = null!;
     }
 }

@@ -18,9 +18,9 @@ namespace LP304_Takt.Services
             return await _alarmTypeRepository.Add(alarmType);
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
-            await _alarmTypeRepository.DeleteEntity(id);
+            return await _alarmTypeRepository.DeleteEntity(id);
         }
 
         public async Task<ICollection<AlarmType>> GetEntities()
@@ -33,9 +33,9 @@ namespace LP304_Takt.Services
             return await _alarmTypeRepository.GetEntity(id);
         }
 
-        public async Task UpdateEntity(AlarmType alarmType, int alarmTypeId)
+        public async Task<ServiceResponse<int>> UpdateEntity(AlarmType alarmType, int alarmTypeId)
         {
-            await _alarmTypeRepository.UpdateEntity(alarmType, alarmTypeId);
+           return await _alarmTypeRepository.UpdateEntity(alarmType, alarmTypeId);
         }
     }
 }

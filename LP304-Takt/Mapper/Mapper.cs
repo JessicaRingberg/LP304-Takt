@@ -1,5 +1,6 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.ReadDTO;
 using LP304_Takt.Models;
 
 namespace LP304_Takt.Mapper
@@ -15,7 +16,7 @@ namespace LP304_Takt.Mapper
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
                 Reason = alarm.Reason,
-                AlarmType = alarm.AlarmType?.Name
+                AlarmType = alarm.AlarmType.AsDto()
             };
         }
 
@@ -24,8 +25,7 @@ namespace LP304_Takt.Mapper
             return new AlarmTypeDto
             {
                 Id = alarmType.Id,
-                Name = alarmType.Name,
-                Alarms = alarmType.Alarms.Select(a => a.AsDto()).ToList()
+                Name = alarmType.Name
             };
         }
 
@@ -35,9 +35,10 @@ namespace LP304_Takt.Mapper
             {
                 Id = area.Id,
                 Name = area.Name,
-                Stations = area.Stations.Select(s => s.AsDto()).ToList()
+                Stations = area.Stations.Select(s => s.AsDto()).ToList(),
             };
         }
+
         public static ArticleDto AsDto(this Article article)
         {
             return new ArticleDto
@@ -57,6 +58,15 @@ namespace LP304_Takt.Mapper
                 Areas = company.Areas.Select(a => a.AsDto()).ToList()
             };
         }
+        public static CompanyByUserDto AsUserCompanyDto(this User user)
+        {
+            return new CompanyByUserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Company = user.Company.Name
+            };
+        }
 
         public static ConfigDto AsDto(this Config config)
         {
@@ -66,8 +76,8 @@ namespace LP304_Takt.Mapper
                 LightsOn = config.LightsOn,
                 SoundOn = config.SoundOn,
                 FilterTime = config.FilterTime,
-                MacBidisp = config.MacBidisp
-             
+                MacBidisp = config.MacBidisp,
+                AreaId = config.AreaId
             };
         }
 
@@ -80,7 +90,7 @@ namespace LP304_Takt.Mapper
                 EndTime = eEvent.EndTime,
                 Duration = eEvent.Duration,
                 Reason = eEvent.Reason,
-                EventStatus = eEvent.EventStatus?.Name
+                EventStatus = eEvent.EventStatus.AsDto()
             };
         }
 
@@ -89,8 +99,7 @@ namespace LP304_Takt.Mapper
             return new EventStatusDto
             {
                 Id = eventStatus.Id,
-                Name = eventStatus.Name,
-                Events = eventStatus.Events.Select(e => e.AsDto()).ToList()
+                Name = eventStatus.Name
             };
 
         }
@@ -100,7 +109,8 @@ namespace LP304_Takt.Mapper
             {
                 Id = orderDetails.Id,
                 Quantity = orderDetails.Quantity,
-                Article = orderDetails.Article?.Name
+                Article = orderDetails.Article?.Name,
+                OrderId = orderDetails.OrderId    
             };
         }
       
@@ -125,6 +135,21 @@ namespace LP304_Takt.Mapper
                 Events = order.Events.Select(e => e.AsDto()).ToList()
             };
         }
+        public static OrderInQueueDto AsQueueDto(this Order order)
+        {
+            return new OrderInQueueDto
+            {
+                Id = order.Id,
+            };
+        }
+        public static QueueDto AsDto(this Queue queue)
+        {
+            return new QueueDto
+            {
+                Id = queue.Id,
+                Orders = queue.Orders.Select(o => o.AsQueueDto()).ToList()
+            };
+        }
 
         public static StationDto AsDto(this Station station)
         {
@@ -139,135 +164,17 @@ namespace LP304_Takt.Mapper
 
         public static UserDto AsDto(this User user)
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
             return new UserDto
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email
-            };
-        }
-
-
-
-        public static Alarm AsEntity(this AlarmCreateDto alarm)
-        {
-            return new Alarm
-            {
-                StartTime = alarm.StartTime,
-                EndTime = alarm.EndTime,
-                Duration = alarm.Duration,
-                Reason = alarm.Reason
-            };
-        }
-
-        public static AlarmType AsEntity(this AlarmTypeCreateDto alarmType)
-        {
-            return new AlarmType
-            {
-                Name = alarmType.Name
-            };
-        }
-
-        public static Area AsEntity(this AreaCreateDto area)
-        {
-            return new Area
-            {
-                Name = area.Name
-            };
-        }
-        public static Article AsEntity(this ArticleCreateDto article)
-        {
-            return new Article
-            {
-                Name = article.Name,
-                ArticleNumber = article.ArticleNumber
-            };
-        }
-        public static Company AsEntity(this CompanyCreateDto company)
-        {
-            return new Company
-            {
-                Name = company.Name
-            };
-        }
-
-        public static Config AsEntity(this ConfigCreateDto config)
-        {
-            return new Config
-            {
-                LightsOn = config.LightsOn,
-                SoundOn = config.SoundOn,
-                FilterTime = config.FilterTime,
-                MacBidisp = config.MacBidisp
-            };
-        }
-
-        public static Event AsEntity(this EventCreateDto eEvent)
-        {
-            return new Event
-            {
-                StartTime = eEvent.StartTime,
-                EndTime = eEvent.EndTime,
-                Duration = eEvent.Duration,
-                Reason = eEvent.Reason
-            };
-        }
-
-        public static EventStatus AsEntity(this EventStatusCreateDto eventStatus)
-        {
-            return new EventStatus
-            {
-                Name = eventStatus.Name
-            };
-        }
-
-        public static OrderDetails AsEntity(this OrderDetailsCreateDto orderDetails)
-        {
-            return new OrderDetails
-            {
-
-                Quantity = orderDetails.Quantity
-            };
-        }
-        public static Order AsEntity(this OrderCreateDto order)
-        {
-            return new Order
-            {
-
-                StartTime = order.StartTime,
-                EndTime = order.EndTime,
-                RunSetDec = order.RunSetDec,
-                ChangeSetDec = order.ChangeSetDec,
-                PartsProd = order.PartsProd,
-                Backlog = order.Backlog,
-                RunSecSet = order.RunSecSet,
-                ChangeSecSet = order.ChangeSecSet,
-                TaktSet = order.TaktSet,
-                LastPartProd = order.LastPartProd,
-                Takt = order.Takt
-            };
-        }
-
-
-        public static Station AsEntity(this StationCreateDto station)
-        {
-            return new Station
-            {
-                Name = station.Name,
-                Andon = station.Andon,
-                Finished = station.Finished
-            };
-        }
-
-        public static User AsEntity(this UserCreateDto user)
-        {
-            return new User
-            {
                 Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName
+                Area = user.Area?.Name,
+                Role = user.Role.ToString()
             };
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
 
         

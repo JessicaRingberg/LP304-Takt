@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using LP304_Takt.DTO;
+﻿using LP304_Takt.DTO;
 using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
@@ -22,12 +21,16 @@ namespace LP304_Takt.Controllers
             _stationService = stationService;
         }
 
-        [HttpPost, Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPost]
         public async Task<IActionResult> AddStation([FromBody] StationCreateDto station, [FromQuery] int areaId)
         {
-            await _stationService.Add(station.AsEntity(), areaId);
-
-            return Ok();
+            var response = await _stationService.Add(station.AsEntity(), areaId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [Authorize]
@@ -37,9 +40,9 @@ namespace LP304_Takt.Controllers
             return Ok((await _stationService.GetEntities()).Select(s => s.AsDto()));
         }
 
-        [Authorize]
+        //[Authorized(Role.SuperUser)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<StationDto>> GetCompany(int id)
+        public async Task<ActionResult<StationDto>> GetOneStation(int id)
         {
             var station = await _stationService.GetEntity(id);
 
@@ -51,19 +54,28 @@ namespace LP304_Takt.Controllers
             return Ok(station.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.SuperUser, Role.User)]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStation(int id)
         {
-            await _stationService.DeleteEntity(id);
-            return Ok();
+            var response = await _stationService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPut]
         public async Task<IActionResult> UpdateStation([FromBody] StationUpdateDto station, [FromQuery] int stationId)
         {
-            await _stationService.UpdateEntity(station.AsUpdated(), stationId);
-
-            return Ok();
+            var response = await _stationService.UpdateEntity(station.AsUpdated(), stationId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

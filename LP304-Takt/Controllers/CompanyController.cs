@@ -1,5 +1,5 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -21,7 +21,8 @@ namespace LP304_Takt.Controllers
             _companyService = companyService;
         }
 
-        [HttpPost, Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddCompany(CompanyCreateDto company)
         {
             var response = await _companyService.Add(company.AsEntity());
@@ -32,14 +33,15 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
             return Ok((await _companyService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [HttpGet("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
             var company = await _companyService.GetEntity(id);
@@ -51,27 +53,36 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsDto());
         }
 
-        [HttpGet("{companyId}/users"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize]
+        [HttpGet("{companyId}/users")]
         public async Task<ActionResult<List<UserDto>>> GetUserByCompany(int companyId)
         {
             var users = (await _companyService.GetUserByCompany(companyId)).Select(u => u.AsDto());
             return Ok(users);
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
-            await _companyService.DeleteEntity(id);
-            return Ok();
+            var response = await _companyService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        //[Authorize]
+        [HttpPut]
         public async Task<IActionResult> UpdateCompany([FromBody] CompanyUpdateDto company, [FromQuery] int companyId)
         {
-            await _companyService.UpdateEntity(company.AsUpdated(), companyId);
-
-
-            return Ok();
+            var response = await _companyService.UpdateEntity(company.AsUpdated(), companyId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
     }

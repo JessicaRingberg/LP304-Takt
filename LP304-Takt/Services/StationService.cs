@@ -1,6 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Services
 {
@@ -13,14 +14,14 @@ namespace LP304_Takt.Services
             _stationRepository = stationRepository;
         }
 
-        public async Task Add(Station station, int areaId)
+        public async Task<ServiceResponse<int>> Add(Station station, int areaId)
         {
-            await _stationRepository.Add(station, areaId);
+            return await _stationRepository.Add(station, areaId);
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
-            await _stationRepository.DeleteEntity(id);
+            return await _stationRepository.DeleteEntity(id);
         }
 
         public async Task<ICollection<Station>> GetEntities()
@@ -33,9 +34,9 @@ namespace LP304_Takt.Services
             return await _stationRepository.GetEntity(id);
         }
 
-        public async Task UpdateEntity(Station station, int stationId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Station station, int stationId)
         {
-            await _stationRepository.UpdateEntity(station, stationId);
+            return await _stationRepository.UpdateEntity(station, stationId);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace LP304_Takt.Repositories
@@ -14,28 +15,57 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task Add(Config config, int areaId)
+        public async Task<ServiceResponse<int>> Add(Config config, int areaId)
         {
             var area = await _context.Areas.FindAsync(areaId);
-
-            if (area != null)
+            var found = await _context.Configs.FirstOrDefaultAsync(c => c.AreaId.Equals(areaId));
+            if (area is null)
             {
-                config.AreaId = areaId;
-                await _context.Configs.AddAsync(config);
-                await _context.SaveChangesAsync();
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Config must belong to an area"
+                };
             }
+            if (found is not null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Area {area.Name} already has a config!"
+                };
+            }
+
+            config.AreaId = areaId;
+            await _context.Configs.AddAsync(config);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Config added!"
+            };
+
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var config = await _context.Configs
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (config is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Config with id: {id} was not  found"
+                };
             }
             _context.Configs.Remove(config);
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Config with id: {id} deleted"
+            };
         }
 
         public async Task<ICollection<Config>> GetEntities()
@@ -52,24 +82,26 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task UpdateEntity(Config config, int configId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Config config, int configId)
         {
             var configToUpdate = await _context.Configs
                 .FindAsync(configId);
             if (configToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Config with id: {configId} was not found"
+                };
             }
 
-            MapConfig(configToUpdate, config);
-
+            configToUpdate.MacBidisp = config.MacBidisp;
             await _context.SaveChangesAsync();
-        }
-
-        private static Config MapConfig(Config newConfig, Config oldConfig)
-        {
-            newConfig.MacBidisp = oldConfig.MacBidisp;
-            return newConfig;
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Config with id: {configId} updated"
+            };
         }
     }
 }

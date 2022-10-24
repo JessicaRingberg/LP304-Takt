@@ -1,6 +1,6 @@
 ﻿using LP304_Takt.Models;
 
-namespace LP304_Takt.DTO
+namespace LP304_Takt.DTO.ReadDto
 {
     public record ConfigDto
     {
@@ -8,6 +8,7 @@ namespace LP304_Takt.DTO
         public bool LightsOn { get; init; }
         public bool SoundOn { get; init; }
         public int FilterTime { get; init; }
-        public string MacBidisp { get; init; } = string.Empty;
+        public string MacBidisp { get; init; } = null!;
+        public int AreaId { get; init; }
     }
 }

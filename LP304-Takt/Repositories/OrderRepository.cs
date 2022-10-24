@@ -1,9 +1,7 @@
 ﻿using LP304_Takt.Interfaces.Repositories;
 using LP304_Takt.Models;
-using LP304_Takt.Services;
+using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Linq;
 
 namespace LP304_Takt.Repositories
 {
@@ -15,79 +13,134 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-        public async Task Add(Order order, int areaId)
+        public async Task<ServiceResponse<int>> Add(Order order, int areaId)
         {
-            var area = await _context.Areas.FindAsync(areaId);
+            var area = await _context.Areas
+                .Include(a => a.Orders)
+                .FirstOrDefaultAsync(a => a.Id == areaId);
 
-            if (area != null)
+            if (area is null)
             {
-                order.AreaId = area.Id;
-                await _context.Orders.AddAsync(order);
-                await _context.SaveChangesAsync();
-                //var area = await _context.Areas.FirstOrDefaultAsync(a => a.Stations.Equals(station));
-                //if order start time is before or same time as end time && stationId equals station.Id
-                if (await _context.Orders.AnyAsync(o => o.EndTime.Equals(order.StartTime)))
+                return new ServiceResponse<int>()
                 {
-                   await _context.SaveChangesAsync();
-                }
+                    Success = false,
+                    Message = "Order must belong to an Area."
+                };
+                               
             }
+            var queue = await _context.Queue
+                .Include(q => q.Orders)
+                .FirstOrDefaultAsync(q => q.Id == areaId);
+            if(queue is null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = "Area is incomplete"
+                };
+            }
+            foreach (var item in area.Orders)
+            {
+                if (order.StartTime <= item.EndTime)
+                {
+                    queue.Orders?.Add(order);
+                }
+
+            }
+           
+            order.AreaId = area.Id;
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = "Order added"
+            };
+
         }
     
         public async Task<ICollection<Order>> GetEntities()
         {
-#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
             return await _context.Orders
                 .Include(o => o.OrderDetails)
                 .ThenInclude(o => o.Article)
                 .Include(o => o.Alarms)
+                .ThenInclude(a => a.AlarmType)
                 .Include(o => o.Events)
+                .ThenInclude(e => e.EventStatus)
                 .ToListAsync();
-#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
         }
 
         public async Task<Order?> GetEntity(int id)
         {
-#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
             return await _context.Orders
                 .Include(o => o.OrderDetails)
                 .ThenInclude(o => o.Article)
                 .Include(o => o.Alarms)
+                .ThenInclude(a => a.AlarmType)
                 .Include(o => o.Events)
+                .ThenInclude(e => e.EventStatus)
                 .FirstOrDefaultAsync(a => a.Id == id);
-#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var order = await _context.Orders
                 .FirstOrDefaultAsync(a => a.Id == id);
             if (order is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order with id: {id} was not found"
+                };
             }
             _context.Orders.Remove(order);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Order with id: {id} deleted"
+            };
         }
 
-        public async Task UpdateEntity(Order order, int orderId)
+        public async Task<ServiceResponse<int>> UpdateEntity(Order order, int orderId)
         {
             var orderToUpdate = await _context.Orders.FindAsync(orderId);
             if(orderToUpdate is null)
             {
-                return;
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order with id: {orderId} was not found"
+                };
             }
-            orderToUpdate.ChangeSecSet = order.ChangeSecSet;
-            orderToUpdate.ChangeSetDec = order.ChangeSetDec;
-            orderToUpdate.Backlog = order.Backlog;
-            orderToUpdate.LastPartProd = order.LastPartProd;
-            orderToUpdate.PartsProd = order.PartsProd;
-            orderToUpdate.StartTime = order.StartTime;
-            orderToUpdate.Takt = order.Takt;
-            orderToUpdate.EndTime = order.EndTime;
-            orderToUpdate.RunSecSet = order.RunSecSet;
-            orderToUpdate.RunSetDec = order.RunSetDec;
-            orderToUpdate.TaktSet = order.TaktSet;
+
+            MapOrder(orderToUpdate, order);
+
             await _context.SaveChangesAsync();
+            return new ServiceResponse<int>()
+            {
+                Success = true,
+                Message = $"Order with id: {orderId} updated"
+            };
+        }
+
+        private static Order MapOrder(Order newOrder, Order oldOrder)
+        {
+            newOrder.ChangeSecSet = oldOrder.ChangeSecSet;
+            newOrder.ChangeSetDec = oldOrder.ChangeSetDec;
+            newOrder.Backlog = oldOrder.Backlog;
+            newOrder.LastPartProd = oldOrder.LastPartProd;
+            newOrder.PartsProd = oldOrder.PartsProd;
+            newOrder.StartTime = oldOrder.StartTime;
+            newOrder.Takt = oldOrder.Takt;
+            newOrder.EndTime = oldOrder.EndTime;
+            newOrder.RunSecSet = oldOrder.RunSecSet;
+            newOrder.RunSetDec = oldOrder.RunSetDec;
+            newOrder.TaktSet = oldOrder.TaktSet;
+            return newOrder;
         }
 
     }

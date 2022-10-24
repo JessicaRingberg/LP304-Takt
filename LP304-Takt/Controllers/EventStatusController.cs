@@ -1,5 +1,5 @@
-﻿using LP304_Takt.DTO;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
+using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -21,23 +21,26 @@ namespace LP304_Takt.Controllers
             _eventStatusService = eventStatusService;
         }
 
-        [Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPost]
         public async Task<IActionResult> AddEventStatus([FromBody] EventStatusCreateDto eventStatus)
         {
-            await _eventStatusService.Add(eventStatus.AsEntity());
-
-            return Ok();
+            var response = await _eventStatusService.Add(eventStatus.AsEntity());
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<EventStatusDto>>> GetEventStatuses()
         {
             return Ok((await _eventStatusService.GetEntities()).Select(e => e.AsDto()));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<EventStatusDto>> GetEventStatus(int id)
         {
@@ -51,19 +54,28 @@ namespace LP304_Takt.Controllers
             return Ok(eventStatus.AsDto());
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEventStatus(int id)
         {
-            await _eventStatusService.DeleteEntity(id);
-            return Ok();
+            var response = await _eventStatusService.DeleteEntity(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        [HttpPut, Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
+        [HttpPut]
         public async Task<IActionResult> UpdateEventStatus([FromBody] EventStatusUpdateDto eventStatus, [FromQuery] int eventStatusId)
         {
-            await _eventStatusService.UpdateEntity(eventStatus.AsUpdated(), eventStatusId);
-
-            return Ok();
+            var response = await _eventStatusService.UpdateEntity(eventStatus.AsUpdated(), eventStatusId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }
