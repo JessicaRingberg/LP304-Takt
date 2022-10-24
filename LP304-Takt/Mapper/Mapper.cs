@@ -158,7 +158,8 @@ namespace LP304_Takt.Mapper
                 Id = station.Id,
                 Name = station.Name,
                 Andon = station.Andon,
-                Finished = station.Finished
+                Finished = station.Finished,
+                Active = station.Active
             };
         }
 

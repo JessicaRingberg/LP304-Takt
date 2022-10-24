@@ -95,7 +95,8 @@ namespace LP304_Takt.Mapper
         {
             return new Station
             {
-                Name = station.Name
+                Name = station.Name,
+                Active = station.Active
             };
         }
 

@@ -92,6 +92,7 @@ namespace LP304_Takt.Repositories
             }
 
             stationToUpdate.Name = station.Name;
+            stationToUpdate.Active = station.Active;
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {

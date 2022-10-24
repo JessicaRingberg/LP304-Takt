@@ -110,7 +110,8 @@ namespace LP304_Takt.Mapper
             {
                 Name = station.Name,
                 Andon = station.Andon,
-                Finished = station.Finished
+                Finished = station.Finished,
+                Active = station.Active
             };
         }
 
