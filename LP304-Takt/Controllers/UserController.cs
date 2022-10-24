@@ -163,10 +163,10 @@ namespace LP304_Takt.Controllers
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpPut("assignArea/{userId}")]
+        [HttpPut("{userId}/assignArea")]
         public async Task<IActionResult> AddAreaToUser(int userId, int areaId)
         {
-            var response = await _userService.AddAreaToUser(userId, userId);
+            var response = await _userService.AddAreaToUser(userId, areaId);
             if (!response.Success)
             {
                 return BadRequest(response);

@@ -446,6 +446,15 @@ namespace LP304_Takt.Repositories
 
         public async Task<UserResponse<string>> AddAreaToUser(int userId, int areaId)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user is null)
+            {
+                return new UserResponse<string>()
+                {
+                    Success = false,
+                    Message = $"User was not found"
+                };
+            }
             var area = await _context.Areas.FirstOrDefaultAsync(a => a.Id == areaId);
             if (area is null)
             {
@@ -453,15 +462,6 @@ namespace LP304_Takt.Repositories
                 {
                     Success = false,
                     Message = $"Area was not found"
-                };
-            }
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            if(user is null)
-            {
-                return new UserResponse<string>()
-                {
-                    Success = false,
-                    Message = $"User was not found"
                 };
             }
 
