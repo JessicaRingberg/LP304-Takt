@@ -49,17 +49,20 @@ const Table: React.FC<Props> = ({ events }) => {
 
     return (
         <div>
+
             <table className="table-container">
-                <thead>
-                    <tr className="table-columns">
-                        {columns.map(column =>
-                            <th key={column} onClick={() => sorting(column)}>
-                                {column}
-                                <img src={arrow} alt="Sort" />
-                            </th>
-                        )}
-                    </tr>
-                </thead>
+                {eventss?.length ? (
+                    <thead>
+                        <tr className="table-columns">
+                            {columns.map(column =>
+                                <th key={column} onClick={() => sorting(column)}>
+                                    {column}
+                                    <img src={arrow} alt="Sort" />
+                                </th>
+                            )}
+                        </tr>
+                    </thead>
+                ) : <thead><tr><th>No data to be shown</th></tr></thead>}
                 <tbody>
                     {displayedData.map((event: any) =>
                         <tr className="table-rows" key={event.id}>
@@ -70,6 +73,7 @@ const Table: React.FC<Props> = ({ events }) => {
                     )}
                 </tbody>
             </table>
+
             <select onChange={(e) => handleChange(e)}>
                 <option value="5">5</option>
                 <option value="10">10</option>

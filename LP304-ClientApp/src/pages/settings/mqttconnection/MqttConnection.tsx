@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import MqttHost from '../../../models/mqtt/MqttHost';
 import useMqttConnection from '../../../hooks/mqtt/useMqttConnection';
 import './MqttConnection.css'
-import EventMessage from '../../../components/message/EventMessage';
 import FormInput from '../../../components/forminput/FormInput';
+import { useMessageContext } from '../../../hooks/db/useMessageContext';
 
 const MqttConnection: React.FC = () => {
+    const { dispatch } = useMessageContext()
     const [buttonText, setButtonText] = useState<string>("Test connection");
-    const [showMessage, setShowMessage] = useState<boolean>(false);
-    // const [options, setOptions] = useState<MqttOptions>({clientId: "", username: "", password: ""});
     const [style, setStyle] = useState<Object>();
     const [values, setValues] = useState<MqttHost | any>({
         host: "",
@@ -25,13 +24,14 @@ const MqttConnection: React.FC = () => {
             setStyle({
                 backgroundColor: '#41af8c'
             });
+            dispatch({ type: "SUCCESS", message: "Connected to MQTT" })
             setButtonText("Connected");
         } else if (mqttStatus?.status === "Offline") {
             setStyle({
                 backgroundColor: 'salmon'
             });
-            setShowMessage(true)
             setButtonText("Not connected");
+            dispatch({ type: "ERROR", message: "Could not connect to MQTT" })
         } else if (mqttStatus?.status === "Connecting") {
             setStyle({
                 backgroundColor: '#d5ae48'
@@ -39,7 +39,7 @@ const MqttConnection: React.FC = () => {
             setButtonText("Connecting");
         }
 
-    }, [mqttStatus?.status])
+    }, [mqttStatus?.status, dispatch])
 
     const inputs = [
         {
@@ -47,8 +47,8 @@ const MqttConnection: React.FC = () => {
             name: "host",
             type: "text",
             placeholder: "Host",
-            pattern: "[0-9.]{1,20}$",
-            errorMessage: "It should be a valid email address!",
+            pattern: "[0-9.]{1,15}$",
+            errorMessage: "It should be numbers and dots and not longer than 15!",
             label: "Host",
         },
         {
@@ -56,7 +56,7 @@ const MqttConnection: React.FC = () => {
             name: "port",
             type: "number",
             placeholder: "Port",
-            errorMessage: "Password should be 8-20 characters and include atleast 1 letter, 1 number and 1 special character!",
+            errorMessage: "Port should only be number!",
             label: "Port"
         },
         {
@@ -98,12 +98,6 @@ const MqttConnection: React.FC = () => {
     return (
         <main>
             <div className="main-content">
-                <EventMessage
-                    showMessage= {showMessage}
-                    setShowMessage= {setShowMessage}
-                    messageTime={5000}
-                    message={mqttStatus?.status}
-                    isError={true} />
                 <div className="main-header">
                     <h2>Events</h2>
                     <p>Here you can configure and start the Takt</p>

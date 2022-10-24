@@ -1,9 +1,8 @@
 .takt-content {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    margin: 20px 40px;
+        display: flex;
+        justify-items: center;
+        margin-left: auto;
+        margin-right: auto;
 }
 
 .takt-content p {
@@ -17,7 +16,76 @@
         background-color: white;
         border-radius: 5px;
         padding: 30px 60px;
-        border-left: 1px solid rgb(218, 217, 217);
-        border-right: 1px solid rgb(218, 217, 217);
-        border-bottom: 2px solid rgb(202, 202, 202);
+        border-left: 1px solid rgb(224, 224, 224);
+        border-right: 1px solid rgb(224, 224, 224);
+        border-bottom: 2px solid rgb(224, 224, 224);
+}
+
+.station-container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap; 
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: auto;
+    margin-bottom: 20px;
+}
+
+.station-content {
+    display: flex;
+    flex-direction: column;
+    background-color: #c60c30;
+    width: 60px;
+    height: 40px; 
+    justify-content: center;
+    cursor: pointer;
+}
+
+.station-content p {
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    font-size: 10px;
+}
+
+@media screen and (min-width: 600px) {
+
+    .takt-content {
+        max-width: 80%;
+    }
+
+    .station-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap; 
+        align-items: center;
+        justify-content: center;
+        height: fit-content;
+        width: auto;
+        margin-bottom: 20px;
+    }
+    
+    .station-content {
+        display: flex;
+        flex-direction: column;
+        background-color: #c60c30;
+        width: 100px;
+        height: 50px; 
+        justify-content: center;
+        cursor: pointer;
+    }
+    
+    .station-content p {
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1000px) { 
+    .takt-content {
+        max-width: 70%;
+    }
 }

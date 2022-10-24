@@ -1,46 +1,41 @@
 import { useState } from "react";
 import { Cookies } from "react-cookie";
-import { useMessageContext } from "./useMessageContext"
 
-export const usePost = (url: string) => {
+export const useDelete = () => {
     const [data, setData] = useState();
     const [isPending, setIsPending] = useState<boolean>(true);
-    const [postError, setPostError] = useState<string | null>(null)
-    const { dispatch } = useMessageContext()
+    const [error, setError] = useState<string | null>(null)
     let cookie = new Cookies();
 
-    const post = (value: Object) => {
+    const deleteEntity = (url: string) => {
         const abortFetch = new AbortController();
-
+        
         fetch(url, {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + cookie.get("token")
             },
             signal: abortFetch.signal,
-            body: JSON.stringify(value)
         }).then(res => {
             if (!res.ok) {
-                dispatch({type: "ERROR", message: "Could not add company" })
-                throw Error('Could not add the data.')
+                throw Error('Could not fetch the data for that resource')
             }
             return res.json()
         }).then(data => {
             setData(data)
-            dispatch({type: "SUCCESS", message: "Company added" })
             setIsPending(false)
-            setPostError(null)
+            setError(null)
         }).catch(err => {
             if (err.name === "AbortError") {
 
             } else {
-                setPostError(err.message)
                 setIsPending(false)
+                setError(err.message)
             }
         })
         return () => abortFetch.abort();
     }
 
-    return { post, data, isPending, postError }
+    return { deleteEntity, data, isPending, error }
 }

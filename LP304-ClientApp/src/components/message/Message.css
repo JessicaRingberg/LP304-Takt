@@ -20,13 +20,13 @@
 }
 
 .slide-in {
-    -webkit-animation: slide-in 0.5s forwards;
-    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.2s forwards;
+    animation: slide-in 0.2s forwards;
 }
 
 .slide-out {
-    -webkit-animation: slide-out 0.5s forwards;
-    animation: slide-out 0.5s forwards;
+    -webkit-animation: slide-out 0.2s forwards;
+    animation: slide-out 0.2s forwards;
 }
 
 @-webkit-keyframes slide-in {
@@ -49,17 +49,31 @@
 
 @media screen and (min-width: 600px) {
     .error-message {
-        top: 0;
+        top: 80px;
+        right: -400px;
         left: auto;
         min-width: 200px;
         right: 40px;
     }
 
     @-webkit-keyframes slide-in {
-        100% { top: 80px; }
+        0% { top: 80px; right: -400px;}
+        100% { top: 80px; right: 20px;}
     }
     
     @keyframes slide-in {
-        100% { top: 80px; }
+        0% { top: 80px; right: -400px;}
+        100% { top: 80px; right: 20px;}
+    }
+
+    @-webkit-keyframes slide-out {
+        0% { top: 80px; right: 20px;}
+        100% { top: 80px; right: -400px;}
+    }
+    
+    @keyframes slide-out {
+        0% { top: 80px; right: 20px;}
+        100% { top: 80px; right: -400px;}
+
     }
  }

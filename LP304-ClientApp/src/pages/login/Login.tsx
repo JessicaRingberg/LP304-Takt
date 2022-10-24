@@ -1,21 +1,17 @@
 import { useState } from 'react';
-import { Cookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 import FormInput from '../../components/forminput/FormInput';
-import EventMessage from '../../components/message/EventMessage';
 import ILogin from '../../models/db/Login';
 import Input from '../../models/Input';
 import './Login.css';
+import { useLogin } from '../../hooks/db/useLogin';
 
 function Login() {
-  const navigate = useNavigate();
-  const [loginFailed, setLoginFailed] = useState<boolean>(false);
+  const { login, isLoading } = useLogin();
+
   const [values, setValues] = useState<Input | any>({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    keepLoggedIn: false
   });
 
   const inputs = [
@@ -32,57 +28,38 @@ function Login() {
       name: "password",
       type: "password",
       placeholder: "Password",
-      pattern: "{2,}",
       errorMessage: "You need to enter a password",
       label: "Password"
+    },
+    {
+      id: 3,
+      name: "keepLoggedIn",
+      type: "checkbox",
+      placeholder: "Keep me logged in",
+      label: "Keep me logged in"
     }
   ]
 
-  const tryLogin = (login: ILogin) => {
-    fetch('https://localhost:7112/api/User/Login', {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(login)
-    }).then(res => {
-      if (!res.ok) {
-        throw Error('Could not fetch the data for that resource')
-      }
-
-      return res.json()
-    }).then(data => {
-      var cookie = new Cookies();
-      cookie.set("token", data.data)      
-      navigate("/");
-    }).catch(err => {
-      if (err.name === "AbortError") {
-
-      } else {
-        setLoginFailed(true)
-      }
-    })
-  }
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const login: ILogin = { email: values.email, password: values.password }
-    await tryLogin(login)
+    const loginCred: ILogin = { email: values.email, password: values.password, keepLoggedIn: values.keepLoggedIn }
+
+    await login(loginCred);
+
   }
 
   const onChange = (e: any) => {
-    setValues({ ...values, [e.target.name]: e.target.value })
-    setLoginFailed(false);
+    setValues(
+      e.target.type === "checkbox" ?
+        { ...values, [e.target.name]: e.target.checked } :
+        { ...values, [e.target.name]: e.target.value }
+    )
   }
 
   return (
+
     <div className="login">
-                {loginFailed &&
-            <EventMessage
-              showMessage={loginFailed}
-              setShowMessage={setLoginFailed}
-              messageTime={5000}
-              message={"Email or password is incorrect, Please try again."}
-              isError={true} />
-          }
+
       <div className="custom-shape-divider-top-1662895326">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
           <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="shape-fill"></path>
@@ -93,13 +70,13 @@ function Login() {
 
       <form onSubmit={handleSubmit}>
         <div className="logo"></div>
-        <div>
+        <div className="login-container">
           <h2>Login to account</h2>
           {inputs.map(input => (
             <FormInput key={input.id} {...input} value={values[input.name]} onChange={onChange} />
           ))}
-          <button>Login</button>
-          <p>forgot password? <a href="tets">reset it here</a></p>
+          <button disabled={isLoading}>Login</button>
+          <p className="forgot-password">forgot password? <a href="tets">reset it here</a></p>
         </div>
       </form>
 

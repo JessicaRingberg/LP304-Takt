@@ -3,18 +3,14 @@ import MqttStatus from "../../models/mqtt/MqttStatus";
 import MqttHost from "../../models/mqtt/MqttHost";
 import MqttPayload from "../../models/mqtt/MqttPayload";
 
-const UseMqttConnection = (mqttHost: MqttHost) => {
-
-    
+const useMqttConnection = (mqttHost: MqttHost) => {
     var mqtt = require('mqtt/dist/mqtt')
 
     const [client, setClient] = useState<any>();
-    const [isSub, setIsSub] = useState<boolean>(false);
     const [mqttStatus, setMqttStatus] = useState<MqttStatus>();
     const [mqttPayload, setMqttPayload] = useState<MqttPayload>();
 
     const mqttConnect = () => {
-        console.log(mqttHost)
         setMqttStatus({ status: 'Connecting' });
         setClient(mqtt.connect('ws://' + mqttHost.host +  ":" + mqttHost.port ));
     };
@@ -32,7 +28,6 @@ const UseMqttConnection = (mqttHost: MqttHost) => {
           const { topic, qos, payload } = context;
           client.publish(topic, payload, { qos }, (error: any) => {
             if (error) {
-              console.log('Publish error: ', error);
             }
           });
         }
@@ -43,10 +38,8 @@ const UseMqttConnection = (mqttHost: MqttHost) => {
           const { topic, qos } = subscription;
           client.subscribe(topic, { qos }, (error: any) => {
             if (error) {
-              console.log('Subscribe to topics error', error)
               return
             }
-            setIsSub(true)
           });
         }
       };
@@ -56,10 +49,8 @@ const UseMqttConnection = (mqttHost: MqttHost) => {
           const { topic } = subscription;
           client.unsubscribe(topic, (error: any) => {
             if (error) {
-              console.log('Unsubscribe error', error)
               return
             }
-            setIsSub(false);
           });
         }
       };
@@ -92,4 +83,4 @@ const UseMqttConnection = (mqttHost: MqttHost) => {
     return { mqttStatus, mqttPayload , mqttConnect, mqttDisconnect, mqttPublish, mqttSub, mqttUnSub}
 }
 
-export default UseMqttConnection;
+export default useMqttConnection;
