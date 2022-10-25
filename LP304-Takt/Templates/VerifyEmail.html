@@ -4,12 +4,14 @@
     <meta charset="utf-8" />
     <title></title>
 </head>
-<body>
+<body style="font-family: sans-serif;">
     <p>Hej, [user.FirstName]</p><p>
-        Var god verifiera din email för att kunna låsa upp ditt konto.</br>
+        Var god verifiera din email för att kunna låsa upp ditt konto.<br>
         Har du inte bett om att bli registrerad som användare bortse då från detta mail.
     </p>
-    <button><a href=[verifyTokenUrl]>Verifiera email</a></button></br>
+    <a style="background-color: rgb(74, 70, 70); color: rgb(255, 255, 255);
+    padding: 5px 15px; text-decoration: none; border-style: groove; border-color: black; border-width: 1px; "
+       href=[verifyTokenUrl]>Verifiera email</a><br><br>
     <small>Eller kopiera länken nedan och klistra in i din webbläsare</small>
     <p>[verifyTokenUrl]</p>
 </body>

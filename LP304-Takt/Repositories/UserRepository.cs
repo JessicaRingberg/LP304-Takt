@@ -220,7 +220,7 @@ namespace LP304_Takt.Repositories
         public async Task<ICollection<User>> GetAllUsers()
         {
             return await _context.Users
-                .Include(u => u.Area)
+                .Include(u => u.Area) 
                 .ToListAsync();
         }
 
@@ -390,7 +390,7 @@ namespace LP304_Takt.Repositories
         {
             var url = "https://localhost:7112/api/User/Reset-Password?token=";
             var filePath = @"Templates/ResetPassword.html";
-            StreamReader stream = new StreamReader(filePath);
+            StreamReader stream = new(filePath);
             string emailContent = stream.ReadToEnd();
             stream.Close();
 
@@ -414,7 +414,7 @@ namespace LP304_Takt.Repositories
         {
             var url = "https://localhost:7112/api/User/verify?token=";
             var filePath = @"Templates/VerifyEmail.html";
-            StreamReader stream = new StreamReader(filePath);
+            StreamReader stream = new(filePath);
             string emailContent = stream.ReadToEnd();
             stream.Close();
 
