@@ -115,14 +115,5 @@ namespace LP304_Takt.Mapper
             };
         }
 
-        //public static User AsEntity(this UserCreateDto user)
-        //{
-        //    return new User
-        //    {
-        //        Email = user.Email,
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName
-        //    };
-        //}
     }
 }

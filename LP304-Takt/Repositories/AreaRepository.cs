@@ -83,7 +83,7 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task<ICollection<Event?>> GetEventsFromArea(int areaId)
+        public async Task<List<Event>> GetEventsFromArea(int areaId)
         {
             return await _context.Events
                 .Include(e => e.EventStatus)

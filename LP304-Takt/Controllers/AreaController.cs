@@ -58,14 +58,14 @@ namespace LP304_Takt.Controllers
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpGet("{id}/events")]
-        public async Task<ActionResult<Event>> GetEventsByArea(int id)
+        [HttpGet("{areaId}/events")]
+        public async Task<ActionResult<Event>> GetEventsByArea(int areaId)
         {
-            var events = (await _areaService.GetEventsByArea(id)).Select(e => e.AsDto());
+            var events = (await _areaService.GetEventsByArea(areaId)).Select(e => e.AsDto());
 
             if (events is null)
             {
-                return NotFound($"Area with id: {id} was not found");
+                return NotFound($"Area with id: {areaId} was not found");
             }
 
             return Ok(events);
