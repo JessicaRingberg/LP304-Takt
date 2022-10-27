@@ -83,12 +83,11 @@ namespace LP304_Takt.Controllers
 
         //[Authorize]
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken()
+        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken(string refreshToken)
         {
-            var refreshToken = Request.Cookies["refreshToken"];
+           // var refreshToken = Request.Cookies["refreshToken"];
             var response = await _userService.RefreshToken(refreshToken);
-            SetRefreshToken(response.RefreshToken.Token);
-            
+            //SetRefreshToken(response.RefreshToken.Token);            
             if (!response.Success)
             {
                 return BadRequest(response);

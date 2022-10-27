@@ -1,6 +1,4 @@
-﻿using LP304_Takt.DTO;
-
-namespace LP304_Takt.Shared
+﻿namespace LP304_Takt.Shared
 {
     public class ServiceResponse<T> 
     {
