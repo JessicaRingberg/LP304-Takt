@@ -11,7 +11,7 @@ namespace LP304_Takt.Repositories
         private readonly DataContext _context;
         //private readonly IConfiguration _configuration;
 
-        public UserRepository(DataContext context, IConfiguration configuration)
+        public UserRepository(DataContext context)
         {
             _context = context;
             //_configuration = configuration;
