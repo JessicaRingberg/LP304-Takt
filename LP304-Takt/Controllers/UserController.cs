@@ -19,89 +19,7 @@ namespace LP304_Takt.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
-        }
-
-        //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister user, [FromQuery] int companyId)
-        {
-            var response = await _userService.RegisterUser(new User
-            { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email }, user.Password, companyId);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-
-            return Ok(response);
-        }
-
-        [HttpPost("login")]
-        public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
-        {
-            var response = await _userService.LoginUser(request.Email, request.Password);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-     
-            SetRefreshToken(response.RefreshToken.Token);
-            return Ok(response);
-        }
-
-        [HttpPost("forgot-password")]
-        public async Task<ActionResult<ServiceResponse<string>>> ForgotPassword(string email)
-        {
-            var response = await _userService.ForgotPassword(email);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
-
-        [HttpPost("reset-password")]
-        public async Task<ActionResult<ServiceResponse<string>>> ResetPassword(ResetPasswordRequest request, [FromQuery] string token)
-        {
-            var response = await _userService.ResetPassword(request, token);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
-
-        [HttpPost("verify")]
-        public async Task<ActionResult<ServiceResponse<string>>> Verify(string token)
-        {
-            var response = await _userService.VerifyEmail(token);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
-
-        //[Authorize]
-        [HttpPost("refresh-token")]
-        public async Task<ActionResult<ServiceResponse<string>>> RefreshToken(string refreshToken)
-        {
-           // var refreshToken = Request.Cookies["refreshToken"];
-            var response = await _userService.RefreshToken(refreshToken);
-            //SetRefreshToken(response.RefreshToken.Token);            
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            
-            return Ok(response);
-        }
-
-        //[Authorize]
-        [HttpGet("isAuth")]
-        public ActionResult IsAuth()
-        {
-            return Ok();
-        }
+        }      
 
         //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet]
@@ -184,15 +102,6 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        private void SetRefreshToken(string newRefreshToken)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.Now.AddDays(7)
-            };
-            Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
-
-        }
+      
     }
 }

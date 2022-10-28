@@ -44,6 +44,8 @@ builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
 builder.Services.AddTransient<IOrderDetailsService, OrderDetailsService>();
 builder.Services.AddScoped<IQueueRepository, QueueRepository>();
 builder.Services.AddTransient<IQueueService, QueueService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddTransient<IAuthService, AuthService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<DataContext>(options =>
