@@ -39,6 +39,8 @@ namespace LP304_Takt.Repositories
         public async Task<ServiceResponse<int>> DeleteEntity(int id)
         {
             var company = await _context.Companies
+                .Include(c => c.Users)
+                
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (company is null)
             {
@@ -48,6 +50,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Company with id: {id} was not found"
                 };
             }
+           // _context.Users.RemoveRange(company.Users);
             _context.Companies.Remove(company);
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()

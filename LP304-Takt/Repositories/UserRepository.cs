@@ -150,6 +150,7 @@ namespace LP304_Takt.Repositories
                     Message = $"User was not found"
                 };
             }
+            
             var area = await _context.Areas.FirstOrDefaultAsync(a => a.Id == areaId);
             if (area is null)
             {
@@ -159,7 +160,14 @@ namespace LP304_Takt.Repositories
                     Message = $"Area was not found"
                 };
             }
-
+            if(user.CompanyId != area.CompanyId)
+            {
+                return new UserResponse<string>()
+                {
+                    Success = false,
+                    Message = $"Area must belong to same company as user does!"
+                };
+            }
             user.Area = area;
             await _context.SaveChangesAsync();
             return new UserResponse<string>()

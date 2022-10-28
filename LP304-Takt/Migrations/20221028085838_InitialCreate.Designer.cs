@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221020085616_AddRole")]
-    partial class AddRole
+    [Migration("20221028085838_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -330,6 +330,9 @@ namespace LP304_Takt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Andon")
                         .HasColumnType("bit");
 
@@ -424,15 +427,13 @@ namespace LP304_Takt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LP304_Takt.Models.Order", "Order")
+                    b.HasOne("LP304_Takt.Models.Order", null)
                         .WithMany("Alarms")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AlarmType");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
@@ -503,15 +504,13 @@ namespace LP304_Takt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LP304_Takt.Models.Order", "Order")
+                    b.HasOne("LP304_Takt.Models.Order", null)
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Article");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Station", b =>

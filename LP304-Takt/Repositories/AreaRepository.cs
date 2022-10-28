@@ -18,7 +18,7 @@ namespace LP304_Takt.Repositories
         {
             var found = await _context.Areas.FirstOrDefaultAsync(c => c.Name == area.Name);
             var company = await _context.Companies.FindAsync(companyId);
-            if (found is not null)
+            if (found is not null && found.CompanyId == companyId)
             {
                 return new ServiceResponse<int>()
                 {
