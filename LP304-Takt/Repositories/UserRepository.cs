@@ -142,6 +142,7 @@ namespace LP304_Takt.Repositories
         public async Task<UserResponse<string>> AddAreaToUser(int userId, int areaId)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var area = await _context.Areas.FirstOrDefaultAsync(a => a.Id == areaId);
             if (user is null)
             {
                 return new UserResponse<string>()
@@ -149,10 +150,8 @@ namespace LP304_Takt.Repositories
                     Success = false,
                     Message = $"User was not found"
                 };
-            }
-            
-            var area = await _context.Areas.FirstOrDefaultAsync(a => a.Id == areaId);
-            if (area is null)
+            }          
+            else if (area is null)
             {
                 return new UserResponse<string>()
                 {
@@ -160,7 +159,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Area was not found"
                 };
             }
-            if(user.CompanyId != area.CompanyId)
+            else if(user.CompanyId != area.CompanyId)
             {
                 return new UserResponse<string>()
                 {
@@ -168,6 +167,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Area must belong to same company as user does!"
                 };
             }
+            else
             user.Area = area;
             await _context.SaveChangesAsync();
             return new UserResponse<string>()

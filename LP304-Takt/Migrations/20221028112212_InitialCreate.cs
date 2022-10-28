@@ -212,7 +212,7 @@ namespace LP304_Takt.Migrations
                         column: x => x.AreaId,
                         principalTable: "Areas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Users_Companies_CompanyId",
                         column: x => x.CompanyId,

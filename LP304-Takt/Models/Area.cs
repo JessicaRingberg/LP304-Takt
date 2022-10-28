@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace LP304_Takt.Models
 {
@@ -11,6 +12,9 @@ namespace LP304_Takt.Models
         public Company? Company { get; set; }
         public Config? Config { get; set; }
         public Queue? Queue { get; set; }
+
+        [JsonIgnore]
+        public ICollection<User>? Users { get; set; }
         public ICollection<Order> Orders { get; set; } = null!;
         public ICollection<Station> Stations { get; set; } = null!;
     }

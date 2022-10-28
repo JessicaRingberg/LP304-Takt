@@ -14,7 +14,10 @@ namespace LP304_Takt.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-     
+            builder.Entity<Area>()
+                .HasMany(a => a.Users)
+                .WithOne(u => u.Area)
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         public DbSet<User> Users { get; set; } = null!;

@@ -523,8 +523,9 @@ namespace LP304_Takt.Migrations
             modelBuilder.Entity("LP304_Takt.Models.User", b =>
                 {
                     b.HasOne("LP304_Takt.Models.Area", "Area")
-                        .WithMany()
-                        .HasForeignKey("AreaId");
+                        .WithMany("Users")
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("LP304_Takt.Models.Company", "Company")
                         .WithMany("Users")
@@ -547,6 +548,8 @@ namespace LP304_Takt.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Stations");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Company", b =>

@@ -50,7 +50,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Company with id: {id} was not found"
                 };
             }
-           // _context.Users.RemoveRange(company.Users);
+            _context.Users.RemoveRange(company.Users);
             _context.Companies.Remove(company);
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
