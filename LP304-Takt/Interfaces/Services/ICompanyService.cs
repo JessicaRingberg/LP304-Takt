@@ -6,8 +6,6 @@ namespace LP304_Takt.Interfaces.Services
     public interface ICompanyService : IBaseService<Company>
     {
         Task<ICollection<User>> GetUserByCompany(int companyId);
-        Task<ServiceResponse<int>> Add(Company company);
-       
-
+        Task<ServiceResponse<int>> Add(Company company);      
     }
 }

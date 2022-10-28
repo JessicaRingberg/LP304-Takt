@@ -3,14 +3,13 @@ using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTO;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
-using LP304_Takt.Shared;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;
@@ -32,14 +31,12 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<ArticleDto>>> GetArticles()
         {
             return Ok((await _articleService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {

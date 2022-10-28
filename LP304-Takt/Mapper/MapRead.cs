@@ -4,7 +4,7 @@ using LP304_Takt.Models;
 
 namespace LP304_Takt.Mapper
 {
-    public static class Mapper
+    public static class MapRead
     {
         public static AlarmDto AsDto(this Alarm alarm)
         {

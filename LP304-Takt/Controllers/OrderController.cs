@@ -11,6 +11,7 @@ namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -20,7 +21,6 @@ namespace LP304_Takt.Controllers
             _orderService = orderService;
         }
 
-        //[Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddOrder([FromBody] OrderCreateDto order, [FromQuery] int areaId)
         {           
@@ -32,14 +32,12 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<OrderDto>>> GetOrders()
         {
             return Ok((await _orderService.GetEntities()).Select(order => order.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {

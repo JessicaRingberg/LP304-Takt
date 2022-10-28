@@ -11,7 +11,7 @@ namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize(Roles = nameof(Role.Admin))]
+    //[Authorize]
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyService _companyService;
@@ -33,14 +33,12 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
             return Ok((await _companyService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
@@ -53,7 +51,7 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsDto());
         }
 
-        //[Authorize]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpGet("{companyId}/users")]
         public async Task<ActionResult<List<UserDto>>> GetUserByCompany(int companyId)
         {
@@ -61,7 +59,7 @@ namespace LP304_Takt.Controllers
             return Ok(users);
         }
 
-        //[Authorize]
+        //[Authorized(Role.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
@@ -73,7 +71,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
+        //[Authorized(Role.Admin)]
         [HttpPut]
         public async Task<IActionResult> UpdateCompany([FromBody] CompanyUpdateDto company, [FromQuery] int companyId)
         {

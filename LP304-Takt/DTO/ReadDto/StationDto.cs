@@ -1,6 +1,4 @@
-﻿using LP304_Takt.Models;
-
-namespace LP304_Takt.DTO.ReadDto
+﻿namespace LP304_Takt.DTO.ReadDto
 {
     public record StationDto
     {
@@ -9,6 +7,5 @@ namespace LP304_Takt.DTO.ReadDto
         public bool Andon { get; init; }
         public bool Finished { get; init; }
         public bool Active { get; init; }
-
     }
 }

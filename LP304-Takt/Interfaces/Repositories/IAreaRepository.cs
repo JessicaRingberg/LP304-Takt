@@ -7,7 +7,5 @@ namespace LP304_Takt.Interfaces.Repositories
     {
         Task<ServiceResponse<int>> Add(Area area, int companyId);
         Task<List<Event>> GetEventsFromArea(int areaId);
-
-
     }
 }

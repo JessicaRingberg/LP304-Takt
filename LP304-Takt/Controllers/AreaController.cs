@@ -1,20 +1,16 @@
-﻿using System.Collections;
-using LP304_Takt.DTO.CreateDTO;
+﻿using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.DTO.ReadDto;
-using LP304_Takt.DTO.ReadDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Models;
-using LP304_Takt.Shared;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class AreaController : ControllerBase
     {
         private readonly IAreaService _areaService;
@@ -36,14 +32,12 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AreaDto>>> GetAreas()
         {
             return Ok((await _areaService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AreaDto>> GetArea(int id)
         {

@@ -3,15 +3,13 @@ using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
-using LP304_Takt.Shared;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class ConfigController : ControllerBase
     {
         private readonly IConfigService _configService;
@@ -33,14 +31,12 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<ConfigDto>>> GetConfigs()
         {
             return Ok((await _configService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ConfigDto>> GetConfig(int id)
         {
@@ -66,7 +62,7 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize(Roles = nameof(Role.Admin))]
+        //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut]
         public async Task<IActionResult> UpdateConfig([FromBody] ConfigUpdateDto config, [FromQuery] int configId)
         {

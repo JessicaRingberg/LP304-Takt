@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LP304_Takt.Shared;
 
 namespace LP304_Takt.Models
 {

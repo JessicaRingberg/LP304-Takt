@@ -8,7 +8,5 @@
         public int Duration { get; init; }
         public string Reason { get; init; } = null!;
         public EventStatusDto? EventStatus { get; init; }
-
-
     }
 }

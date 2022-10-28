@@ -5,7 +5,6 @@ namespace LP304_Takt.Interfaces.Services
 {
     public interface IStationService : IBaseService<Station>
     {
-        Task<ServiceResponse<int>> Add(Station station, int areaId);
-     
+        Task<ServiceResponse<int>> Add(Station station, int areaId);     
     }
 }

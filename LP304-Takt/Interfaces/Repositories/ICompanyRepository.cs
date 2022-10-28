@@ -7,8 +7,5 @@ namespace LP304_Takt.Interfaces.Repositories
     {
         Task<ServiceResponse<int>> Add(Company company);
         Task<ICollection<User>> GetUserByCompany(int companyId);
-
-        
-
     }
 }

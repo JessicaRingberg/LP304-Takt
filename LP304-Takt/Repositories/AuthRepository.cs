@@ -207,6 +207,14 @@ namespace LP304_Takt.Repositories
             return new UserResponse<string> { Success = true, Message = "Password reset complete" };
         }
 
+        public async Task<bool> UserAlreadyExists(string email)
+        {
+            if (await _context.Users.AnyAsync(user => user.Email.Equals(email)))
+            {
+                return true;
+            }
+            return false;
+        }
 
 
         private string CreateJwtToken(User user)
@@ -249,7 +257,6 @@ namespace LP304_Takt.Repositories
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
 
-
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using var hmac = new HMACSHA512();
@@ -257,25 +264,12 @@ namespace LP304_Takt.Repositories
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
-
         private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using var hmac = new HMACSHA512(passwordSalt);
             var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             return computedHash.SequenceEqual(passwordHash);
         }
-
-
-        public async Task<bool> UserAlreadyExists(string email)
-        {
-            if (await _context.Users.AnyAsync(user => user.Email.Equals(email)))
-            {
-                return true;
-            }
-            return false;
-        }
-
-
 
         private static void EmailToResetPassword(User user)
         {
@@ -300,7 +294,6 @@ namespace LP304_Takt.Repositories
             Smtp(message);
         }
 
-
         private static void EmailForVerification(User user)
         {
             var url = "https://localhost:7112/api/User/verify?token=";
@@ -323,7 +316,6 @@ namespace LP304_Takt.Repositories
             };
             Smtp(message);
         }
-
 
         private static void Smtp(MimeMessage email)
         {

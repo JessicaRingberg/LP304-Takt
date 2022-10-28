@@ -5,7 +5,6 @@ namespace LP304_Takt.Interfaces.Repositories
 {
     public interface IAlarmTypeRepository : IBaseRepository<AlarmType>
     {
-        Task<ServiceResponse<int>> Add(AlarmType alarmType);
-        
+        Task<ServiceResponse<int>> Add(AlarmType alarmType);        
     }
 }

@@ -5,13 +5,13 @@ using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class AlarmTypeController : ControllerBase
     {
         private readonly IAlarmTypeService _alarmTypeService;
@@ -33,14 +33,12 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AlarmTypeDto>>> GetAlarmTypes()
         {
             return Ok((await _alarmTypeService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AlarmTypeDto>> GetAlarmType(int id)
         {

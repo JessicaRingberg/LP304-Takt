@@ -1,6 +1,4 @@
-﻿using LP304_Takt.Models;
-
-namespace LP304_Takt.DTO.ReadDto
+﻿namespace LP304_Takt.DTO.ReadDto
 {
     public record UserDto
     {
@@ -10,7 +8,6 @@ namespace LP304_Takt.DTO.ReadDto
         public string Email { get; init; } = null!;
         public string Role { get; init; } = null!;
         public int? Area { get; init; }
-
     }
 
 }

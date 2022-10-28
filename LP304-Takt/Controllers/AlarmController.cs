@@ -10,6 +10,7 @@ namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class AlarmController : ControllerBase
     {
         private readonly IAlarmService _alarmService;
@@ -31,14 +32,12 @@ namespace LP304_Takt.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<List<AlarmDto>>> GetAlarms()
         {
             return Ok((await _alarmService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AlarmDto>> GetAlarm(int id)
         {

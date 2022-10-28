@@ -8,6 +8,7 @@ namespace LP304_Takt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class QueueController : ControllerBase
     {
         private readonly IQueueService _queueService;
@@ -17,7 +18,6 @@ namespace LP304_Takt.Controllers
             _queueService = queueService;
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<ICollection<QueueDto>>> GetAllQueues()
 
@@ -25,7 +25,6 @@ namespace LP304_Takt.Controllers
             return Ok((await _queueService.GetAllQueues()).Select(q => q.AsDto()));
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<QueueDto>> GetOneQueue(int id)
 
