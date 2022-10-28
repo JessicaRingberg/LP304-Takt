@@ -14,7 +14,7 @@ namespace LP304_Takt.Repositories
         public UserRepository(DataContext context, IConfiguration configuration)
         {
             _context = context;
-            _configuration = configuration;
+            //_configuration = configuration;
         }
 
         public async Task<ICollection<User>> GetAllUsers()
