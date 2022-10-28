@@ -9,7 +9,7 @@ namespace LP304_Takt.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
 
         public UserRepository(DataContext context, IConfiguration configuration)
         {
