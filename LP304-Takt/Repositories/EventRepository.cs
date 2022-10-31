@@ -65,7 +65,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Event with id: {id} deleted"
+                Message = $"Event with id {id} deleted"
             };
         }
 
@@ -92,7 +92,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = true,
-                    Message = $"Event with id: {eventId} was not found"
+                    Message = $"Event with id {eventId} was not found"
                 };
             }
 
@@ -101,7 +101,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Event with id: {eventId} updated"
+                Message = $"Event with id {eventId} updated"
             };
         }
     }

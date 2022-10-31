@@ -47,7 +47,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Company with id: {id} was not found"
+                    Message = $"Company with id {id} was not found"
                 };
             }
             _context.Users.RemoveRange(company.Users);

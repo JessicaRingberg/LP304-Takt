@@ -9,12 +9,10 @@ namespace LP304_Takt.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
-        //private readonly IConfiguration _configuration;
 
         public UserRepository(DataContext context)
         {
             _context = context;
-            //_configuration = configuration;
         }
 
         public async Task<ICollection<User>> GetAllUsers()
@@ -55,7 +53,7 @@ namespace LP304_Takt.Repositories
             else
             {
                 response.Success = true;
-                response.Message = $"User with email{user.Email} successfully removed.";
+                response.Message = $"User with email {user.Email} successfully removed.";
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }

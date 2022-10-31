@@ -56,7 +56,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Area wit id: {id} was not found"
+                    Message = $"Area wit id {id} was not found"
                 };
             }
             _context.Areas.Remove(area);
@@ -64,7 +64,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Area with id: {area.Id} deleted"
+                Message = $"Area with id {area.Id} deleted"
             };
         }
 
@@ -99,7 +99,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Area with id: {areaId} was not found"
+                    Message = $"Area with id {areaId} was not found"
                 };
             }
 
@@ -108,7 +108,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Area with id: {area.Id} updated"
+                Message = $"Area with id {area.Id} updated"
             };
         }
 

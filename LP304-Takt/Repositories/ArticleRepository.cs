@@ -45,7 +45,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Article with id: {id} was not found"
+                    Message = $"Article with id {id} was not found"
                 };
             }
             _context.Article.Remove(article);
@@ -53,7 +53,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Article with id: {article.Id} deleted"
+                Message = $"Article with id {article.Id} deleted"
             };
         }
 
@@ -78,7 +78,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Article with id: {articleId} was not found"
+                    Message = $"Article with id {articleId} was not found"
                 };
             }
             articleToUpdate.ArticleNumber = article.ArticleNumber;
@@ -87,7 +87,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Article with id: {article.Id} deleted"
+                Message = $"Article with id {article.Id} deleted"
             };
         }
     }

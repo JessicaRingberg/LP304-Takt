@@ -54,7 +54,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Station with id: {id} was not found"
+                    Message = $"Station with id {id} was not found"
                 };
             }
             _context.Stations.Remove(station);
@@ -62,7 +62,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Station with id: {id} deleted"
+                Message = $"Station with id {id} deleted"
             };
         }
 
@@ -87,7 +87,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Station with id: {stationId} was not found"
+                    Message = $"Station with id {stationId} was not found"
                 };
             }
 
@@ -97,7 +97,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Station with id: {stationId} updated"
+                Message = $"Station with id {stationId} updated"
             };
         }
     }

@@ -43,7 +43,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Eventstatus with id: {id} was not found"
+                    Message = $"Eventstatus with id {id} was not found"
                 };
             }
             _context.EventStatuses.Remove(eventStatus);
@@ -51,7 +51,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Eventstatus with id: {id} deleted"
+                Message = $"Eventstatus with id {id} deleted"
             };
         }
 
@@ -77,7 +77,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Eventstatus with id: {eventStatusId} was not found"
+                    Message = $"Eventstatus with id {eventStatusId} was not found"
                 };
             }
 
@@ -86,7 +86,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Eventstatus with id: {eventStatusId} updated"
+                Message = $"Eventstatus with id {eventStatusId} updated"
             };
         }
     }

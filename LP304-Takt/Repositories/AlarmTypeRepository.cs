@@ -44,7 +44,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"AlarmType with id: {id} was not found"
+                    Message = $"AlarmType with id {id} was not found"
                 };
             }
             _context.AlarmTypes.Remove(alarmType);

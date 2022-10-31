@@ -66,7 +66,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Order detail with id: {id} was not found"
+                    Message = $"Order detail with id {id} was not found"
                 };
             }
             _context.OrderDetails.Remove(orderDetails);
@@ -74,7 +74,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Order detail with id: {id} deleted from the order"
+                Message = $"Order detail with id {id} deleted from the order"
             };
         }
 
@@ -101,7 +101,7 @@ namespace LP304_Takt.Repositories
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Order detail with id: {orderDetailsId} was not found"
+                    Message = $"Order detail with id {orderDetailsId} was not found"
                 };
             }
             orderDetailsToUpdate.Quantity = orderDetails.Quantity;
@@ -110,7 +110,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Order detail with id: {orderDetailsId} was updated to the order"
+                Message = $"Order detail with id {orderDetailsId} was updated to the order"
             };
         }
     }
