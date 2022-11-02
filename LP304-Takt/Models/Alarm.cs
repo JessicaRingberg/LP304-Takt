@@ -13,7 +13,7 @@ namespace LP304_Takt.Models
         public string Reason { get; set; } = null!;
         public int OrderId { get; set; }
         public int AlarmTypeId { get; set; }
-        public AlarmType? AlarmType { get; set; }
+        public AlarmType AlarmType { get; set; } = null!;
 
     }
 }

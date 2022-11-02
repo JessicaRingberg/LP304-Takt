@@ -7,6 +7,6 @@
         public DateTime EndTime { get; init; }
         public int Duration { get; init; }
         public string Reason { get; init; } = null!;
-        public EventStatusDto? EventStatus { get; init; }
+        public string? EventStatus { get; init; }
     }
 }

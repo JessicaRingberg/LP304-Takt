@@ -14,7 +14,7 @@ namespace LP304_Takt.Models
         public int OrderId { get; set; }
         public Order? Order { get; set; }
         public int EventStatusId { get; set; }
-        public EventStatus? EventStatus { get; set; }
+        public EventStatus EventStatus { get; set; } = null!;
 
     }
 }

@@ -15,7 +15,7 @@ namespace LP304_Takt.Mapper
                 EndTime = alarm.EndTime,
                 Duration = alarm.Duration,
                 Reason = alarm.Reason,
-                AlarmType = alarm.AlarmType.AsDto()
+                AlarmType = alarm.AlarmType.Name
             };
         }
 
@@ -89,7 +89,7 @@ namespace LP304_Takt.Mapper
                 EndTime = eEvent.EndTime,
                 Duration = eEvent.Duration,
                 Reason = eEvent.Reason,
-                EventStatus = eEvent.EventStatus.AsDto()
+                EventStatus = eEvent.EventStatus.Name
             };
         }
 
@@ -129,9 +129,9 @@ namespace LP304_Takt.Mapper
                 TaktSet = order.TaktSet,
                 LastPartProd = order.LastPartProd,
                 Takt = order.Takt,
-                OrderDetails = order.OrderDetails.Select(o => o.AsDto()).ToList(),
-                Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
-                Events = order.Events.Select(e => e.AsDto()).ToList()
+                OrderDetails = order.OrderDetails.Select(o => o.AsDto()).ToList()
+                //Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
+                //Events = order.Events.Select(e => e.AsDto()).ToList()
             };
         }
         public static OrderInQueueDto AsQueueDto(this Order order)
