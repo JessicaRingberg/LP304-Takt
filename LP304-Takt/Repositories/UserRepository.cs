@@ -56,8 +56,7 @@ namespace LP304_Takt.Repositories
                 response.Message = $"User with email {user.Email} successfully removed.";
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
-            }
-           
+            }           
             return response;
         }
 
@@ -115,7 +114,6 @@ namespace LP304_Takt.Repositories
             }
 
             userToUpdate.Role = user.Role;
-
             await _context.SaveChangesAsync();
             return new UserResponse<int>()
             {
@@ -126,7 +124,6 @@ namespace LP304_Takt.Repositories
 
         public async Task<UserResponse<int>> UpdateUser(User user, int userId)
         {
-
             var userToUpdate = await _context.Users
                 .FindAsync(userId);
             if (userToUpdate is null)
@@ -139,7 +136,6 @@ namespace LP304_Takt.Repositories
             }           
 
             MapUser(userToUpdate, user);
-
             await _context.SaveChangesAsync();
             return new UserResponse<int>()
             {

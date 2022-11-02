@@ -189,21 +189,29 @@ namespace LP304_Takt.Repositories
         {
             var response = new UserResponse<string>();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == token);
-            if (user is null || user.ResetTokenExpires < DateTime.Now)
+            if (user is null)
             {
                 response.Success = false;
                 response.Message = "Invalid token";
             }
+            else if (user.ResetTokenExpires > DateTime.Now)
+            {
+                response.Success = false;
+                response.Message = "Token expired";
+            }
+            else
+            {
+                CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            user.PasswordResetToken = null;
-            user.ResetTokenExpires = null;
-
-            await _context.SaveChangesAsync();
-            return new UserResponse<string> { Success = true, Message = "Password reset complete" };
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                user.PasswordResetToken = null;
+                user.ResetTokenExpires = null;
+                response.Success = true;
+                response.Message = "Password reset complete";
+                await _context.SaveChangesAsync();
+            }
+            return response;
         }
 
         public async Task<bool> UserAlreadyExists(string email)
@@ -218,7 +226,6 @@ namespace LP304_Takt.Repositories
 
         private string CreateJwtToken(User user)
         {
-
             List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.Name, user.Email),
@@ -245,7 +252,7 @@ namespace LP304_Takt.Repositories
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddSeconds(10),
                 Created = DateTime.Now
             };
             return refreshToken;
