@@ -34,6 +34,11 @@ namespace LP304_Takt.Services
             return await _orderRepository.GetEntity(id);
         }
 
+        public async Task<ICollection<Order>> GetOrdersByArea(int areaId)
+        {
+            return await _orderRepository.GetOrdersByArea(areaId);
+        }
+
         public async Task<ServiceResponse<int>> UpdateEntity(Order order, int orderId)
         {
             return await _orderRepository.UpdateEntity(order, orderId);

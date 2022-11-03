@@ -3,6 +3,8 @@ using LP304_Takt.DTO.ReadDto;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
+using LP304_Takt.Models;
+using LP304_Takt.Services;
 using LP304_Takt.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +52,16 @@ namespace LP304_Takt.Controllers
 
             return Ok(order.AsDto());
         }
-
+        [HttpGet("area/{areaId}")]
+        public async Task<ActionResult<Order>> GetOrdersByArea(int areaId)
+        {
+            var order = (await _orderService.GetOrdersByArea(areaId)).Select(o => o.AsDto());
+            if(order is null)
+            {
+                return NotFound($"Area with id: {areaId} was not found");
+            }
+            return Ok(order);
+        }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete]

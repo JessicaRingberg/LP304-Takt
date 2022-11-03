@@ -65,10 +65,10 @@ namespace LP304_Takt.Repositories
             return await _context.Orders
                 .Include(o => o.OrderDetails)
                 .ThenInclude(o => o.Article)
-                .Include(o => o.Alarms)
-                .ThenInclude(a => a.AlarmType)
-                .Include(o => o.Events)
-                .ThenInclude(e => e.EventStatus)
+                //.Include(o => o.Alarms)
+                //.ThenInclude(a => a.AlarmType)
+                //.Include(o => o.Events)
+                //.ThenInclude(e => e.EventStatus)
                 .ToListAsync();
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
         }
@@ -79,13 +79,20 @@ namespace LP304_Takt.Repositories
             return await _context.Orders
                 .Include(o => o.OrderDetails)
                 .ThenInclude(o => o.Article)
-                .Include(o => o.Alarms)
-                .ThenInclude(a => a.AlarmType)
-                .Include(o => o.Events)
-                .ThenInclude(e => e.EventStatus)
+                //.Include(o => o.Alarms)
+                //.ThenInclude(a => a.AlarmType)
+                //.Include(o => o.Events)
+                //.ThenInclude(e => e.EventStatus)
                 .FirstOrDefaultAsync(a => a.Id == id);
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
 
+        }
+
+        public async Task<ICollection<Order>> GetOrdersByArea(int areaId)
+        {
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                .Where(o => o.AreaId == areaId).ToListAsync();
         }
 
         public async Task<ServiceResponse<int>> DeleteEntity(int id)
