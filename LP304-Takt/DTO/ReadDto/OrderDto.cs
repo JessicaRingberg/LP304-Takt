@@ -15,7 +15,7 @@
         public int LastPartProd { get; init; }
         public int Takt { get; init; }
         public ICollection<OrderDetailsDto> OrderDetails { get; init; } = null!;
-        public ICollection<AlarmDto> Alarms { get; init; } = null!;
-        public ICollection<EventDto> Events { get; init; } = null!;
+        //public ICollection<AlarmDto> Alarms { get; init; } = null!;
+        //public ICollection<EventDto> Events { get; init; } = null!;
     }
 }

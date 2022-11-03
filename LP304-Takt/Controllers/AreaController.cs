@@ -64,6 +64,18 @@ namespace LP304_Takt.Controllers
 
             return Ok(events);
         }
+        [HttpGet("{areaId}/alarms")]
+        public async Task<ActionResult<Alarm>> GetAlarmsByArea(int areaId)
+        {
+            var alarm = (await _areaService.GetAlarmsFromArea(areaId)).Select(e => e.AsDto());
+
+            if (alarm is null)
+            {
+                return NotFound($"Area with id: {areaId} was not found");
+            }
+
+            return Ok(alarm);
+        }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpDelete("{id}")]

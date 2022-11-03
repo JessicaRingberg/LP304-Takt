@@ -59,6 +59,7 @@ namespace LP304_Takt.Repositories
                     Message = $"Area wit id {id} was not found"
                 };
             }
+       
             _context.Areas.Remove(area);
             await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
@@ -83,11 +84,18 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
+
         public async Task<List<Event>> GetEventsFromArea(int areaId)
         {
             return await _context.Events
                 .Include(e => e.EventStatus)
                 .Where(e => e.Order.AreaId == areaId).ToListAsync();
+        }
+        public async Task<List<Alarm>> GetAlarmsFromArea(int areaId)
+        {
+            return await _context.Alarms
+                .Include(a => a.AlarmType)
+                .Where(a => a.Order.AreaId == areaId).ToListAsync();
         }
 
         public async Task<ServiceResponse<int>> UpdateEntity(Area area, int areaId)
