@@ -67,7 +67,7 @@ namespace LP304_Takt.Controllers
         [HttpGet("{areaId}/alarms")]
         public async Task<ActionResult<Alarm>> GetAlarmsByArea(int areaId)
         {
-            var alarm = (await _areaService.GetAlarmsFromArea(areaId)).Select(e => e.AsDto());
+            var alarm = (await _areaService.GetAlarmsByArea(areaId)).Select(e => e.AsDto());
 
             if (alarm is null)
             {

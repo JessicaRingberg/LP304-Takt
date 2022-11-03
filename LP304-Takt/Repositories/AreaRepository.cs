@@ -85,13 +85,13 @@ namespace LP304_Takt.Repositories
         }
 
 
-        public async Task<List<Event>> GetEventsFromArea(int areaId)
+        public async Task<List<Event>> GetEventsByArea(int areaId)
         {
             return await _context.Events
                 .Include(e => e.EventStatus)
                 .Where(e => e.Order.AreaId == areaId).ToListAsync();
         }
-        public async Task<List<Alarm>> GetAlarmsFromArea(int areaId)
+        public async Task<List<Alarm>> GetAlarmsByArea(int areaId)
         {
             return await _context.Alarms
                 .Include(a => a.AlarmType)
