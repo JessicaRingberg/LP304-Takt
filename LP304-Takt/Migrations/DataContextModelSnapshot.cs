@@ -425,13 +425,15 @@ namespace LP304_Takt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LP304_Takt.Models.Order", null)
+                    b.HasOne("LP304_Takt.Models.Order", "Order")
                         .WithMany("Alarms")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AlarmType");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>

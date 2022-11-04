@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221028112212_InitialCreate")]
+    [Migration("20221104080053_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -427,13 +427,15 @@ namespace LP304_Takt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LP304_Takt.Models.Order", null)
+                    b.HasOne("LP304_Takt.Models.Order", "Order")
                         .WithMany("Alarms")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AlarmType");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("LP304_Takt.Models.Area", b =>
