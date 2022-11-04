@@ -38,6 +38,19 @@ namespace LP304_Takt.Controllers
 
             return Ok(queue.AsDto());
         }
+        [HttpGet("area/{areaId}")]
+        public async Task<ActionResult<QueueDto>> GetQueueFromArea(int areaId)
+
+        {
+            var queue = await _queueService.GetOneQueue(areaId);
+
+            if (queue is null)
+            {
+                return NotFound($"Queue with id {areaId} was not found.");
+            }
+
+            return Ok(queue.AsDto());
+        }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
         [HttpPut("{queueId}")]

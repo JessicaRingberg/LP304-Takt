@@ -27,6 +27,12 @@ namespace LP304_Takt.Repositories
                .Include(q => q.Orders)
                .FirstOrDefaultAsync(q => q.Id == id);
         }
+        public async Task<Area?> GetQueueFromArea(int areaId)
+        {
+            return await _context.Areas
+               .Include(a => a.Queue)
+               .FirstOrDefaultAsync(a => a.Id == areaId);
+        }
 
         public async Task<ServiceResponse<int>> DeleteOrderFromQueue(int queueId, int orderId)
         {

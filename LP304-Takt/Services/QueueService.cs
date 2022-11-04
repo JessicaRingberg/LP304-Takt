@@ -28,5 +28,10 @@ namespace LP304_Takt.Services
         {
             return await _queueRepository.GetOneQueue(id);
         }
+
+        public async Task<Area?> GetQueueFromArea(int areaId)
+        {
+            return await _queueRepository.GetQueueFromArea(areaId);
+        }
     }
 }

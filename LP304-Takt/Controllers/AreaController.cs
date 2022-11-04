@@ -1,5 +1,6 @@
 ﻿using LP304_Takt.DTO.CreateDTO;
 using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.DTO.ReadDTO;
 using LP304_Takt.DTO.UpdateDTOs;
 using LP304_Takt.Interfaces.Services;
 using LP304_Takt.Mapper;
@@ -64,6 +65,7 @@ namespace LP304_Takt.Controllers
 
             return Ok(events);
         }
+
         [HttpGet("{areaId}/alarms")]
         public async Task<ActionResult<Alarm>> GetAlarmsByArea(int areaId)
         {
@@ -75,6 +77,19 @@ namespace LP304_Takt.Controllers
             }
 
             return Ok(alarm);
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<AreaByUserDto>> GetAreaByUser(int userId)
+        {
+            var user = await _areaService.GetAreaByUser(userId);
+
+            if (user is null)
+            {
+                return NotFound($"User with {userId} was not found");
+            }
+
+            return Ok(user.AsAreaByUserDto());
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]

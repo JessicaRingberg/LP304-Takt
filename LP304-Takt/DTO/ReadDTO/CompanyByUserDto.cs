@@ -2,8 +2,7 @@
 {
     public record CompanyByUserDto
     {
-        public string FirstName { get; init; } = null!;
-        public string LastName { get; init; } = null!;
-        public string? Company { get; init; }
+        public int? Id { get; init; }
+        public string? Name { get; init; }
     }
 }

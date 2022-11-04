@@ -49,5 +49,9 @@ namespace LP304_Takt.Services
             return await _areaRepository.UpdateEntity(area, areaId);
         }
 
+        public async Task<User?> GetAreaByUser(int userId)
+        {
+            return await _areaRepository.GetAreaByUser(userId);
+        }
     }
 }

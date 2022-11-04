@@ -1,4 +1,6 @@
-﻿using LP304_Takt.Interfaces.Repositories;
+﻿using LP304_Takt.DTO.ReadDto;
+using LP304_Takt.Interfaces.Repositories;
+using LP304_Takt.Mapper;
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -82,7 +84,6 @@ namespace LP304_Takt.Repositories
         {
             return await _context.Users.Where(u => u.CompanyId == companyId).ToListAsync();
         }
-
 
         public async Task<ServiceResponse<int>> UpdateEntity(Company company, int companyId)
         {

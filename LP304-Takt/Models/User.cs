@@ -18,10 +18,10 @@ namespace LP304_Takt.Models
         public DateTime? ResetTokenExpires { get; set; }
         public string? VerificationToken { get; set; }
         public DateTime? VerifiedAt { get; set; }
-        public int? CompanyId { get; set; }
+        public int CompanyId { get; set; }
         public Company Company { get; set; } = null!;
         public Role? Role { get; set; }
-        //public int? AreaId { get; set; }
+        public int AreaId { get; set; }
         public Area? Area { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime TokenCreated { get; set; }

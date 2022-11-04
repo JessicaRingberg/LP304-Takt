@@ -57,13 +57,20 @@ namespace LP304_Takt.Mapper
                 Areas = company.Areas.Select(a => a.AsDto()).ToList()
             };
         }
-        public static CompanyByUserDto AsUserCompanyDto(this User user)
+        public static AreaByUserDto AsAreaByUserDto(this User user)
+        {
+            return new AreaByUserDto
+            {
+                Id = user.AreaId,
+                Name = user.Area.Name
+            };
+        }
+        public static CompanyByUserDto AsCompanyByUserDto(this User user)
         {
             return new CompanyByUserDto
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Company = user.Company.Name
+                Id = user.CompanyId,
+                Name = user.Company.Name
             };
         }
 
