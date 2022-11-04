@@ -13,13 +13,13 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-        public async Task<ServiceResponse<int>> Add(Alarm alarm, int orderId, int alarmTypeId)
+        public async Task<ServiceResponse<Alarm>> Add(Alarm alarm, int orderId, int alarmTypeId)
         {
             var order = await _context.Orders.FindAsync(orderId);
             var alarmType = await _context.AlarmTypes.FindAsync(alarmTypeId);
             if (order is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Alarm>()
                 {
                     Success = false,
                     Message = $"Alarm must belong to an order!"
@@ -28,7 +28,7 @@ namespace LP304_Takt.Repositories
 
             else if (alarmType is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Alarm>()
                 {
                     Success = false,
                     Message = $"Alarm must have a type!"
@@ -39,8 +39,9 @@ namespace LP304_Takt.Repositories
             alarm.OrderId = orderId;
             await _context.Alarms.AddAsync(alarm);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<Alarm>()
             {
+                Data = alarm,
                 Success = true,
                 Message = "Alarm added"
             };

@@ -15,13 +15,13 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task<ServiceResponse<int>> Add(Config config, int areaId)
+        public async Task<ServiceResponse<Config>> Add(Config config, int areaId)
         {
             var area = await _context.Areas.FindAsync(areaId);
             var found = await _context.Configs.FirstOrDefaultAsync(c => c.AreaId.Equals(areaId));
             if (area is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Config>()
                 {
                     Success = false,
                     Message = $"Config must belong to an area"
@@ -29,7 +29,7 @@ namespace LP304_Takt.Repositories
             }
             if (found is not null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Config>()
                 {
                     Success = false,
                     Message = $"Area {area.Name} already has a config!"
@@ -39,8 +39,9 @@ namespace LP304_Takt.Repositories
             config.AreaId = areaId;
             await _context.Configs.AddAsync(config);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<Config>()
             {
+                Data = config,
                 Success = true,
                 Message = $"Config added!"
             };

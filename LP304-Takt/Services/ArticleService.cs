@@ -14,7 +14,7 @@ namespace LP304_Takt.Services
             _articleRepository = articleRepository;
         }
 
-        public async Task<ServiceResponse<int>> Add(Article article)
+        public async Task<ServiceResponse<Article>> Add(Article article)
         {
             return await _articleRepository.Add(article);
         }

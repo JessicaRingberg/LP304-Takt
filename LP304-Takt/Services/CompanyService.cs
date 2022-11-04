@@ -15,7 +15,7 @@ namespace LP304_Takt.Services
             _companyRepository = companyRepository;
         }
 
-        public async Task<ServiceResponse<int>> Add(Company company)
+        public async Task<ServiceResponse<Company>> Add(Company company)
         {
             return await _companyRepository.Add(company);
         }

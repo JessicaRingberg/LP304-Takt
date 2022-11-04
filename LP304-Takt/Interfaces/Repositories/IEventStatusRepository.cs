@@ -5,6 +5,6 @@ namespace LP304_Takt.Interfaces.Repositories
 {
     public interface IEventStatusRepository : IBaseRepository<EventStatus>
     {
-        Task<ServiceResponse<int>> Add(EventStatus eventStatus);        
+        Task<ServiceResponse<EventStatus>> Add(EventStatus eventStatus);        
     }
 }

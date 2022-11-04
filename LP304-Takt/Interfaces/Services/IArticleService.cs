@@ -5,6 +5,6 @@ namespace LP304_Takt.Interfaces.Services
 {
     public interface IArticleService : IBaseService<Article>
     {
-        Task<ServiceResponse<int>> Add(Article article);
+        Task<ServiceResponse<Article>> Add(Article article);
     }
 }

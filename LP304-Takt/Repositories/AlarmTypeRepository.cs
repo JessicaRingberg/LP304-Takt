@@ -14,12 +14,12 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task<ServiceResponse<int>> Add(AlarmType alarmType)
+        public async Task<ServiceResponse<AlarmType>> Add(AlarmType alarmType)
         {
             var found = await _context.AlarmTypes.FirstOrDefaultAsync(c => c.Name == alarmType.Name);
             if (found is not null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<AlarmType>()
                 {
                     Success = false,
                     Message = $"AlarmType with name {alarmType.Name} already exists!"
@@ -27,9 +27,9 @@ namespace LP304_Takt.Repositories
             }
             await _context.AlarmTypes.AddAsync(alarmType);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int> 
+            return new ServiceResponse<AlarmType> 
             { 
-                Data = alarmType.Id, 
+                Data = alarmType, 
                 Success = true, 
                 Message = $"AlarmType named {alarmType.Name} added." 
             };

@@ -14,7 +14,7 @@ namespace LP304_Takt.Services
             _configRepository = configRepository;
         }
 
-        public async Task<ServiceResponse<int>> Add(Config config, int areaId)
+        public async Task<ServiceResponse<Config>> Add(Config config, int areaId)
         {
             return await _configRepository.Add(config, areaId);
         }

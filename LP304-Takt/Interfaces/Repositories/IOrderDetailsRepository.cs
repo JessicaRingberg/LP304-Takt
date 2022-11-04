@@ -5,6 +5,6 @@ namespace LP304_Takt.Interfaces.Repositories
 {
     public interface IOrderDetailsRepository : IBaseRepository<OrderDetails>
     {
-        Task<ServiceResponse<int>> Add(OrderDetails orderDetails, int orderId, int articleId);
+        Task<ServiceResponse<OrderDetails>> Add(OrderDetails orderDetails, int orderId, int articleId);
     }
 }

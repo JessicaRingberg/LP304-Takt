@@ -14,14 +14,14 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task<ServiceResponse<int>> Add(OrderDetails orderDetails, int orderId, int articleId)
+        public async Task<ServiceResponse<OrderDetails>> Add(OrderDetails orderDetails, int orderId, int articleId)
         {
             var order = await _context.Orders.FindAsync(orderId);
             var article = await _context.Article.FindAsync(articleId);
             var found = await _context.OrderDetails.FirstOrDefaultAsync(c => c.ArticleId == orderDetails.ArticleId);
             if (found is not null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<OrderDetails>()
                 {
                     Success = false,
                     Message = $"This order detail already contains this article: {orderDetails.Article}!"
@@ -30,7 +30,7 @@ namespace LP304_Takt.Repositories
 
             else if (order is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<OrderDetails>()
                 {
                     Success = false,
                     Message = $"Order details must be tied to an order"
@@ -39,7 +39,7 @@ namespace LP304_Takt.Repositories
 
             else if (article is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<OrderDetails>()
                 {
                     Success = false,
                     Message = $"Order details must contain valid articles"
@@ -50,8 +50,9 @@ namespace LP304_Takt.Repositories
             orderDetails.OrderId = orderId;
             await _context.OrderDetails.AddAsync(orderDetails);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<OrderDetails>()
             {
+                Data = orderDetails,
                 Success = true,
                 Message = $"Order detail added"
             };

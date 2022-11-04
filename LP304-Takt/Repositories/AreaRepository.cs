@@ -14,13 +14,13 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task<ServiceResponse<int>> Add(Area area, int companyId)
+        public async Task<ServiceResponse<Area>> Add(Area area, int companyId)
         {
             var found = await _context.Areas.FirstOrDefaultAsync(c => c.Name == area.Name);
             var company = await _context.Companies.FindAsync(companyId);
             if (found is not null && found.CompanyId == companyId)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Area>()
                 {
                     Success = false,
                     Message = $"Area with name {area.Name} already exists!"
@@ -29,7 +29,7 @@ namespace LP304_Takt.Repositories
             
             else if (company is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Area>()
                 {
                     Success = false,
                     Message = $"Area must belong to a company"
@@ -40,8 +40,9 @@ namespace LP304_Takt.Repositories
             area.CompanyId = companyId;
             await _context.Areas.AddAsync(area);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<Area>()
             {
+                Data = area,
                 Success = true,
                 Message = $"Area {area.Name} added"
             };

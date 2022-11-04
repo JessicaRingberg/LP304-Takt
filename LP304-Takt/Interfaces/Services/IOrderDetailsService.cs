@@ -5,6 +5,6 @@ namespace LP304_Takt.Interfaces.Services
 {
     public interface IOrderDetailsService : IBaseService<OrderDetails>
     {
-        Task<ServiceResponse<int>> Add(OrderDetails orderDetails, int orderId, int articleId);
+        Task<ServiceResponse<OrderDetails>> Add(OrderDetails orderDetails, int orderId, int articleId);
     }
 }

@@ -14,7 +14,7 @@ namespace LP304_Takt.Services
             _stationRepository = stationRepository;
         }
 
-        public async Task<ServiceResponse<int>> Add(Station station, int areaId)
+        public async Task<ServiceResponse<Station>> Add(Station station, int areaId)
         {
             return await _stationRepository.Add(station, areaId);
         }

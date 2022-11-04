@@ -2,6 +2,7 @@
 using LP304_Takt.Models;
 using LP304_Takt.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace LP304_Takt.Repositories
 {
@@ -14,13 +15,13 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task<ServiceResponse<int>> Add(Event eEvent, int orderId, int eventStatusId)
+        public async Task<ServiceResponse<Event>> Add(Event eEvent, int orderId, int eventStatusId)
         {
             var order = await _context.Orders.FindAsync(orderId);
             var eventStatus = await _context.EventStatuses.FindAsync(eventStatusId);
             if (order is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Event>()
                 {
                     Success = false,
                     Message = $"No order with {orderId} was found!"
@@ -29,7 +30,7 @@ namespace LP304_Takt.Repositories
 
             else if (eventStatus is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Event>()
                 {
                     Success = false,
                     Message = $"No eventstatus with id {eventStatusId} was found!"
@@ -41,8 +42,9 @@ namespace LP304_Takt.Repositories
             eEvent.OrderId = orderId;
             await _context.Events.AddAsync(eEvent);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<Event>()
             {
+                Data = eEvent,
                 Success = true,
                 Message = $"Event added"
             };

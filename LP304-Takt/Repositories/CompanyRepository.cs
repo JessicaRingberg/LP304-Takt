@@ -17,12 +17,12 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task<ServiceResponse<int>> Add(Company company)
+        public async Task<ServiceResponse<Company>> Add(Company company)
         {
             var found = await _context.Companies.FirstOrDefaultAsync(c => c.Name == company.Name);
             if(found is not null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Company>()
                 {
                     Success = false,
                     Message = $"Company name {company.Name} already exists!"
@@ -32,9 +32,11 @@ namespace LP304_Takt.Repositories
             await _context.Companies.AddAsync(company);
 
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>() 
-            { Data = company.Id, Success = true, 
-              Message = $"Company named {company.Name} added."
+            return new ServiceResponse<Company>() 
+            { 
+                Data = company, 
+                Success = true, 
+                Message = $"Company named {company.Name} added."
             };
         }
 

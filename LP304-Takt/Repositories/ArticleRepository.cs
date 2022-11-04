@@ -14,12 +14,12 @@ namespace LP304_Takt.Repositories
             _context = context;
         }
 
-        public async Task<ServiceResponse<int>> Add(Article article)
+        public async Task<ServiceResponse<Article>> Add(Article article)
         {
             var found = await _context.Article.FirstOrDefaultAsync(a => a.ArticleNumber == article.ArticleNumber);
             if (found is not null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Article>()
                 {
                     Success = false,
                     Message = $"This article already exists!"
@@ -29,8 +29,9 @@ namespace LP304_Takt.Repositories
             await _context.Article.AddAsync(article);
 
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<Article>()
             {
+                Data = article,
                 Success = true,
                 Message = $"Article {article.Name} added"
             };

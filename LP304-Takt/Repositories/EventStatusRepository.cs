@@ -13,12 +13,12 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-        public async Task<ServiceResponse<int>> Add(EventStatus eventStatus)
+        public async Task<ServiceResponse<EventStatus>> Add(EventStatus eventStatus)
         {
             var found = await _context.EventStatuses.FirstOrDefaultAsync(e => e.Name == eventStatus.Name);
             if(found is not null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<EventStatus>()
                 {
                     Success = false,
                     Message = $"EventStatus already exists!"
@@ -26,8 +26,9 @@ namespace LP304_Takt.Repositories
             }
             await _context.EventStatuses.AddAsync(eventStatus);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<EventStatus>()
             {
+                Data = eventStatus,
                 Success = true,
                 Message = $"EventStatus added"
             };

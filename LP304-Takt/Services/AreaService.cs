@@ -14,7 +14,7 @@ namespace LP304_Takt.Services
             _areaRepository = areaRepository;
         }
 
-        public async Task<ServiceResponse<int>> Add(Area area, int companyId)
+        public async Task<ServiceResponse<Area>> Add(Area area, int companyId)
         {
             return await _areaRepository.Add(area, companyId);
         }

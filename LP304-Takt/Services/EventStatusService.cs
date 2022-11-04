@@ -13,7 +13,7 @@ namespace LP304_Takt.Services
         {
             _eventStatusRepository = eventStatusRepository;
         }
-        public async Task<ServiceResponse<int>> Add(EventStatus eventStatus)
+        public async Task<ServiceResponse<EventStatus>> Add(EventStatus eventStatus)
         {
             return await _eventStatusRepository.Add(eventStatus);
         }

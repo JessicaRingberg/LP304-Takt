@@ -14,7 +14,7 @@ namespace LP304_Takt.Services
             _orderDetailsRepository = orderDetailsRepository;
         }
 
-        public async Task<ServiceResponse<int>> Add(OrderDetails orderDetails, int orderId, int articleId)
+        public async Task<ServiceResponse<OrderDetails>> Add(OrderDetails orderDetails, int orderId, int articleId)
         {
             return await _orderDetailsRepository.Add(orderDetails, orderId, articleId);
         }

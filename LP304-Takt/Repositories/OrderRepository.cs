@@ -13,7 +13,7 @@ namespace LP304_Takt.Repositories
         {
             _context = context;
         }
-        public async Task<ServiceResponse<int>> Add(Order order, int areaId)
+        public async Task<ServiceResponse<Order>> Add(Order order, int areaId)
         {
             var area = await _context.Areas
                 .Include(a => a.Orders)
@@ -21,7 +21,7 @@ namespace LP304_Takt.Repositories
 
             if (area is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Order>()
                 {
                     Success = false,
                     Message = "Order must belong to an Area."
@@ -33,7 +33,7 @@ namespace LP304_Takt.Repositories
                 .FirstOrDefaultAsync(q => q.Id == areaId);
             if(queue is null)
             {
-                return new ServiceResponse<int>()
+                return new ServiceResponse<Order>()
                 {
                     Success = false,
                     Message = "Area is incomplete"
@@ -51,8 +51,9 @@ namespace LP304_Takt.Repositories
             order.AreaId = area.Id;
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
-            return new ServiceResponse<int>()
+            return new ServiceResponse<Order>()
             {
+                Data = order,
                 Success = true,
                 Message = "Order added"
             };

@@ -13,7 +13,7 @@ namespace LP304_Takt.Services
         {
             _alarmRepository = alarmRepository;
         }
-        public async Task<ServiceResponse<int>> Add(Alarm alarm, int orderId, int alarmTypeId)
+        public async Task<ServiceResponse<Alarm>> Add(Alarm alarm, int orderId, int alarmTypeId)
         {
            return await _alarmRepository.Add(alarm, orderId, alarmTypeId);
         }
