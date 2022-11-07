@@ -62,7 +62,7 @@ namespace LP304_Takt.Mapper
             return new AreaByUserDto
             {
                 Id = user.AreaId,
-                Name = user.Area.Name
+                Name = user.Area?.Name
             };
         }
         public static CompanyByUserDto AsCompanyByUserDto(this User user)
@@ -137,15 +137,13 @@ namespace LP304_Takt.Mapper
                 LastPartProd = order.LastPartProd,
                 Takt = order.Takt,
                 OrderDetails = order.OrderDetails.Select(o => o.AsDto()).ToList()
-                //Alarms = order.Alarms.Select(a => a.AsDto()).ToList(),
-                //Events = order.Events.Select(e => e.AsDto()).ToList()
             };
         }
         public static OrderInQueueDto AsQueueDto(this Order order)
         {
             return new OrderInQueueDto
             {
-                Id = order.Id,
+                Order = order.Id,
             };
         }
         public static QueueDto AsDto(this Queue queue)

@@ -2,6 +2,6 @@
 {
     public record OrderInQueueDto
     {
-        public int Id { get; init; }
+        public int Order { get; init; }
     }
 }

@@ -69,7 +69,9 @@ namespace LP304_Takt.Repositories
         {
             var response = new UserResponse<string>();
 
-            var verifiedUser = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+            var verifiedUser = await _context.Users
+                .Include(u => u.Area)
+                .FirstOrDefaultAsync(u => u.Email.Equals(email));
             if (verifiedUser is null)
             {
                 response.Success = false;
@@ -91,7 +93,6 @@ namespace LP304_Takt.Repositories
                 response.RefreshToken = refreshToken;
                 response.Success = true;
                 response.JWT = CreateJwtToken(verifiedUser);
-
                 await _context.SaveChangesAsync();
 
             }

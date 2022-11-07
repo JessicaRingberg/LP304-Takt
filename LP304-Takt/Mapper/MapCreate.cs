@@ -91,7 +91,6 @@ namespace LP304_Takt.Mapper
             {
 
                 StartTime = order.StartTime,
-                EndTime = order.EndTime,
                 RunSetDec = order.RunSetDec,
                 ChangeSetDec = order.ChangeSetDec,
                 PartsProd = order.PartsProd,

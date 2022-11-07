@@ -127,7 +127,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Area with id {area.Id} updated"
+                Message = $"Area with id {areaId} updated"
             };
         }
 
