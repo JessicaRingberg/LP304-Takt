@@ -28,25 +28,29 @@ namespace LP304_Takt.Repositories
                 };
                                
             }
-            var queue = await _context.Queue
-                .Include(q => q.Orders)
-                .FirstOrDefaultAsync(q => q.Id == areaId);
-            if(queue is null)
-            {
-                return new ServiceResponse<Order>()
-                {
-                    Success = false,
-                    Message = "Area is incomplete"
-                };
-            }
-            foreach (var item in area.Orders)
-            {
-                if (order.StartTime <= item.EndTime)
-                {
-                    queue.Orders?.Add(order);
-                }
+            //var queue = await _context.Queue
+            //    .Include(q => q.Orders)
+            //    .FirstOrDefaultAsync(q => q.Id == areaId);
+            //if(queue is null)
+            //{
+            //    return new ServiceResponse<Order>()
+            //    {
+            //        Success = false,
+            //        Message = "Area is incomplete"
+            //    };
+            //}
+            //foreach (var item in area.Orders)
+            //{
+            //    if (order.StartTime <= item.EndTime)
+            //    {
+            //        queue.Orders?.Add(order);
+            //    }
 
-            }          
+            //}
+            //if (order.StartTime <= DateTime.Now)
+            //{
+            //    queue.Orders?.Add(order);
+            //}
             order.AreaId = area.Id;
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
@@ -115,7 +119,35 @@ namespace LP304_Takt.Repositories
 
             MapOrder(orderToUpdate, order);
 
-            await _context.SaveChangesAsync();
+            var area = await _context.Areas
+               .Include(a => a.Orders)
+               .FirstOrDefaultAsync(a => a.Id == orderToUpdate.AreaId);
+
+            var queue = await _context.Queue
+                .Include(q => q.Orders)
+                .FirstOrDefaultAsync(q => q.Id == orderToUpdate.AreaId);
+    
+
+            foreach (var item in area.Orders)
+            {
+                if (item.EndTime is null)
+                {
+                    continue;
+                }
+                else if (item.Equals(orderToUpdate))
+                {
+                    continue;
+                }
+                else if(item.EndTime >= orderToUpdate.StartTime)
+                {
+                    queue.Orders?.Add(orderToUpdate);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+                await _context.SaveChangesAsync();
             return new ServiceResponse<int>()
             {
                 Success = true,

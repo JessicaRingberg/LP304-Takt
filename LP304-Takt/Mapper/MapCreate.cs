@@ -90,7 +90,7 @@ namespace LP304_Takt.Mapper
             return new Order
             {
 
-                StartTime = order.StartTime,
+                //StartTime = order.StartTime,
                 RunSetDec = order.RunSetDec,
                 ChangeSetDec = order.ChangeSetDec,
                 PartsProd = order.PartsProd,

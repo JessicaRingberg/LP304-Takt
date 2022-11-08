@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LP304_Takt.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221104080053_InitialCreate")]
+    [Migration("20221108132441_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -247,7 +247,7 @@ namespace LP304_Takt.Migrations
                     b.Property<double>("ChangeSetDec")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("LastPartProd")
@@ -265,7 +265,7 @@ namespace LP304_Takt.Migrations
                     b.Property<double>("RunSetDec")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Takt")

@@ -4,6 +4,6 @@ namespace LP304_Takt.DTO.UpdateDTO
 {
     public record QueueUpdateDto
     {
-        public ICollection<OrderInQueueDto> Orders { get; init; } = null!;
+        public List<OrderInQueueDto> Orders { get; init; } = null!;
     }
 }

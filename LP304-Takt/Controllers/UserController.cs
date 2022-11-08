@@ -85,9 +85,9 @@ namespace LP304_Takt.Controllers
         }
 
         [HttpPatch]
-        public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)
+        public async Task<IActionResult> ChangeUserRole([FromBody] UpdateUserRoleDto user, [FromQuery] int userId)
         {
-            var response = await _userService.UpdateUserRole(user.UpdatedRole(), userId);
+            var response = await _userService.ChangeUserRole(user.UpdatedRole(), userId);
             if (!response.Success)
             {
                 return BadRequest(response);

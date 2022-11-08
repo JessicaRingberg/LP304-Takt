@@ -245,7 +245,7 @@ namespace LP304_Takt.Migrations
                     b.Property<double>("ChangeSetDec")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("LastPartProd")
@@ -263,7 +263,7 @@ namespace LP304_Takt.Migrations
                     b.Property<double>("RunSetDec")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Takt")

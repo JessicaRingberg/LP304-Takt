@@ -11,6 +11,6 @@ namespace LP304_Takt.Interfaces.Services
         Task<UserResponse<string>> AddAreaToUser(int userId, int areaId);
         Task<ICollection<User>> GetAllUsers();
         Task<User?> GetUserById(int userid);
-        Task<UserResponse<int>> UpdateUserRole(User user, int userId);
+        Task<UserResponse<int>> ChangeUserRole(User user, int userId);
     }
 }

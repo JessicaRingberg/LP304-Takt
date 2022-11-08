@@ -5,8 +5,8 @@ namespace LP304_Takt.Models
     public class Order
     {
         public int Id { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime? StartTime { get; set; } = null;
+        public DateTime? EndTime { get; set; } = null;
         [Required]
         public double RunSetDec { get; set; }
         [Required]

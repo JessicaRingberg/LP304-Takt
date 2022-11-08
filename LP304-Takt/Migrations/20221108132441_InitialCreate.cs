@@ -129,8 +129,8 @@ namespace LP304_Takt.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     RunSetDec = table.Column<double>(type: "float", nullable: false),
                     ChangeSetDec = table.Column<double>(type: "float", nullable: false),
                     PartsProd = table.Column<int>(type: "int", nullable: false),

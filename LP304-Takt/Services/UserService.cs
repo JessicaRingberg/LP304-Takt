@@ -38,9 +38,9 @@ namespace LP304_Takt.Services
             return await _userRepository.UpdateUser(user, userId);
         }
 
-        public async Task<UserResponse<int>> UpdateUserRole(User user, int userId)
+        public async Task<UserResponse<int>> ChangeUserRole(User user, int userId)
         {
-            return await _userRepository.UpdateUserRole(user, userId);
+            return await _userRepository.ChangeUserRole(user, userId);
         }
 
         public async Task<UserResponse<string>> AddAreaToUser(int userId, int areaId)

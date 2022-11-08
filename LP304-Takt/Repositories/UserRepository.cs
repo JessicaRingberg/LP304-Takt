@@ -99,7 +99,7 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task<UserResponse<int>> UpdateUserRole(User user, int userId)
+        public async Task<UserResponse<int>> ChangeUserRole(User user, int userId)
         {
 
             var userToUpdate = await _context.Users

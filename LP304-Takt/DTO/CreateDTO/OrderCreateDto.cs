@@ -2,7 +2,7 @@
 {
     public record OrderCreateDto
     {
-        public DateTime StartTime { get; init; }
+        //public DateTime StartTime { get; init; }
         public double RunSetDec { get; init; }
         public double ChangeSetDec { get; init; }
         public int PartsProd { get; init; }
