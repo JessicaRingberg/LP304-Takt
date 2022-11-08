@@ -37,22 +37,22 @@ namespace LP304_Takt.Controllers
             return Ok((await _orderDetailsService.GetEntities()).Select(orderDetails => orderDetails.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<OrderDetailsDto>> GetOrderDetail(int id)
+        [HttpGet("{orderDetailId}")]
+        public async Task<ActionResult<OrderDetailsDto>> GetOrderDetail(int orderDetailId)
         {
-            var orderDetail = await _orderDetailsService.GetEntity(id);
+            var orderDetail = await _orderDetailsService.GetEntity(orderDetailId);
             if (orderDetail is null)
             {
-                return NotFound($"OrderDetail with id: {id} was not found");
+                return NotFound($"OrderDetail with id: {orderDetailId} was not found");
             }
             return Ok(orderDetail.AsDto());
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArticle(int id)
+        [HttpDelete("{orderDetailId}")]
+        public async Task<IActionResult> DeleteArticle(int orderDetailId)
         {
-            var response = await _orderDetailsService.DeleteEntity(id);
+            var response = await _orderDetailsService.DeleteEntity(orderDetailId);
             if (!response.Success)
             {
                 return BadRequest(response);

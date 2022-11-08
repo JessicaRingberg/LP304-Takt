@@ -18,9 +18,9 @@ namespace LP304_Takt.Services
             return await _userRepository.GetAllUsers();
         }
 
-        public async Task<User?> GetUserById(int id)
+        public async Task<User?> GetUserById(int userId)
         {
-            return await _userRepository.GetUserById(id);
+            return await _userRepository.GetUserById(userId);
         }
 
         public async Task<User?> GetCompanyByUser(int userId)
@@ -28,19 +28,19 @@ namespace LP304_Takt.Services
             return await _userRepository.GetCompanyByUser(userId);
         }
 
-        public async Task<UserResponse<string>> DeleteUser(int id)
+        public async Task<UserResponse<string>> DeleteUser(int userId)
         {
-            return await _userRepository.DeleteUser(id);
+            return await _userRepository.DeleteUser(userId);
         }
 
-        public async Task<UserResponse<int>> UpdateUser(User user, int id)
+        public async Task<UserResponse<int>> UpdateUser(User user, int userId)
         {
-            return await _userRepository.UpdateUser(user, id);
+            return await _userRepository.UpdateUser(user, userId);
         }
 
-        public async Task<UserResponse<int>> UpdateUserRole(User user, int id)
+        public async Task<UserResponse<int>> UpdateUserRole(User user, int userId)
         {
-            return await _userRepository.UpdateUserRole(user, id);
+            return await _userRepository.UpdateUserRole(user, userId);
         }
 
         public async Task<UserResponse<string>> AddAreaToUser(int userId, int areaId)

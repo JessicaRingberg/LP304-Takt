@@ -38,24 +38,24 @@ namespace LP304_Takt.Controllers
             return Ok((await _alarmService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AlarmDto>> GetAlarm(int id)
+        [HttpGet("{alarmId}")]
+        public async Task<ActionResult<AlarmDto>> GetAlarm(int alarmId)
         {
-            var alarm = await _alarmService.GetEntity(id);
+            var alarm = await _alarmService.GetEntity(alarmId);
 
             if (alarm is null)
             {
-                return NotFound($"Alarm with id: {id} not found");
+                return NotFound($"Alarm with id: {alarmId} not found");
             }
 
             return Ok(alarm.AsDto());
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent(int id)
+        [HttpDelete("{alarmId}")]
+        public async Task<IActionResult> DeleteAlarm(int alarmId)
         {
-            var response = await _alarmService.DeleteEntity(id);
+            var response = await _alarmService.DeleteEntity(alarmId);
             if (!response.Success)
             {
                 return BadRequest(response);

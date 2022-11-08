@@ -39,14 +39,14 @@ namespace LP304_Takt.Controllers
             return Ok((await _areaService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AreaDto>> GetArea(int id)
+        [HttpGet("{areaId}")]
+        public async Task<ActionResult<AreaDto>> GetArea(int areaId)
         {
-            var area = await _areaService.GetEntity(id);
+            var area = await _areaService.GetEntity(areaId);
 
             if (area is null)
             {
-                return NotFound($"Area with id: {id} was not found");
+                return NotFound($"Area with id: {areaId} was not found");
             }
 
             return Ok(area.AsDto());
@@ -93,10 +93,10 @@ namespace LP304_Takt.Controllers
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArea(int id)
+        [HttpDelete("{areaId}")]
+        public async Task<IActionResult> DeleteArea(int areaId)
         {
-            var response = await _areaService.DeleteEntity(id);
+            var response = await _areaService.DeleteEntity(areaId);
             if (!response.Success)
             {
                 return BadRequest(response);

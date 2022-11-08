@@ -18,9 +18,9 @@ namespace LP304_Takt.Services
             return await _eventStatusRepository.Add(eventStatus);
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int eventStatusId)
         {
-            return await _eventStatusRepository.DeleteEntity(id);
+            return await _eventStatusRepository.DeleteEntity(eventStatusId);
         }
 
         public async Task<ICollection<EventStatus>> GetEntities()
@@ -28,9 +28,9 @@ namespace LP304_Takt.Services
             return await _eventStatusRepository.GetEntities();
         }
 
-        public async Task<EventStatus?> GetEntity(int id)
+        public async Task<EventStatus?> GetEntity(int eventStatusId)
         {
-            return await _eventStatusRepository.GetEntity(id);
+            return await _eventStatusRepository.GetEntity(eventStatusId);
         }
 
         public async Task<ServiceResponse<int>> UpdateEntity(EventStatus eventStatus, int eventStatusId)

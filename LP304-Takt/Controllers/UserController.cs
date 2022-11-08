@@ -27,14 +27,14 @@ namespace LP304_Takt.Controllers
             return Ok((await _userService.GetAllUsers()).Select(user => user.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetUser(int id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<UserDto>> GetUser(int userId)
         {
-            var user = await _userService.GetUserById(id);
+            var user = await _userService.GetUserById(userId);
             
             if (user is null)
             {
-                return NotFound($"User with id {id} was not found.");
+                return NotFound($"User with id {userId} was not found.");
             }
 
             return Ok(user.AsDto());
@@ -51,10 +51,10 @@ namespace LP304_Takt.Controllers
             return Ok(company.AsCompanyByUserDto());
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<string>>> DeleteUser(int id)
+        [HttpDelete("{userId}")]
+        public async Task<ActionResult<ServiceResponse<string>>> DeleteUser(int userId)
         {
-            var response = await _userService.DeleteUser(id);
+            var response = await _userService.DeleteUser(userId);
             if (!response.Success)
             {
                 return BadRequest(response);

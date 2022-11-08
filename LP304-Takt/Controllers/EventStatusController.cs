@@ -37,24 +37,24 @@ namespace LP304_Takt.Controllers
             return Ok((await _eventStatusService.GetEntities()).Select(e => e.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EventStatusDto>> GetEventStatus(int id)
+        [HttpGet("{eventStatusId}")]
+        public async Task<ActionResult<EventStatusDto>> GetEventStatus(int eventStatusId)
         {
-            var eventStatus = await _eventStatusService.GetEntity(id);
+            var eventStatus = await _eventStatusService.GetEntity(eventStatusId);
 
             if (eventStatus is null)
             {
-                return NotFound($"Event status with id: {id} not found");
+                return NotFound($"Event status with id: {eventStatusId} not found");
             }
 
             return Ok(eventStatus.AsDto());
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEventStatus(int id)
+        [HttpDelete("{eventStatusId}")]
+        public async Task<IActionResult> DeleteEventStatus(int eventStatusId)
         {
-            var response = await _eventStatusService.DeleteEntity(id);
+            var response = await _eventStatusService.DeleteEntity(eventStatusId);
             if (!response.Success)
             {
                 return BadRequest(response);

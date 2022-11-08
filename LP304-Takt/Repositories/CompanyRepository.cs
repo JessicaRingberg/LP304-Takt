@@ -40,18 +40,18 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int companyId)
         {
             var company = await _context.Companies
                 .Include(c => c.Users)
                 
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == companyId);
             if (company is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Company with id {id} was not found"
+                    Message = $"Company with id {companyId} was not found"
                 };
             }
             _context.Users.RemoveRange(company.Users);
@@ -73,13 +73,13 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Company?> GetEntity(int id)
+        public async Task<Company?> GetEntity(int companyId)
         {
             return await _context.Companies
                 .Include(c => c.Users)
                 .Include(c => c.Areas)
                 .ThenInclude(a => a.Stations)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == companyId);
         }
 
         public async Task<ICollection<User>> GetUserByCompany(int companyId)

@@ -35,16 +35,16 @@ namespace LP304_Takt.Repositories
 
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int eventStatusId)
         {
             var eventStatus = await _context.EventStatuses
-                .FirstOrDefaultAsync(e => e.Id == id);
+                .FirstOrDefaultAsync(e => e.Id == eventStatusId);
             if (eventStatus is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Eventstatus with id {id} was not found"
+                    Message = $"Eventstatus with id {eventStatusId} was not found"
                 };
             }
             _context.EventStatuses.Remove(eventStatus);
@@ -52,7 +52,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Eventstatus with id {id} deleted"
+                Message = $"Eventstatus with id {eventStatusId} deleted"
             };
         }
 
@@ -62,11 +62,11 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<EventStatus?> GetEntity(int id)
+        public async Task<EventStatus?> GetEntity(int eventStatusId)
         {
             return await _context.EventStatuses
                 .Include(e => e.Events)
-                .FirstOrDefaultAsync(e => e.Id == id);
+                .FirstOrDefaultAsync(e => e.Id == eventStatusId);
         }
 
         public async Task<ServiceResponse<int>> UpdateEntity(EventStatus eventStatus, int eventStatusId)

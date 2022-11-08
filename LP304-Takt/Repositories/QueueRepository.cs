@@ -21,11 +21,11 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Queue?> GetOneQueue(int id)
+        public async Task<Queue?> GetOneQueue(int queueId)
         {
             return await _context.Queue
                .Include(q => q.Orders)
-               .FirstOrDefaultAsync(q => q.Id == id);
+               .FirstOrDefaultAsync(q => q.Id == queueId);
         }
         public async Task<Area?> GetQueueFromArea(int areaId)
         {

@@ -39,13 +39,13 @@ namespace LP304_Takt.Controllers
             return Ok((await _companyService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CompanyDto>> GetCompany(int id)
+        [HttpGet("{companyId}")]
+        public async Task<ActionResult<CompanyDto>> GetCompany(int companyId)
         {
-            var company = await _companyService.GetEntity(id);
+            var company = await _companyService.GetEntity(companyId);
             if (company is null)
             {
-                return NotFound($"Company with id {id} was not found.");
+                return NotFound($"Company with id {companyId} was not found.");
             }
 
             return Ok(company.AsDto());
@@ -60,10 +60,10 @@ namespace LP304_Takt.Controllers
         }
 
         //[Authorized(Role.Admin)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompany(int id)
+        [HttpDelete("{companyId}")]
+        public async Task<IActionResult> DeleteCompany(int companyId)
         {
-            var response = await _companyService.DeleteEntity(id);
+            var response = await _companyService.DeleteEntity(companyId);
             if (!response.Success)
             {
                 return BadRequest(response);

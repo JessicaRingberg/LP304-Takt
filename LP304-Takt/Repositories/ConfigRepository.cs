@@ -48,16 +48,16 @@ namespace LP304_Takt.Repositories
 
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int configId)
         {
             var config = await _context.Configs
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == configId);
             if (config is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Config with id {id} was not found"
+                    Message = $"Config with id {configId} was not found"
                 };
             }
             _context.Configs.Remove(config);
@@ -65,7 +65,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Config with id {id} deleted"
+                Message = $"Config with id {configId} deleted"
             };
         }
 
@@ -76,11 +76,11 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Config?> GetEntity(int id)
+        public async Task<Config?> GetEntity(int configId)
         {
             return await _context.Configs
                 .Include(c => c.Area)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == configId);
         }
 
         public async Task<ServiceResponse<int>> UpdateEntity(Config config, int configId)

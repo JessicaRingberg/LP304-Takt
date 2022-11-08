@@ -48,20 +48,20 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int areaId)
         {
             var area = await _context.Areas
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == areaId);
             if (area is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Area wit id {id} was not found"
+                    Message = $"Area wit id {areaId} was not found"
                 };
             }
             var queue = await _context.Queue
-                .FirstOrDefaultAsync(q => q.Id == id);
+                .FirstOrDefaultAsync(q => q.Id == areaId);
 
             _context.Queue.Remove(queue);     
             _context.Areas.Remove(area);
@@ -81,11 +81,11 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Area?> GetEntity(int id)
+        public async Task<Area?> GetEntity(int areaId)
         {
             return await _context.Areas
                 .Include(a => a.Stations)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == areaId);
         }
 
         public async Task<User?> GetAreaByUser(int userId)

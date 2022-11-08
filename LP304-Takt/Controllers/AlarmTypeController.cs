@@ -39,24 +39,24 @@ namespace LP304_Takt.Controllers
             return Ok((await _alarmTypeService.GetEntities()).Select(a => a.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AlarmTypeDto>> GetAlarmType(int id)
+        [HttpGet("{alarmTypeId}")]
+        public async Task<ActionResult<AlarmTypeDto>> GetAlarmType(int alarmTypeId)
         {
-            var alarmType = await _alarmTypeService.GetEntity(id);
+            var alarmType = await _alarmTypeService.GetEntity(alarmTypeId);
 
             if (alarmType is null)
             {
-                return NotFound($"Alarm type with id {id} was not found.");
+                return NotFound($"Alarm type with id {alarmTypeId} was not found.");
             }
 
             return Ok(alarmType.AsDto());
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlarmType(int id)
+        [HttpDelete("{alarmTypeId}")]
+        public async Task<IActionResult> DeleteAlarmType(int alarmTypeId)
         {
-            var response = await _alarmTypeService.DeleteEntity(id);
+            var response = await _alarmTypeService.DeleteEntity(alarmTypeId);
             if (!response.Success)
             {
                 return BadRequest(response);

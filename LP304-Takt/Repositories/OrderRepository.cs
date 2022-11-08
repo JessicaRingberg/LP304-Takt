@@ -66,11 +66,11 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Order?> GetEntity(int id)
+        public async Task<Order?> GetEntity(int orderId)
         {
             return await _context.Orders
                 .Include(o => o.OrderDetails)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == orderId);
         }
 
         public async Task<ICollection<Order>> GetOrdersByArea(int areaId)
@@ -80,16 +80,16 @@ namespace LP304_Takt.Repositories
                 .Where(o => o.AreaId == areaId).ToListAsync();
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int orderId)
         {
             var order = await _context.Orders
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == orderId);
             if (order is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Order with id {id} was not found"
+                    Message = $"Order with id {orderId} was not found"
                 };
             }
             _context.Orders.Remove(order);
@@ -97,7 +97,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Order with id {id} deleted"
+                Message = $"Order with id {orderId} deleted"
             };
         }
 

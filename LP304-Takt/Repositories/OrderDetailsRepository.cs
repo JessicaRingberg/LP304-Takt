@@ -58,16 +58,16 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int orderDetailId)
         {
             var orderDetails = await _context.OrderDetails
-               .FirstOrDefaultAsync(o => o.Id == id);
+               .FirstOrDefaultAsync(o => o.Id == orderDetailId);
             if (orderDetails is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Order detail with id {id} was not found"
+                    Message = $"Order detail with id {orderDetailId} was not found"
                 };
             }
             _context.OrderDetails.Remove(orderDetails);
@@ -75,7 +75,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Order detail with id {id} deleted from the order"
+                Message = $"Order detail with id {orderDetailId} deleted from the order"
             };
         }
 
@@ -86,23 +86,23 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<OrderDetails?> GetEntity(int id)
+        public async Task<OrderDetails?> GetEntity(int orderDetailId)
         {
             return await _context.OrderDetails
                 .Include(o => o.Article)
-                .FirstOrDefaultAsync(o => o.Id == id);
+                .FirstOrDefaultAsync(o => o.Id == orderDetailId);
         }
 
-        public async Task<ServiceResponse<int>> UpdateEntity(OrderDetails orderDetails, int orderDetailsId)
+        public async Task<ServiceResponse<int>> UpdateEntity(OrderDetails orderDetails, int orderDetailId)
         {
             var orderDetailsToUpdate = await _context.OrderDetails
-                .FindAsync(orderDetailsId);
+                .FindAsync(orderDetailId);
             if(orderDetailsToUpdate is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"Order detail with id {orderDetailsId} was not found"
+                    Message = $"Order detail with id {orderDetailId} was not found"
                 };
             }
             orderDetailsToUpdate.Quantity = orderDetails.Quantity;
@@ -111,7 +111,7 @@ namespace LP304_Takt.Repositories
             return new ServiceResponse<int>()
             {
                 Success = true,
-                Message = $"Order detail with id {orderDetailsId} was updated to the order"
+                Message = $"Order detail with id {orderDetailId} was updated to the order"
             };
         }
     }

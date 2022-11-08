@@ -19,14 +19,14 @@ namespace LP304_Takt.Services
             return await _authRepository.ForgotPassword(email);
         }
 
-        public async Task<UserResponse<string>> Login(string email, string passWord)
+        public async Task<UserResponse<string>> Login(string email, string password)
         {
-            return await _authRepository.Login(email, passWord);
+            return await _authRepository.Login(email, password);
         }
 
-        public async Task<UserResponse<string>> RefreshToken(string token)
+        public async Task<UserResponse<string>> RefreshToken(string refreshToken)
         {
-            return await _authRepository.RefreshToken(token);
+            return await _authRepository.RefreshToken(refreshToken);
         }
 
         public async Task<UserResponse<int>> RegisterUser(User user, string email, int companyId)
@@ -34,9 +34,9 @@ namespace LP304_Takt.Services
             return await _authRepository.RegisterUser(user, email, companyId);
         }
 
-        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string token)
+        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string passwordResetToken)
         {
-            return await _authRepository.ResetPassword(request, token);
+            return await _authRepository.ResetPassword(request, passwordResetToken);
         }
 
         public async Task<bool> UserAlreadyExists(string userName)
@@ -44,9 +44,9 @@ namespace LP304_Takt.Services
             return await _authRepository.UserAlreadyExists(userName);
         }
 
-        public async Task<UserResponse<string>> VerifyEmail(string token)
+        public async Task<UserResponse<string>> VerifyEmail(string verificationToken)
         {
-            return await _authRepository.VerifyEmail(token);
+            return await _authRepository.VerifyEmail(verificationToken);
         }
     }
 }

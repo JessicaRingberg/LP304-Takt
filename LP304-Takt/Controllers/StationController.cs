@@ -38,24 +38,24 @@ namespace LP304_Takt.Controllers
         }
 
         //[Authorized(Role.SuperUser)]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StationDto>> GetOneStation(int id)
+        [HttpGet("{stationId}")]
+        public async Task<ActionResult<StationDto>> GetOneStation(int stationId)
         {
-            var station = await _stationService.GetEntity(id);
+            var station = await _stationService.GetEntity(stationId);
 
             if (station is null)
             {
-                return NotFound($"Station with id {id} was not found.");
+                return NotFound($"Station with id {stationId} was not found.");
             }
 
             return Ok(station.AsDto());
         }
 
         //[Authorized(Role.SuperUser, Role.User)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStation(int id)
+        [HttpDelete("{stationId}")]
+        public async Task<IActionResult> DeleteStation(int stationId)
         {
-            var response = await _stationService.DeleteEntity(id);
+            var response = await _stationService.DeleteEntity(stationId);
             if (!response.Success)
             {
                 return BadRequest(response);

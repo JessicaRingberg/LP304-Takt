@@ -37,24 +37,24 @@ namespace LP304_Takt.Controllers
             return Ok((await _configService.GetEntities()).Select(c => c.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ConfigDto>> GetConfig(int id)
+        [HttpGet("{configId}")]
+        public async Task<ActionResult<ConfigDto>> GetConfig(int configId)
         {
-            var config = await _configService.GetEntity(id);
+            var config = await _configService.GetEntity(configId);
 
             if (config is null)
             {
-                return NotFound($"Config with id {id} was not found.");
+                return NotFound($"Config with id {configId} was not found.");
             }
 
             return Ok(config.AsDto());
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteConfig(int id)
+        [HttpDelete("{configId}")]
+        public async Task<IActionResult> DeleteConfig(int configId)
         {
-            var response = await _configService.DeleteEntity(id);
+            var response = await _configService.DeleteEntity(configId);
             if (!response.Success)
             {
                 return BadRequest(response);

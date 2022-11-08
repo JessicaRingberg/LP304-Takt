@@ -22,24 +22,24 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<User?> GetUserById(int id)
+        public async Task<User?> GetUserById(int userId)
         {
             return await _context.Users
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<User?> GetCompanyByUser(int id)
+        public async Task<User?> GetCompanyByUser(int userId)
         {
             var user = await _context.Users
                 .Include(u=> u.Company)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
             return user;
         }
 
-        public async Task<UserResponse<string>> DeleteUser(int id)
+        public async Task<UserResponse<string>> DeleteUser(int userId)
         {
             var response = new UserResponse<string>();
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user is null)
             {
                 response.Success = false;

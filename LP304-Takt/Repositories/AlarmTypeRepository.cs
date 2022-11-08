@@ -35,16 +35,16 @@ namespace LP304_Takt.Repositories
             };
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int alarmTypeId)
         {
             var alarmType = await _context.AlarmTypes
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == alarmTypeId);
             if (alarmType is null)
             {
                 return new ServiceResponse<int>()
                 {
                     Success = false,
-                    Message = $"AlarmType with id {id} was not found"
+                    Message = $"AlarmType with id {alarmTypeId} was not found"
                 };
             }
             _context.AlarmTypes.Remove(alarmType);
@@ -62,10 +62,10 @@ namespace LP304_Takt.Repositories
                 .ToListAsync();
         }
 
-        public async Task<AlarmType?> GetEntity(int id)
+        public async Task<AlarmType?> GetEntity(int alarmTypeId)
         {
             return await _context.AlarmTypes
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == alarmTypeId);
         }
 
         public async Task<ServiceResponse<int>> UpdateEntity(AlarmType alarmType, int alarmTypeId)

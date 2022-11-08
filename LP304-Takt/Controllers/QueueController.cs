@@ -25,15 +25,15 @@ namespace LP304_Takt.Controllers
             return Ok((await _queueService.GetAllQueues()).Select(q => q.AsDto()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<QueueDto>> GetOneQueue(int id)
+        [HttpGet("{queueId}")]
+        public async Task<ActionResult<QueueDto>> GetOneQueue(int queueId)
 
         {
-            var queue = await _queueService.GetOneQueue(id);
+            var queue = await _queueService.GetOneQueue(queueId);
 
             if (queue is null)
             {
-                return NotFound($"Queue with id {id} was not found.");
+                return NotFound($"Queue with id {queueId} was not found.");
             }
 
             return Ok(queue.AsDto());
@@ -53,7 +53,7 @@ namespace LP304_Takt.Controllers
         }
 
         //[Authorized(Role.Admin, Role.SuperUser)]
-        [HttpPut("{queueId}")]
+        [HttpPut]
         public async Task<IActionResult> DeleteOrderFromQueue(int queueId, [FromQuery] int orderId)
         {
             var response = await _queueService.DeleteOrderFromQueue(queueId, orderId);

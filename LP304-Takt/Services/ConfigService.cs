@@ -19,9 +19,9 @@ namespace LP304_Takt.Services
             return await _configRepository.Add(config, areaId);
         }
 
-        public async Task<ServiceResponse<int>> DeleteEntity(int id)
+        public async Task<ServiceResponse<int>> DeleteEntity(int configId)
         {
-            return await _configRepository.DeleteEntity(id);
+            return await _configRepository.DeleteEntity(configId);
         }
 
         public async Task<ICollection<Config>> GetEntities()
@@ -29,9 +29,9 @@ namespace LP304_Takt.Services
             return await _configRepository.GetEntities();
         }
 
-        public async Task<Config?> GetEntity(int id)
+        public async Task<Config?> GetEntity(int configId)
         {
-            return await _configRepository.GetEntity(id);
+            return await _configRepository.GetEntity(configId);
         }
 
         public async Task<ServiceResponse<int>> UpdateEntity(Config config, int configId)

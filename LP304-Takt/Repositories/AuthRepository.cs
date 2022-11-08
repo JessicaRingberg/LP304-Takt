@@ -65,7 +65,7 @@ namespace LP304_Takt.Repositories
 
         }
 
-        public async Task<UserResponse<string>> Login(string email, string passWord)
+        public async Task<UserResponse<string>> Login(string email, string password)
         {
             var response = new UserResponse<string>();
 
@@ -77,7 +77,7 @@ namespace LP304_Takt.Repositories
                 response.Success = false;
                 response.Message = "User not found";
             }
-            else if (!VerifyPasswordHash(passWord, verifiedUser.PasswordHash, verifiedUser.PasswordSalt))
+            else if (!VerifyPasswordHash(password, verifiedUser.PasswordHash, verifiedUser.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = "Password or email is incorrect";
@@ -99,11 +99,11 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
-        public async Task<UserResponse<string>> RefreshToken(string token)
+        public async Task<UserResponse<string>> RefreshToken(string refreshToken)
         {
             var response = new UserResponse<string>();
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.RefreshToken == token);
+                .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
 
             if (user is null)
             {
@@ -135,11 +135,11 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
-        public async Task<UserResponse<string>> VerifyEmail(string token)
+        public async Task<UserResponse<string>> VerifyEmail(string verificationToken)
         {
             var response = new UserResponse<string>();
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == verificationToken);
             if (user is null)
             {
                 response.Success = false;
@@ -186,10 +186,10 @@ namespace LP304_Takt.Repositories
             return response;
         }
 
-        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string token)
+        public async Task<UserResponse<string>> ResetPassword(ResetPasswordRequest request, string passwordResetToken)
         {
             var response = new UserResponse<string>();
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == token);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == passwordResetToken);
             if (user is null)
             {
                 response.Success = false;
