@@ -122,7 +122,14 @@ namespace LP304_Takt.Repositories
             var area = await _context.Areas
                .Include(a => a.Orders)
                .FirstOrDefaultAsync(a => a.Id == orderToUpdate.AreaId);
-
+            if (area is null)
+            {
+                return new ServiceResponse<int>()
+                {
+                    Success = false,
+                    Message = $"Order not bound to an area"
+                };
+            }
             var queue = await _context.Queue
                 .Include(q => q.Orders)
                 .FirstOrDefaultAsync(q => q.Id == orderToUpdate.AreaId);
@@ -140,7 +147,7 @@ namespace LP304_Takt.Repositories
                 }
                 else if(item.EndTime >= orderToUpdate.StartTime)
                 {
-                    queue.Orders?.Add(orderToUpdate);
+                    queue?.Orders?.Add(orderToUpdate);
                 }
                 else
                 {

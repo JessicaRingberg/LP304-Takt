@@ -98,15 +98,19 @@ namespace LP304_Takt.Repositories
 
         public async Task<List<Event>> GetEventsByArea(int areaId)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             return await _context.Events
                 .Include(e => e.EventStatus)
                 .Where(e => e.Order.AreaId == areaId).ToListAsync();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
         public async Task<List<Alarm>> GetAlarmsByArea(int areaId)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             return await _context.Alarms
                 .Include(a => a.AlarmType)
                 .Where(a => a.Order.AreaId == areaId).ToListAsync();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         public async Task<ServiceResponse<int>> UpdateEntity(Area area, int areaId)
