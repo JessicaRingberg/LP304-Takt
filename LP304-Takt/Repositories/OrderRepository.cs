@@ -28,29 +28,6 @@ namespace LP304_Takt.Repositories
                 };
                                
             }
-            //var queue = await _context.Queue
-            //    .Include(q => q.Orders)
-            //    .FirstOrDefaultAsync(q => q.Id == areaId);
-            //if(queue is null)
-            //{
-            //    return new ServiceResponse<Order>()
-            //    {
-            //        Success = false,
-            //        Message = "Area is incomplete"
-            //    };
-            //}
-            //foreach (var item in area.Orders)
-            //{
-            //    if (order.StartTime <= item.EndTime)
-            //    {
-            //        queue.Orders?.Add(order);
-            //    }
-
-            //}
-            //if (order.StartTime <= DateTime.Now)
-            //{
-            //    queue.Orders?.Add(order);
-            //}
             order.AreaId = area.Id;
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
